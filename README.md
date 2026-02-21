@@ -1,4 +1,4 @@
-# Unofficial AI
+# Semper ex Datis
 
 [gunnymarc.github.io](https://gunnymarc.github.io)
 
