@@ -10,9 +10,9 @@ U.S. Marine | Data Scientist where it counts! CxO interpreter, techie-whisperer,
 
 ## Articles
 
-- [How Do LLMs Work: From Probabilistic Foundations to Intelligent User Segmentation](https://gunnymarc.github.io/How%20Do%20LLMs%20Work-From%20Probabilistic%20Foundations%20to%20Intelligent%20User%20Segmentation)
-- [Understanding How Recommendation Systems Work](https://gunnymarc.github.io/Understanding%20How%20Recommendation%20Systems%20Work)
-- [What Your RTO Data Isn't Telling You](https://gunnymarc.github.io/What%20Your%20RTO%20Data%20Isn%E2%80%99t%20Telling%20You)
+- *February 2026* — [How Do LLMs Work: From Probabilistic Foundations to Intelligent User Segmentation](https://gunnymarc.github.io/How%20Do%20LLMs%20Work-From%20Probabilistic%20Foundations%20to%20Intelligent%20User%20Segmentation)
+- *February 2026* — [Understanding How Recommendation Systems Work](https://gunnymarc.github.io/Understanding%20How%20Recommendation%20Systems%20Work)
+- *February 2026* — [What Your RTO Data Isn't Telling You](https://gunnymarc.github.io/What%20Your%20RTO%20Data%20Isn%E2%80%99t%20Telling%20You)
 
 ---
 
