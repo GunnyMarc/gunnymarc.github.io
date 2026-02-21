@@ -1,3 +1,6 @@
+---
+---
+
 # Understanding How Recommendation Systems Work-What We Found After 150,000 User Interactions
 
 *A deep dive into user propensities, why your Netflix recommendations aren't as smart as you think, and what the first 10 clicks reveal about someone's entire journey.*

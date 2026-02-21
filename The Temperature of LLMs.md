@@ -1,3 +1,6 @@
+---
+---
+
 # Understanding Temperature in Large Language Models: A Deep Technical Guide
 
 *A comprehensive exploration of temperature parameter mechanics, mathematical foundations, and practical implementation strategies for ML engineers and developers.*
