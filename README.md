@@ -1,9 +1,3 @@
-# Semper ex Datis
-
-U.S. Marine | Data Scientist where it counts! CxO interpreter, techie-whisperer, and non-corporate clone. "Experience is directly & exponentially proportional to the amount of code refactored" — Everyone who has coded
-
----
-
 ## Articles
 
 - *February 2026* — [The Complete Guide to Fine-Tuning Large Language Models: From Theory to Production](https://gunnymarc.github.io/Fine%20Tuning%20LLMs)
