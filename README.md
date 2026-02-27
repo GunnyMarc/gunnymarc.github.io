@@ -1,10 +1,6 @@
 # Semper ex Datis
 
-[gunnymarc.github.io](https://gunnymarc.github.io)
-
-U.S. Marine | Data Scientist where it counts! CxO interpreter, techie-whisperer, and non-corporate clone.
-
-> "Experience is directly & exponentially proportional to the amount of code refactored" — Everyone who has coded
+U.S. Marine | Data Scientist where it counts! CxO interpreter, techie-whisperer, and non-corporate clone. "Experience is directly & exponentially proportional to the amount of code refactored" — Everyone who has coded
 
 ---
 
