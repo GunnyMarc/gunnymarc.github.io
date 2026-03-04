@@ -1,0 +1,15 @@
+## Articles
+
+- *March 2026*&nbsp;&nbsp;&nbsp; — [From Pixels to Predictions: How CNNs Crushed ANNs in the Battle for Street-Level Recognition](https://gunnymarc.github.io/From%20Pixels%20to%20Predictions%20How%20CNNs%20Crushed%20ANNs%20in%20the%20Battle%20for%20Street-Level%20Recognition)
+- *March 2026*&nbsp;&nbsp;&nbsp; — [Observability for LLMs - Understanding the Layers](https://gunnymarc.github.io/Observability%20for%20LLMs%20-%20Understanding%20the%20Layers)
+- *February 2026* — [The Complete Guide to Fine-Tuning Large Language Models: From Theory to Production](https://gunnymarc.github.io/Fine%20Tuning%20LLMs)
+- *February 2026* — [Understanding Temperature in Large Language Models: A Deep Technical Guide](https://gunnymarc.github.io/The%20Temperature%20of%20LLMs)
+- *February 2026* — [How Do LLMs Work: From Probabilistic Foundations to Intelligent User Segmentation](https://gunnymarc.github.io/How%20Do%20LLMs%20Work-From%20Probabilistic%20Foundations%20to%20Intelligent%20User%20Segmentation)
+- *February 2026* — [Understanding How Recommendation Systems Work](https://gunnymarc.github.io/Understanding%20How%20Recommendation%20Systems%20Work)
+- *February 2026* — [What Your RTO Data Isn't Telling You](https://gunnymarc.github.io/What%20Your%20RTO%20Data%20Isn%E2%80%99t%20Telling%20You)
+
+---
+
+## Disclaimer
+
+All the information on this website/blog is published in good faith and for general information purpose only, and does not make any warranties about the completeness, reliability and accuracy of this information. Any action you take upon the information you find on this website, is strictly at your own risk. GunnMarc.github.io will not be liable for any losses and/or damages in connection with the use of our website. From our website, you can visit other websites by following hyperlinks to such external sites. While we strive to provide only quality links to useful and ethical websites, we have no control over the content and nature of these sites. These links to other websites do not imply a recommendation for all the content found on these sites. Please be also aware that when you leave our website, other sites may have different privacy policies and terms which are beyond our control. By using our website, you hereby consent to our disclaimer and agree to its terms. Should we update, amend or make any changes to this document, those changes will be prominently posted here. Enjoy the blog!
