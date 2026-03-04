@@ -1,6 +1,6 @@
 ## Articles
 
-- *March 2026*&nbsp;&nbsp;&nbsp; — [From Pixels to Predictions: How CNNs Crushed ANNs in the Battle for Street-Level Recognition](https://gunnymarc.github.io/From%20Pixels%20to%20Predictions%20How%20CNNs%20Crushed%20ANNs%20in%20the%20Battle%20for%20Street-Level%20Recognition)
+- *March 2026*&nbsp;&nbsp;&nbsp; — [How CNNs Crushed ANNs in the Battle for Street-Level Recognition](https://gunnymarc.github.io/From%20Pixels%20to%20Predictions%20How%20CNNs%20Crushed%20ANNs%20in%20the%20Battle%20for%20Street-Level%20Recognition)
 - *March 2026*&nbsp;&nbsp;&nbsp; — [Observability for LLMs - Understanding the Layers](https://gunnymarc.github.io/Observability%20for%20LLMs%20-%20Understanding%20the%20Layers)
 - *February 2026* — [The Complete Guide to Fine-Tuning Large Language Models: From Theory to Production](https://gunnymarc.github.io/Fine%20Tuning%20LLMs)
 - *February 2026* — [Understanding Temperature in Large Language Models: A Deep Technical Guide](https://gunnymarc.github.io/The%20Temperature%20of%20LLMs)
