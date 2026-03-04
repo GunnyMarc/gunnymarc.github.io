@@ -182,4 +182,4 @@ The CNN did not succeed because it was bigger or trained longer. It succeeded be
 
 ---
 
-*This analysis was conducted as part of the MIT Professional Education Applied Artificial Intelligence and Deep Signal Processing (AAIDSP) program, using TensorFlow (TF) -- an open-source machine learning framework developed by Google -- running on Google Colab with A100 Graphics Processing Unit (GPU) acceleration, which is specialized hardware designed to perform the massive parallel computations that neural network training requires.*
+*This analysis was conducted as part of the an applied artificial Intelligence and deep signal processing, using TensorFlow (TF) latest stable release 2.20.0 (released Aug 13, 2025). The infrastructure used is an NVIDIA DGX Spark (GB10), NVIDIA Grace Blackwell, 128GB memory, CPU: 20-core Arm (10× Cortex‑X925 + 10× Cortex‑A725).*
