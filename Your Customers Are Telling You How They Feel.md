@@ -8,6 +8,8 @@ That's the promise of facial emotion detection: technology that teaches computer
 
 ---
 
+---
+
 ### The 55% Problem Most Businesses Are Ignoring
 
 Research tells us that up to **55% of emotional communication** happens through facial expressions — not words. Think about that for a moment. More than half of what your customers, patients, students, and employees are communicating never shows up in a survey response, a support ticket, or an NPS score.
