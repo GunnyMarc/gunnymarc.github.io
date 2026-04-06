@@ -6,24 +6,24 @@
 
 ## 1. The Context Window Problem: Why Skills Exist
 
-Every production AI agent faces a brutal constraint: **the context window is finite, expensive, and shared**. When you deploy an agent with 30 specialized workflows — deployment pipelines, code review checklists, document formatting rules, data analysis routines — the naive approach is to load every instruction into the system prompt upfront. The math is unforgiving:
+Every production AI agent faces a fundamental engineering constraint: **the context window is finite, expensive, and shared across every turn of conversation**. Consider an agent equipped with dozens of specialized workflows — CI/CD pipelines, security review checklists, documentation formatters, data analysis routines, migration helpers. The naive architecture loads every instruction set into the system prompt at initialization. The token arithmetic is sobering:
 
-- 30 workflows × ~5,000 tokens each ≈ **150,000 tokens in the system prompt alone**
-- That's 150K tokens consumed on *every single request*, regardless of whether the user asks about deployment or just wants a file renamed
-- At GPT-4-class pricing (~$10/M input tokens), that's **$1.50 per request** just for the system prompt
-- Latency scales linearly with input tokens — prefill time for 150K tokens is measured in seconds, not milliseconds
+- Even a modest library of 30 workflows at ~5,000 tokens each consumes roughly **150,000 tokens before the user says a word**
+- That budget is spent identically whether the user triggers a complex deployment or simply renames a variable
+- On frontier models priced around $10 per million input tokens, the system prompt alone costs **$1.50 per request**
+- Prefill latency grows linearly with input length — at 150K tokens, the user is waiting seconds just for the model to process instructions it may never use
 
-Agent Skills solve this with a principle borrowed from operating system design: **demand paging**. Don't load what you don't need. The agent starts with ~3,000 tokens of skill metadata (names + descriptions), and loads full instructions only when a task requires them.
+The solution draws on a concept familiar to operating-system engineers: **demand paging**. Rather than loading everything up front, the agent boots with a lightweight index of skill metadata — names and one-line descriptions totaling roughly 3,000 tokens — and pulls full instruction sets into context only when a task actually requires them.
 
 ![Diagram comparing token usage: Without Skills (150K tokens, fixed high cost) vs With Agent Skills (~3K tokens at startup, grows with usage)](https://iili.io/BnCFL1S.png)
 
-The reduction is roughly **50x at startup**, and average per-request cost drops proportionally since most requests only activate 1-2 skills.
+The practical result is approximately a **50× reduction in startup token cost**, with per-request averages dropping proportionally since most interactions activate only one or two skills at a time.
 
 ---
 
 ## 2. The SKILL.md Specification: Anatomy of a Skill
 
-Anthropic released the SKILL.md spec as an open standard in December 2025. It was adopted within months by OpenAI Codex, Google Gemini CLI, GitHub Copilot, Cursor, VS Code, JetBrains Junie, and 30+ other agent products. The spec is deliberately simple — a Markdown file with YAML frontmatter — which is why adoption was so fast.
+When Anthropic published the SKILL.md specification as an open standard in late 2025, it deliberately chose the lowest-friction format possible: a Markdown file with YAML frontmatter and a directory convention. That simplicity drove rapid cross-platform adoption — within a few months, implementations appeared in OpenAI Codex, Google Gemini CLI, GitHub Copilot, Cursor, JetBrains Junie, and dozens of other agent-oriented products.
 
 ### 2.1 File Structure
 
@@ -340,7 +340,7 @@ Only the YAML frontmatter is parsed. The body is never read at this stage.
 
 ### Stage 1–2: Query → Skill Selection
 
-The user issues a query. The LLM reads the skill descriptions embedded in the system prompt and selects the best match. **This is pure LLM reasoning** — no embeddings, no classifiers, no algorithmic routing. The description field in the frontmatter is the single most important part of any skill because it's the *only* thing the LLM sees during selection.
+When a user query arrives, the model evaluates it against the skill descriptions already present in the system prompt and decides which skill, if any, to activate. There is **no retrieval step, no embedding lookup, and no external classifier** in the routing path — selection is a byproduct of the model's own forward pass. This design choice has a profound implication: the `description` field in the YAML frontmatter is the single highest-leverage line in any skill file, because it is the *only* text the model sees when making its selection decision.
 
 ```python
 class SkillSelector:
@@ -411,11 +411,11 @@ When a skill is selected, loading happens in three progressive stages — this i
 
 ![Three-tier progressive disclosure: Advertise (~100 tokens) → Load (<5000 tokens) → Deep Dive (as needed)](https://iili.io/BnCFmmb.png)
 
-**Tier 1: Advertise** (~100 tokens per skill) — At startup, only the YAML frontmatter (name + description) from each SKILL.md gets injected into the system prompt. This is the permanent cost: `N_skills × ~100 tokens`.
+**Tier 1 — Advertise** (~100 tokens per skill): The runtime parses only the YAML frontmatter from each SKILL.md and injects a compact name-plus-description entry into the system prompt. This is the fixed per-skill cost that persists across every request: `N_skills × ~100 tokens`.
 
-**Tier 2: Load** (<5,000 tokens) — When the LLM matches a user request to a skill description, the full SKILL.md body loads: workflows, best practices, edge cases. The spec recommends keeping this under 500 lines.
+**Tier 2 — Load** (budget target: <5,000 tokens): Once the model identifies a relevant skill, the full Markdown body is read into context — step-by-step workflows, domain-specific best practices, known edge cases. The specification guidelines suggest capping this body at 500 lines to keep Tier 2 costs predictable.
 
-**Tier 3: Deep Dive** (as needed) — Reference files and scripts load on-demand during execution. Critically, **scripts are executed via bash, and only the output enters context** — not the script source code itself. This is a significant optimization: a 200-line validation script might produce 10 lines of output.
+**Tier 3 — Deep Dive** (on-demand, unbounded): Supplementary reference documents and executable scripts are loaded only during active skill execution. A key architectural detail: **scripts run in a subprocess, and only their stdout enters the model's context** — the source code never does. A 200-line validation script that emits 10 lines of structured output therefore costs 10 lines of context, not 200.
 
 ```python
 import subprocess
@@ -586,11 +586,11 @@ def run_sql(query: str, connection_string: str) -> list[dict]:
     return [{"id": 1, "name": "Alice"}]
 ```
 
-Tools are *verbs*. They give the agent **abilities**: read a file, search the web, execute SQL. The agent calls a tool, gets a result, and moves on.
+Tools function as *verbs* in the agent's vocabulary — each one grants a discrete **capability**: reading a file, querying a search index, executing SQL. The interaction pattern is always call → result → move on.
 
 ### Skills: Inject Knowledge, Reshape Reasoning
 
-Skills are *adjectives* — they modify *how* the agent thinks. When a security review skill is loaded, the agent doesn't just gain the ability to find vulnerabilities; it gains **judgment** about what to look for, in what order, and how to evaluate severity.
+Skills, by contrast, operate more like *adjectives* — they reshape the agent's reasoning posture rather than granting a new action. Loading a security-review skill doesn't merely let the agent scan for vulnerabilities; it equips the agent with **structured judgment**: which vulnerability classes to prioritize, what order to inspect them in, and how to calibrate severity ratings.
 
 ```python
 # Before skill activation: generic response
@@ -662,7 +662,7 @@ class Skill(AgentComponent):
 
 ## 5. Skills + MCP: The Complementary Architecture
 
-Skills and MCP (Model Context Protocol) are not competing standards — they're complementary layers in the agentic stack. Understanding their relationship is essential for building production agents.
+A common misconception is that Skills and MCP (Model Context Protocol) overlap or compete for the same architectural niche. In practice, they occupy distinct layers of the agent stack and are designed to evolve independently. Getting this separation right is one of the more consequential decisions in production agent design.
 
 ![Skills and MCP for AI Agents: Skills provide procedural knowledge, MCP provides connectivity](https://iili.io/BnCK2EB.png)
 
@@ -678,7 +678,7 @@ A skill might instruct the agent to:
 2. Define how to interpret its outputs (parse review comments)
 3. Enforce safety checks before destructive operations (require approval before merge)
 
-You can **swap MCP servers without rewriting skills** (switch from GitHub to GitLab), and **update skill instructions without touching MCP configs** (change the review checklist). The two layers are fully independent.
+Because the layers have no shared state, you can **replace an MCP server** (migrating from GitHub to GitLab, for example) **without editing a single skill file**, and conversely **revise skill workflows without touching any MCP configuration**. This independence is what makes the architecture genuinely composable.
 
 ```python
 from dataclasses import dataclass
@@ -1161,33 +1161,33 @@ ci_cd_pipeline = SkillPipeline(
 
 ## 9. Community Ecosystem and Adoption Metrics
 
-The adoption of the SKILL.md spec has been remarkably fast:
+The SKILL.md specification has seen one of the faster adoption curves in the AI tooling ecosystem, likely because its barrier to entry is almost zero — no SDK to install, no runtime dependency, no build step. As of early 2026:
 
-- **1,300+ community-contributed skills** across public repositories
-- **30+ agent products** have adopted the spec (Claude, Codex, Gemini CLI, Copilot, Cursor, VS Code, JetBrains Junie, etc.)
-- **Cross-platform convention**: The `.agents/skills/` path is scanned by any compliant agent
-- **Google ADK**: Ships `SkillToolset` as a first-class primitive with `list_skills`, `load_skill`, and `load_skill_resource`
+- Public repositories collectively host **over a thousand community-authored skills** spanning security, DevOps, data engineering, documentation, and more
+- Implementations exist in **more than 30 agent-oriented products**, ranging from CLI tools (Claude Code, Codex CLI, Gemini CLI) to IDE integrations (Copilot, Cursor, JetBrains Junie)
+- The **`.agents/skills/` directory convention** has emerged as the cross-platform discovery path — any spec-compliant agent scans it automatically
+- Google's Agent Development Kit (ADK) treats skills as a **first-class primitive**, shipping a `SkillToolset` class with dedicated `list_skills`, `load_skill`, and `load_skill_resource` tool functions
 
-The "write once, use everywhere" promise is realized because the spec is deliberately minimal: Markdown + YAML + a directory convention. No SDK, no runtime dependency, no build step.
+The underlying reason this "author once, activate anywhere" model works is the format's deliberate minimalism: Markdown content, YAML metadata, and a filesystem convention — nothing more.
 
 ---
 
 ## 10. Key Takeaways for Agent Developers
 
-1. **Skills are not tools.** Tools execute actions. Skills inject knowledge that reshapes reasoning. Conflating them leads to poor agent architecture.
+1. **Don't confuse skills with tools.** Tools grant discrete capabilities (read, write, search). Skills reshape the agent's reasoning by injecting domain knowledge into context. Treating them interchangeably leads to architectures that are either bloated or brittle.
 
-2. **The description field is everything.** Skill selection happens through LLM reasoning against descriptions. A poorly written description means your skill never gets activated, regardless of how good its instructions are.
+2. **Invest heavily in the description field.** Because skill routing relies entirely on the model's own judgment against frontmatter descriptions, a vague or verbose description is functionally equivalent to a missing skill — the model will never select it.
 
-3. **Progressive disclosure is the core innovation.** The 50x token reduction at startup isn't just a cost optimization — it enables agents to have *hundreds* of skills installed without degraded performance.
+3. **Progressive disclosure is what makes scale possible.** The ~50× reduction in startup tokens is not merely a cost savings; it is the architectural property that allows an agent to have hundreds of installed skills without any degradation in response quality or latency.
 
-4. **Skills and MCP are orthogonal.** Skills define *how* (workflows, judgment). MCP defines *what* (connectivity, tools). Keep them independent and you get composability for free.
+4. **Keep skills and MCP on separate planes.** Skills encode procedural knowledge (*how* to approach a task). MCP provides connectivity (*what* services to call). When these layers have no shared state, you gain composability — swap either side without touching the other.
 
-5. **Dehydration enables multi-step workflows.** Load-execute-unload-repeat keeps context costs proportional to the current step, not the total workflow.
+5. **Dehydrate aggressively in multi-step workflows.** The load → execute → unload → repeat cycle ensures that context consumption tracks the *current* step, not the cumulative workflow. Without dehydration, a five-skill pipeline can exhaust the context window before reaching step three.
 
-6. **Write skills under 500 lines.** The spec recommends this limit for Tier 2 loading. If your skill exceeds this, refactor heavy content into `references/` (Tier 3, loaded on-demand).
+6. **Respect the 500-line guideline for Tier 2 bodies.** Anything longer should be refactored into `references/` files that load on-demand at Tier 3, keeping activation costs predictable.
 
-7. **Script outputs, not source code.** When skills execute scripts, only the output enters context. Design scripts to produce concise, structured output that the LLM can reason over.
+7. **Design scripts for minimal, structured output.** Since only stdout enters the model's context, a well-designed skill script functions as a compression layer — transforming hundreds of lines of logic into a handful of actionable output lines.
 
 ---
 
-*This article analyzed the SKILL.md specification and Agent Skills architecture based on the original source material. All code examples are practical implementations demonstrating the patterns described in the spec, ready for adaptation in production agent systems.*
+*This article expands on concepts introduced in the Strix newsletter post ["What are Agent Skills and How Do Agents Use Them?"](https://strix.ai) with original analysis, architecture diagrams, and production-ready code implementations. All Python examples are the author's own work, designed to demonstrate the patterns described in the SKILL.md specification.*
