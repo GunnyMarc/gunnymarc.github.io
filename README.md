@@ -10,6 +10,7 @@ Visit at [gunnymarc.github.io](https://gunnymarc.github.io)
 
 ### Articles
 
+- *May 2026* — [Network Modeling in Cisco ThousandEyes](https://gunnymarc.github.io/posts/2026/05/thousandeyes-network-modeling/)
 - *April 2026* — [Agent Skills: Architecture, Implementation, and the Future of Composable AI Agent Knowledge](https://gunnymarc.github.io/posts/2026/04/what-are-agent-skills/)
 - *March 2026* — [Your Customers Are Telling You How They Feel — Without Saying a Word. Are You Listening?](https://gunnymarc.github.io/posts/2026/03/your-customers-are-telling-you-how-they-feel/)
 - *March 2026* — [From Pixels to Predictions: How CNNs Crushed ANNs in the Battle for Street-Level Recognition](https://gunnymarc.github.io/posts/2026/03/from-pixels-to-predictions-how-cnns-crushed-anns-in-the-battle-for-street-level-recognition/)

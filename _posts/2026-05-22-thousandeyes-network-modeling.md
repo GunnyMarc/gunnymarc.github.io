@@ -1,4 +1,13 @@
-# Network Modeling in Cisco ThousandEyes: Graph Theory Models & Algorithms
+---
+title: "Network Modeling in Cisco ThousandEyes"
+date: 2026-05-22
+permalink: /posts/2026/05/thousandeyes-network-modeling/
+tags:
+  - networking
+  - graph theory
+  - observability
+  - ThousandEyes
+---
 
 *A technical deep-dive into the graph-theoretic foundations, algorithms, and data structures that power ThousandEyes' network intelligence platform.*
 
