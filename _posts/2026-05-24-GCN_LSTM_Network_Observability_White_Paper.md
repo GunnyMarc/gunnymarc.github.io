@@ -92,7 +92,7 @@ A single graph snapshot provides a spatial view of the network at one instant. H
 
 By collecting these graph snapshots at regular intervals, we create a **sequence of graphs**: `[G_{t-k}, ..., G_{t-1}, G_t]`. This sequence represents the dynamic, spatiotemporal behavior of the network, capturing both the changing properties of nodes/edges and the potential for the graph's topology itself to change.
 
-![Infographic illustrating the mapping of network observability data to a temporal graph data model.](/home/ubuntu/temporal_graph_model.png)
+![Infographic illustrating the mapping of network observability data to a temporal graph data model.](/images/figure1-temporal_graph_model.png)
 *Figure 1: Conceptual mapping of network state over time to a sequence of graph snapshots, forming the basis for spatiotemporal analysis.*
 
 ### 2.3 Mapping to the GCN+LSTM Framework
@@ -174,7 +174,7 @@ Beyond these two primary applications, the spatiotemporal features learned by a 
 *   **Proactive Resource Management:** Predictions of future workload or performance degradation can be used to trigger automated remediation actions, such as scaling up cloud resources, diverting traffic, or scheduling preventative maintenance before users are impacted.
 *   **Security Threat Detection:** Spatiotemporal anomaly detection can be applied to security-relevant data. An unusual pattern of communication (e.g., a host suddenly communicating with many new internal endpoints) could be flagged as a potential lateral movement attack, even if the individual connections are low-volume.
 
-![Infographic showing how anomaly detection and performance prediction outputs from the model feed into and enhance network observability workflows.](/home/ubuntu/observability_workflow.png)
+![Infographic showing how anomaly detection and performance prediction outputs from the model feed into and enhance network observability workflows.](/images/figure2-observability_workflow.png)
 *Figure 2: The role of GCN+LSTM model outputs in an integrated observability workflow, enabling proactive and automated operational responses.*
 
 ## 4. Model Architecture and Foundations
@@ -197,7 +197,7 @@ The GCN+LSTM model is an end-to-end deep learning architecture that processes a 
 
 Some architectures may employ a dual-LSTM structure, processing node and edge features in separate parallel streams before fusion, to more explicitly model both entity and interaction dynamics (Yu et al., 2023).
 
-![Infographic detailing the GCN+LSTM processing pipeline, from data ingestion to output generation.](/home/ubuntu/gcn_lstm_pipeline.png)
+![Infographic detailing the GCN+LSTM processing pipeline, from data ingestion to output generation.](/images/figure3-gcn_lstm_pipeline.png)
 *Figure 3: Architectural overview of the GCN+LSTM processing pipeline, showing the flow from graph sequences to spatiotemporal encoding and final prediction.*
 
 ### 4.2 Mathematical Foundations
