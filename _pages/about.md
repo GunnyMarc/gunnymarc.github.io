@@ -4,9 +4,7 @@ title: "Semper ex Datis — Always from Data"
 author_profile: true
 ---
 
-**U.S. Marine | Data Scientist**
-
-I write long-form technical articles about Large Language Models, Data Science, and machine learning — the kind that actually explain how things work under the hood.
+Long-form technical articles about Large Language Models, Data Science, and machine learning — the kind that actually explain how things work under the hood.
 
 ---
 
