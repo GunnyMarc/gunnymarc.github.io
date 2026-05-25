@@ -13,8 +13,6 @@ tags:
 
 **DATE:** 2026-05-24
 
-**Authored For:** Technical Engineering Group & Network Architects
-
 **Subject:** Theoretical Application of a Combined Graph Convolutional Network (GCN) and Long Short-Term Memory (LSTM) Framework to Enhance Network Observability
 
 ---

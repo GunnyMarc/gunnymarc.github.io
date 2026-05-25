@@ -9,7 +9,7 @@ baseurl                  : ""
 repository               : "GunnyMarc/gunnymarc.github.io"
 
 author:
-  avatar           : "maburacz_cec_new.png"
+  avatar           : "semper-ex-datis-avatar.jpg"
   name             : "Marc Buraczynski"
   bio              : "U.S. Marine | Data Scientist. Writing about LLMs, data science, and machine learning — the non-corporate version."
   location         : "United States"
