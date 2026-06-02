@@ -2,7 +2,7 @@
 
 Personal blog/portfolio (Marc Buraczynski) — Jekyll static site, fork of academicpages/Minimal Mistakes, deployed via GitHub Pages on push to `main`.
 
-## Stack & Commands
+## Commands
 
 | Action | Command |
 | :--- | :--- |
@@ -11,21 +11,20 @@ Personal blog/portfolio (Marc Buraczynski) — Jekyll static site, fork of acade
 | Build | `bundle exec jekyll build` (output in `_site/`) |
 | Clean cache | `bundle exec jekyll clean` |
 
-**Ruby:** 3.1+ required (system Ruby 2.6 is too old). `brew install ruby@3.1` then add to `PATH`.
-
-**No test suite.** "Testing" means `bundle exec jekyll build` then inspect `_site/posts/YYYY/MM/slug/`.
+**Ruby 3.1+ required** (system Ruby 2.6 is too old). No test suite — "testing" means `jekyll build` then inspect `_site/posts/YYYY/MM/slug/`.
 
 ## Architecture
 
-- **Theme is forked, not gemmed.** `_layouts/`, `_includes/`, `_sass/` are in-repo and editable. Theme variants set via `site_theme` in `_config.yml`: `default`, `air`, `sunrise`, `mint`, `dirt`, `contrast`.
+- **Theme is forked, not gemmed.** `_layouts/`, `_includes/`, `_sass/` are in-repo and editable. Theme variants via `site_theme` in `_config.yml`: `default`, `air`, `sunrise`, `mint`, `dirt`, `contrast`.
 - **CSS overrides** go in `assets/css/main.scss` **after** the `@import` block (earlier additions get clobbered).
-- **Collections beyond `_posts`:** `_portfolio`, `_publications`, `_talks`, `_teaching` are Jekyll collections with `output: true` — content lands at `/portfolio/...`, `/talks/...`, etc.
-- **Posts use explicit per-post `permalink:` in front matter.** The global `_config.yml` permalink is `/:categories/:title/` — do not rely on it. Always set `permalink: /posts/YYYY/MM/slug/` on each new post.
-- **Title is rendered from front matter.** Do NOT put `# Title` (H1) in the Markdown body — it will double-render.
-- **URL changes require redirects.** Add `redirect_from:` to front matter when changing a post's `permalink`. Plugin `jekyll-redirect-from` handles the rest.
-- **`README.md` is the homepage article index.** When adding a post, insert a bullet in reverse-chronological order: `- *Month Year* — [Title](https://gunnymarc.github.io/posts/YYYY/MM/slug/)`
+- **Collections:** `_portfolio`, `_publications`, `_talks`, `_teaching` are Jekyll collections with `output: true` — content at `/portfolio/...`, `/talks/...`, etc.
+- **Per-post `permalink:` is required in front matter.** Global `_config.yml` permalink is `/:categories/:title/` — do not rely on it. Always set `permalink: /posts/YYYY/MM/slug/`.
+- **Title comes from front matter.** Do NOT put `# Title` (H1) in the Markdown body — it double-renders.
+- **URL changes need redirects.** Add `redirect_from:` to front matter listing old URL(s). Plugin `jekyll-redirect-from` handles the rest.
+- **`README.md` is the homepage article index.** Add a reverse-chronological bullet for each new post.
+- **`AGENTS.md` is excluded from Jekyll build** (see `_config.yml` `exclude`).
 
-## Article Conventions
+## Post conventions
 
 Required front matter:
 ```yaml
@@ -38,8 +37,9 @@ tags:
   - tag2
 ---
 ```
-- Images path: `assets/images/...` (not `images/...`). Used relative in Markdown: `![alt](assets/images/file.png)`
-- Subtitle: optional `*Italic subtitle*` or `> Blockquote subtitle`
+
+- **Images:** Two conventions coexist. Recent posts use `images/` (root dir) with paths like `../images/foo.png` or `/images/foo.png`. Older posts use `assets/images/foo.png`. Check the prevailing pattern before adding new images.
+- Subtitle: `*Italic subtitle*` or `> Blockquote subtitle`
 - Separators: `---` between major sections
 - Math: `$$` block, `$` inline
 - Code blocks: triple backticks with language tag
@@ -47,8 +47,8 @@ tags:
 ## Git
 
 - `main` is production. Branch prefixes: `feature/`, `fix/`, `docs/`.
-- Conventional commits preferred (`feat:`, `fix:`, `docs:`, …) but not enforced.
-- Do not commit secrets or introduce npm/Webpack/JS bundlers.
+- Conventional commits preferred (`feat:`, `fix:`, `docs:`), not enforced.
+- **No npm/Webpack/JS bundlers** — intentionally Jekyll-only.
 
 ## Troubleshooting
 
@@ -57,3 +57,7 @@ tags:
 | Liquid Exception | Check `{{ }}` / `{% %}` syntax in Markdown/SCSS |
 | Stale content | `bundle exec jekyll clean` then rebuild |
 | Old URL 404s | Add `redirect_from: /old-url` to post front matter |
+
+## Related
+
+- `CLAUDE.md` — sibling instruction file; delegates to this file as authoritative.

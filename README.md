@@ -10,6 +10,7 @@ Visit at [gunnymarc.github.io](https://gunnymarc.github.io)
 
 ### Articles
 
+- *June 2026* — [Advancing Network Observability with Custom-Developed Machine Learning Models](https://gunnymarc.github.io/posts/2026/06/advancing-network-observability-ml-models/)
 - *May 2026* — [Network Observability with GCN-LSTM](https://gunnymarc.github.io/posts/2026/05/gcn-lstm-network-observability/)
 - *May 2026* — [Network Modeling in Cisco ThousandEyes](https://gunnymarc.github.io/posts/2026/05/thousandeyes-network-modeling/)
 - *April 2026* — [Agent Skills: Architecture, Implementation, and the Future of Composable AI Agent Knowledge](https://gunnymarc.github.io/posts/2026/04/what-are-agent-skills/)
