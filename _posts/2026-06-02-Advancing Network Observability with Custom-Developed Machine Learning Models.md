@@ -10,8 +10,6 @@ tags:
   - custom ML
 ---
 
-# Custom ML Models, Not Generic Solutions, and How ThousandEyes Makes Them Practical
-
 *15 min read*
 
 ---
