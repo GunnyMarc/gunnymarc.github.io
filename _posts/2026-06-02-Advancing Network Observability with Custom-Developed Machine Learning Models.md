@@ -87,7 +87,7 @@ This structured, time-synchronized telemetry makes rapid custom model developmen
 
 **Think of it this way:** ThousandEyes handles "what's happening." Custom models add "what's about to happen" and "why" — tuned to your network's unique characteristics.
 
-![How Custom ML Models Enhance ThousandEyes](https://github.com/GunnyMarc/gunnymarc.github.io/images/v2_diag4_architecture.png)
+![How Custom ML Models Enhance ThousandEyes](/images/v2_diag1_te_pipeline.png)
 
 *The pipeline shows how ThousandEyes data sources feed custom ML models to deliver actionable business outcomes tailored to your organization.*
 
@@ -139,7 +139,7 @@ Think of it like a veteran NOC engineer who has worked *your* network for years 
 
 A generic anomaly detector might flag your planned nightly backup job as an anomaly because traffic suddenly spikes at 2 AM. A custom model trained on your data knows that pattern is expected and ignores it — while catching the *unusual* 2 AM spike that indicates a problem.
 
-![Predictive Anomaly Detection — How It Works](https://github.com/GunnyMarc/gunnymarc.github.io/images/v2_diag1_te_pipeline.png)
+![Predictive Anomaly Detection — How It Works](/images/v2_diag2_anomaly.png)
 
 *This diagram illustrates the workflow from telemetry collection through baseline learning to real-time anomaly detection and alerting.*
 
@@ -232,7 +232,7 @@ The architecture is **four layers**:
 
 **Layer 4 — Action.** Automated alerts with contextual explanations, operations dashboards, remediation triggers, capacity reports. Engineers receive a *diagnosis* grounded in your network's behavior.
 
-![Conceptual Architecture: ML on Top of ThousandEyes](https://github.com/GunnyMarc/gunnymarc.github.io/images/v2_diag2_anomaly.png)
+![Conceptual Architecture: ML on Top of ThousandEyes](/images/v2_diag4_architecture.png)
 
 *The four-layer architecture showing how ThousandEyes data flows through custom ML models and MLOps orchestration to deliver actionable insights.*
 
@@ -267,7 +267,7 @@ The common pitfall: **deploy and forget.** Custom models need continuous monitor
 
 ## The Compounding Effect
 
-![Business Value of ML-Enhanced Network Observability](https://github.com/GunnyMarc/gunnymarc.github.io/images/v2_diag3_bizvalue.png)
+![Business Value of ML-Enhanced Network Observability](/images/v2_diag3_bizvalue.png)
 
 *The business value diagram illustrates the tangible benefits and before/after comparison of ML-enhanced network observability.*
 
