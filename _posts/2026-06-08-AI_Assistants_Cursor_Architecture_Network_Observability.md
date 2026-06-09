@@ -1,4 +1,15 @@
-# The Emergence of Agentic AI in Network Observability: Architectural Patterns and Integration Strategies
+---
+title: "The Emergence of Agentic AI in Network Observability: Architectural Patterns and Integration Strategies"
+date: 2026-06-08
+permalink: /posts/2026/06/ai-assistants-cursor-architecture-network-observability/
+tags:
+  - agentic AI
+  - network observability
+  - Cursor
+  - LLM architecture
+  - GraphRAG
+  - multi-tenant security
+---
 
 **Authored by: Marc Buraczynski**
 **Publication Date: 2026-06-09**
