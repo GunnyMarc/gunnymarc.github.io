@@ -1,7 +1,7 @@
 # The Emergence of Agentic AI in Network Observability: Architectural Patterns and Integration Strategies
 
-**Authored by: Expert Research Analyst**
-**Publication Date: 2026-06-07**
+**Authored by: Marc Buraczynski**
+**Publication Date: 2026-06-09**
 
 ## Executive Summary
 
