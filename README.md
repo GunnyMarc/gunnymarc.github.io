@@ -10,6 +10,9 @@ Visit at [gunnymarc.github.io](https://gunnymarc.github.io)
 
 ### Articles
 
+- *July 2026* — [Scaling with High-Performance Switching and NVIDIA DGX Spark](https://gunnymarc.github.io/posts/2026/07/scaling-high-performance-switching-nvidia-dgx-spark/)
+- *July 2026* — [What Happens When One DGX Spark Isn't Enough?](https://gunnymarc.github.io/posts/2026/07/what-happens-when-one-dgx-spark-isnt-enough/)
+- *July 2026* — [Spending time with the NVIDIA DGX Spark](https://gunnymarc.github.io/posts/2026/07/spending-time-nvidia-dgx-spark/)
 - *June 2026* — [The Emergence of Agentic AI in Network Observability: Architectural Patterns and Integration Strategies](https://gunnymarc.github.io/posts/2026/06/ai-assistants-cursor-architecture-network-observability/)
 - *June 2026* — [Advancing Network Observability with Custom-Developed Machine Learning Models](https://gunnymarc.github.io/posts/2026/06/advancing-network-observability-ml-models/)
 - *May 2026* — [Network Observability with GCN-LSTM](https://gunnymarc.github.io/posts/2026/05/gcn-lstm-network-observability/)
