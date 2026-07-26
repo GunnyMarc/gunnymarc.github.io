@@ -10,6 +10,7 @@ Visit at [gunnymarc.github.io](https://gunnymarc.github.io)
 
 ### Articles
 
+- *July 2026* — [Deriving the Least Squares Solution: From Simple Regression to the Normal Equations](https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/)
 - *July 2026* — [Fitting a Linear Model and Assessing Fit](https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/)
 - *July 2026* — [Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations](https://gunnymarc.github.io/posts/2026/07/linear-regression/)
 - *July 2026* — [Tensor Parallelism and Distributed Large Language Model Topologies in Enterprise Kubernetes Environments](https://gunnymarc.github.io/posts/2026/07/tensor-parallelism-distributed-llm-topologies-enterprise-kubernetes/)
