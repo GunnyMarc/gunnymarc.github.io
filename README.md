@@ -10,6 +10,7 @@ Visit at [gunnymarc.github.io](https://gunnymarc.github.io)
 
 ### Articles
 
+- *July 2026* — [Fitting a Linear Model and Assessing Fit](https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/)
 - *July 2026* — [Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations](https://gunnymarc.github.io/posts/2026/07/linear-regression/)
 - *July 2026* — [Tensor Parallelism and Distributed Large Language Model Topologies in Enterprise Kubernetes Environments](https://gunnymarc.github.io/posts/2026/07/tensor-parallelism-distributed-llm-topologies-enterprise-kubernetes/)
 - *July 2026* — [Scaling with High-Performance Switching and NVIDIA DGX Spark](https://gunnymarc.github.io/posts/2026/07/scaling-high-performance-switching-nvidia-dgx-spark/)
