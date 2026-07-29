@@ -13,7 +13,7 @@ tags:
   - OpenWeights
 ---
 
-### Strategic Analysis & Hands-On GPU Evaluation of Kimi Linear: Next-Generation Hybrid Attention Architecture*
+### Strategic Analysis & Hands-On GPU Evaluation of Kimi Linear: Next-Generation Hybrid Attention Architecture
 
 *Detailed Summary: A Signal-Based Framework for Triaging Agentic Interaction Trajectories*
 (original arXiv paper https://arxiv.org/abs/2510.26692)
