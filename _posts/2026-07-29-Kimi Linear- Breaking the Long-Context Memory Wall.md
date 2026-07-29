@@ -16,7 +16,7 @@ tags:
 ### Strategic Analysis & Hands-On GPU Evaluation of Kimi Linear: Next-Generation Hybrid Attention Architecture
 
 *Detailed Summary: A Signal-Based Framework for Triaging Agentic Interaction Trajectories*
-(original arXiv paper https://arxiv.org/abs/2510.26692)
+[original arXiv paper](https://arxiv.org/abs/2510.26692)
 
 The field of large language models has reached a critical inflection point where expanding context windows from tens of thousands to millions of tokens is essential for complex enterprise use cases such as repository-level software development, multi-document financial analysis, and long-horizon agentic planning. However, traditional Transformer architectures utilizing full Multi-Head Attention (MHA) or Multi-Head Latent Attention (MLA) face a severe operational wall. Standard attention mechanisms exhibit quadratic computational complexity O(N2) with respect to sequence length N, while their Key-Value (KV) cache memory requirements grow linearly with prompt length. At extreme context lengths like one million tokens, the KV cache alone overwhelms GPU memory, bottlenecking inference throughput, capping batch concurrency to single digits, and driving total cost of ownership (TCO) to unsustainably high levels.
 
