@@ -10,6 +10,7 @@ Visit at [gunnymarc.github.io](https://gunnymarc.github.io)
 
 ### Articles
 
+- *July 2026* — [Kimi Linear: Breaking the Long-Context Memory Wall](https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/)
 - *July 2026* — [Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling](https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/)
 - *July 2026* — [Deriving the Least Squares Solution: From Simple Regression to the Normal Equations](https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/)
 - *July 2026* — [Fitting a Linear Model and Assessing Fit](https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/)
