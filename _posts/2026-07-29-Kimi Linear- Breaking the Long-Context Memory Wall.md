@@ -10,7 +10,9 @@ tags:
   - long context
   - GPU inference
   - enterprise AI
+  - OpenWeights
 ---
+
 
 *Strategic Analysis & Hands-On GPU Evaluation of Kimi Linear: Next-Generation Hybrid Attention Architecture*
 
