@@ -1,209 +1,143 @@
-locale                   : "en-US"
-site_theme               : "default"
-title                    : "Semper ex Datis"
-title_separator          : "-"
-name                     : &name "Marc Buraczynski"
-description              : &description "U.S. Marine | Data Scientist. Long-form technical articles on LLMs, Data Science, and machine learning."
-url                      : https://gunnymarc.github.io
-baseurl                  : ""
-repository               : "GunnyMarc/gunnymarc.github.io"
+theme: jekyll-theme-chirpy
+lang: en
+timezone: America/New_York
 
-author:
-  avatar           : "semper-ex-datis-avatar.jpg"
-  name             : "Marc Buraczynski"
-  bio              : "U.S. Marine | Data Scientist. Writing about LLMs, data science, and machine learning — the non-corporate version."
-  location         : "United States"
-  email            : ""
-  github           : "GunnyMarc"
-  linkedin         : "marc-buraczynski"
-  bluesky          : "marcburaczynski.bsky.social"
+title: "Semper ex Datis"
+tagline: "Always from Data"
+description: "U.S. Marine | Data Scientist. Long-form technical articles on LLMs, Data Science, and machine learning."
 
-publication_category:
-  books:
-    title: 'Books'
-  manuscripts:
-    title: 'Journal Articles'
-  conferences:
-    title: 'Conference Papers'
+url: "https://gunnymarc.github.io"
+baseurl: ""
 
-teaser                   :
-breadcrumbs              : false
-words_per_minute         : 160
-future                   : true
-read_more                : "disabled"
-talkmap_link             : false
-comments:
-  provider               : false
-atom_feed:
-  hide                   : false
+github:
+  username: GunnyMarc
 
-google_site_verification :
-bing_site_verification   :
-
-twitter:
-  username               :
-facebook:
-  username               :
-og_image                 :
-og_description           :
 social:
-  type                   : Person
-  name                   : Marc Buraczynski
+  name: "Marc Buraczynski"
+  email: ""
   links:
+    - https://github.com/GunnyMarc
+    - https://www.linkedin.com/in/marc-buraczynski
+
+webmaster_verifications:
+  google:
+  bing:
 
 analytics:
-  provider               : "false"
   google:
-    tracking_id          :
+    id:
+  goatcounter:
+    id:
+  umami:
+    id:
+    domain:
 
-include:
-  - .htaccess
-  - _pages
-  - files
-exclude:
-  - "*.sublime-project"
-  - "*.sublime-workspace"
-  - AGENTS.md
-  - .asset-cache
-  - .bundle
-  - .github
-  - .jekyll-assets-cache
-  - .sass-cache
-  - assets/js/_main.js
-  - assets/js/plugins
-  - assets/js/vendor
-  - CHANGELOG
-  - Capfile
-  - config
-  - Dockerfile
-  - Gemfile
-  - Gruntfile.js
-  - gulpfile.js
-  - LICENSE
-  - local
-  - log
-  - node_modules
-  - package.json*
-  - Rakefile
-  - README
-  - tmp
-  - vendor
-keep_files:
-  - .git
-  - .svn
-encoding: "utf-8"
-markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+pageviews:
+  provider:
 
-markdown: kramdown
-highlighter: rouge
-lsi: false
-excerpt_separator: "\n\n"
-incremental: false
+theme_mode:
+
+cdn: ""
+
+avatar: "/images/semper-ex-datis-avatar.jpg"
+
+social_preview_image:
+
+toc: true
+
+comments:
+  provider:
+
+paginate: 10
 
 kramdown:
-  input: GFM
-  hard_wrap: false
-  auto_ids: true
-  footnote_nr: 1
-  entity_output: as_char
-  toc_levels: 1..6
-  smart_quotes: lsquo,rsquo,ldquo,rdquo
-  enable_coderay: false
+  footnote_backlink: "&#8617;&#xfe0e;"
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
 
 collections:
-  teaching:
+  tabs:
     output: true
-    permalink: /:collection/:path/
-  publications:
-    output: true
-    permalink: /:collection/:path/
-  portfolio:
-    output: true
-    permalink: /:collection/:path/
-  talks:
-    output: true
-    permalink: /:collection/:path/
+    sort_by: order
 
 defaults:
   - scope:
       path: ""
       type: posts
     values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: true
-      share: true
-      related: true
+      layout: post
+      toc: true
+  - scope:
+      path: _drafts
+    values:
+      comments: false
   - scope:
       path: ""
-      type: pages
+      type: tabs
     values:
-      layout: single
-      author_profile: true
-  - scope:
-      path: ""
-      type: teaching
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comments: true
-  - scope:
-      path: ""
-      type: publications
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comments: true
-  - scope:
-      path: ""
-      type: portfolio
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comment: true
-  - scope:
-      path: ""
-      type: talks
-    values:
-      layout: talk
-      author_profile: true
-      share: true
+      layout: page
+      permalink: /:title/
 
 sass:
-  sass_dir: _sass
   style: compressed
-
-permalink: /:categories/:title/
-timezone: America/New_York
-
-plugins:
-  - jekyll-feed
-  - jekyll-gist
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-redirect-from
-  - jemoji
-
-whitelist:
-  - jekyll-feed
-  - jekyll-gist
-  - jekyll-paginate
-  - jekyll-sitemap
-  - jekyll-redirect-from
-  - jemoji
-
-category_archive:
-  type: liquid
-  path: /categories/
-tag_archive:
-  type: liquid
-  path: /tags/
 
 compress_html:
   clippings: all
+  comments: all
+  endings: all
+  profile: false
+  blanklines: false
   ignore:
-    envs: development
+    envs: [development]
+
+exclude:
+  - "*.sublime-project"
+  - "*.sublime-workspace"
+  - AGENTS.md
+  - CLAUDE.md
+  - .asset-cache
+  - .bundle
+  - .github
+  - .jekyll-assets-cache
+  - .sass-cache
+  - CHANGELOG
+  - Capfile
+  - config
+  - Dockerfile
+  - Gruntfile.js
+  - gulpfile.js
+  - LICENSE
+  - local
+  - log
+  - node_modules
+  - "package*.json"
+  - Rakefile
+  - README
+  - tmp
+  - vendor
+
+keep_files:
+  - .git
+
+plugins:
+  - jekyll-redirect-from
+  - jekyll-archives
+  - jekyll-paginate
+  - jekyll-include-cache
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+jekyll-archives:
+  enabled: [tags]
+  layouts:
+    tag: tag
+  permalinks:
+    tag: /tags/:name/
+
+future: true
