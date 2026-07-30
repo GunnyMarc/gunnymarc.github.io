@@ -10,6 +10,6 @@ package-lock.json
 *.sublime-workspace
 .asset-cache
 .jekyll-assets-cache
-Gemfile.lock
+# Gemfile.lock — committed for CI reproducibility
 local/
 tmp/
