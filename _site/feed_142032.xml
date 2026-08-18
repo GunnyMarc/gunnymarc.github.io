@@ -1,0 +1,133 @@
+
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>https://gunnymarc.github.io/</id>
+  <title>Semper ex Datis</title>
+  <subtitle>U.S. Marine | Data Scientist. Long-form technical articles on LLMs, Data Science, and machine learning.</subtitle>
+  <updated>2026-07-30T15:19:16-04:00</updated>
+  <author>
+    <name>Marc Buraczynski</name>
+    <uri>https://gunnymarc.github.io/</uri>
+  </author>
+  <link rel="self" type="application/atom+xml" href="https://gunnymarc.github.io/feed.xml"/>
+  <link rel="alternate" type="text/html" hreflang="en"
+    href="https://gunnymarc.github.io/"/>
+  <generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator>
+  <rights> © 2026 Marc Buraczynski </rights>
+  <icon>/assets/img/favicons/favicon.ico</icon>
+  <logo>/assets/img/favicons/favicon-96x96.png</logo>
+
+
+  
+  <entry>
+    <title>Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling</title>
+    <link href="https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/" rel="alternate" type="text/html" title="Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling" />
+    <published>2026-07-30T00:00:00-04:00</published>
+  
+    <updated>2026-07-30T00:00:00-04:00</updated>
+  
+    <id>https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/</id>
+    <content type="text/html" src="https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/" />
+    <author>
+      <name>Marc Buraczynski</name>
+    </author>
+
+  
+    
+  
+
+  <summary>Extending simple linear regression into a multidimensional framework for modeling complex real-world phenomena.  In the world of data science and statistical analysis, few techniques are as foundational and widely applicable as multiple linear regression. This powerful method extends the simplicity of basic linear regression into a multidimensional framework, allowing analysts and researchers t...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Kimi Linear: Breaking the Long-Context Memory Wall</title>
+    <link href="https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/" rel="alternate" type="text/html" title="Kimi Linear: Breaking the Long-Context Memory Wall" />
+    <published>2026-07-29T00:00:00-04:00</published>
+  
+    <updated>2026-07-29T00:00:00-04:00</updated>
+  
+    <id>https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/</id>
+    <content type="text/html" src="https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/" />
+    <author>
+      <name>Marc Buraczynski</name>
+    </author>
+
+  
+    
+  
+
+  <summary>Strategic Analysis &amp;amp; Hands-On GPU Evaluation of Kimi Linear: Next-Generation Hybrid Attention Architecture  Detailed Summary: A Signal-Based Framework for Triaging Agentic Interaction Trajectories original arXiv paper  The field of large language models has reached a critical inflection point where expanding context windows from tens of thousands to millions of tokens is essential for compl...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Deriving the Least Squares Solution: From Simple Regression to the Normal Equations</title>
+    <link href="https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/" rel="alternate" type="text/html" title="Deriving the Least Squares Solution: From Simple Regression to the Normal Equations" />
+    <published>2026-07-29T00:00:00-04:00</published>
+  
+    <updated>2026-07-29T00:00:00-04:00</updated>
+  
+    <id>https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/</id>
+    <content type="text/html" src="https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/" />
+    <author>
+      <name>Marc Buraczynski</name>
+    </author>
+
+  
+    
+  
+
+  <summary>Retracing the derivation from first principles — from a bowl-shaped loss surface to the compact matrix equation β = (XᵀX)⁻¹Xᵀy.    Linear regression is arguably the most widely used tool in statistics and machine learning, and at its heart lies a beautifully compact formula: β = (XᵀX)⁻¹Xᵀy. This equation, involving nothing more than matrix multiplication, transposition, and inversion, delivers ...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Fitting a Linear Model and Assessing Fit</title>
+    <link href="https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/" rel="alternate" type="text/html" title="Fitting a Linear Model and Assessing Fit" />
+    <published>2026-07-28T00:00:00-04:00</published>
+  
+    <updated>2026-07-28T00:00:00-04:00</updated>
+  
+    <id>https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/</id>
+    <content type="text/html" src="https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/" />
+    <author>
+      <name>Marc Buraczynski</name>
+    </author>
+
+  
+    
+  
+
+  <summary>From ordinary least squares to residual diagnostics — how to fit, measure, and verify a linear model.    Linear regression is one of the most fundamental tools in statistics and machine learning, but building a useful model involves more than simply drawing a line through data points. Two questions sit at the heart of the process: How do we find the best line, and how do we know whether that li...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations</title>
+    <link href="https://gunnymarc.github.io/posts/2026/07/linear-regression/" rel="alternate" type="text/html" title="Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations" />
+    <published>2026-07-27T00:00:00-04:00</published>
+  
+    <updated>2026-07-27T00:00:00-04:00</updated>
+  
+    <id>https://gunnymarc.github.io/posts/2026/07/linear-regression/</id>
+    <content type="text/html" src="https://gunnymarc.github.io/posts/2026/07/linear-regression/" />
+    <author>
+      <name>Marc Buraczynski</name>
+    </author>
+
+  
+    
+  
+
+  <summary>Foundations, Mathematics, Applications, and Limitations  Linear regression stands as one of the most fundamental and widely utilized techniques in supervised machine learning and statistical modeling. When analysts and data scientists seek to understand the relationship between variables or forecast future continuous numeric values, linear regression provides a clear, interpretable, and mathema...</summary>
+
+  </entry>
+
+</feed>
+
+

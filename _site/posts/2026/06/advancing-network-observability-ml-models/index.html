@@ -1,0 +1,1052 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Advancing Network Observability with Custom-Developed Machine Learning Models - Semper ex Datis</title>
+
+
+
+<meta name="description" content="15 min read">
+
+
+
+
+
+  <meta property="article:published_time" content="2026-06-02T00:00:00-04:00">
+
+
+
+  <link rel="canonical" href="https://gunnymarc.github.io/posts/2026/06/advancing-network-observability-ml-models/">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Marc Buraczynski",
+      "url" : "https://gunnymarc.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+<!-- Open Graph protocol data (https://ogp.me/), used by social media -->
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Semper ex Datis"> 
+<meta property="og:title" content="Advancing Network Observability with Custom-Developed Machine Learning Models">
+
+  <meta property="og:type" content="article">
+
+
+  <meta property="og:description" name="description" content="15 min read">
+
+
+  <meta property="og:url" content="https://gunnymarc.github.io/posts/2026/06/advancing-network-observability-ml-models/">
+
+
+
+
+
+<!-- end Open Graph protocol -->
+
+<link href="https://gunnymarc.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Semper ex Datis Feed">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/main.css">
+
+    
+
+<!-- start custom head snippets -->
+
+<!-- Support for Academicons -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/academicons.css"/>
+
+<!-- favicon from https://commons.wikimedia.org/wiki/File:OOjs_UI_icon_academic-progressive.svg -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://gunnymarc.github.io/images/apple-touch-icon-180x180.png"/>
+<link rel="icon" type="image/svg+xml" href="https://gunnymarc.github.io/images/favicon.svg"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-32x32.png" sizes="32x32"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-192x192.png" sizes="192x192"/>
+<link rel="manifest" href="https://gunnymarc.github.io/images/manifest.json"/>
+<link rel="icon" href="/images/favicon.ico"/>
+<meta name="theme-color" content="#ffffff"/>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><span class="navicon"></span></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg persist ">
+            <a href="https://gunnymarc.github.io/">Semper ex Datis</a>
+          </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/year-archive/">Blog Posts</a>
+            </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/">About</a>
+            </li>
+          
+          <li id="theme-toggle" class="masthead__menu-item persist tail">
+            <a role="button" aria-labelledby="theme-icon"><i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="toggle theme"></i></a>
+          </li>
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://gunnymarc.github.io/images/semper-ex-datis-avatar.jpg" class="author__avatar" alt="Marc Buraczynski"  fetchpriority="high" />
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Marc Buraczynski</h3>
+    
+    <p class="author__bio">U.S. Marine | Data Scientist. Writing about LLMs, data science, and machine learning — the non-corporate version.</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      <!-- Font Awesome icons / Biographic information  -->
+      
+        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>United States</li>
+      
+      
+      
+      
+        <li><a href="mailto:"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>Email</a></li>
+      
+
+      <!-- Font Awesome and Academicons icons / Academic websites -->
+      
+            
+      
+            
+      
+      
+                              
+      
+      
+      
+      
+      
+
+      <!-- Font Awesome icons / Repositories and software development -->
+      
+            
+            
+      
+        <li><a href="https://github.com/GunnyMarc"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub</a></li>
+      
+            
+            
+
+      <!-- Font Awesome icons / Social media -->
+              
+      
+        <li><a href="https://bsky.app/profile/marcburaczynski.bsky.social"><i class="fab fa-fw fa-bluesky icon-pad-right" aria-hidden="true"></i>Bluesky</a></li>
+      
+      
+            
+      
+                  
+                  
+      
+            
+            
+      
+        <li><a href="https://www.linkedin.com/in/marc-buraczynski"><i class="fab fa-fw fa-linkedin icon-pad-right" aria-hidden="true"></i>LinkedIn</a></li>
+            
+      
+            
+                  
+            
+      
+            
+            
+      
+              
+      
+                      
+      
+      
+            
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Advancing Network Observability with Custom-Developed Machine Learning Models">
+    <meta itemprop="description" content="15 min read">
+    <meta itemprop="datePublished" content="June 02, 2026">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Advancing Network Observability with Custom-Developed Machine Learning Models
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  26 minute read
+	
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-06-02T00:00:00-04:00">June 02, 2026</time></p>
+            
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p><em>15 min read</em></p>
+
+<hr />
+
+<p>Here’s a scenario that will feel painfully familiar to anyone who’s run a network operations center in the last five years.</p>
+
+<p>It’s 2:47 AM. A critical SaaS application starts degrading for users across three regions. The monitoring dashboard lights up — but it lit up <em>after</em> users started complaining. Your on-call engineer begins the investigation, correlating alerts across half a dozen tools. <strong>Three hours later</strong>, they find the root cause: a subtle BGP routing change by an upstream provider that cascaded into latency spikes across multiple paths.</p>
+
+<p>The data that predicted this failure? It was sitting in your telemetry pipeline the entire time. Nobody — and no <em>thing</em> — was looking at it the right way.</p>
+
+<p>This is the gap that <strong>custom-developed machine learning models</strong> close. Not generic, off-the-shelf analytics packages that treat every network the same. But models trained specifically on <em>your</em> network’s unique behavior, topology, and traffic patterns. And it’s not theoretical anymore.</p>
+
+<hr />
+
+<h2 id="the-uncomfortable-truth-about-threshold-based-monitoring">The Uncomfortable Truth About Threshold-Based Monitoring</h2>
+
+<p>Let’s be honest about something the industry has danced around for too long.</p>
+
+<p>Traditional network monitoring — the kind built on static thresholds — was designed for a world that no longer exists. A world where networks were relatively contained, failure modes were predictable, and an engineer could reasonably hold the full topology in their head.</p>
+
+<p><strong>That world is gone.</strong></p>
+
+<p>Today’s enterprise networks span on-premises data centers, multiple cloud providers, SaaS applications, global WAN links, and millions of endpoints. The combinations of failure modes that can emerge from this complexity are simply too numerous to enumerate in advance.</p>
+
+<p>And yet, most organizations are still running monitoring stacks that operate on a simple principle: <em>“Alert me when metric X crosses threshold Y.”</em></p>
+
+<p>The problems with this approach are well-documented but worth restating:</p>
+
+<ul>
+  <li><strong>It can only detect problems it was programmed to look for.</strong> Novel failure modes — the ones that actually cause the worst outages — slip through entirely.</li>
+  <li><strong>Thresholds go stale.</strong> A threshold that worked perfectly last quarter may miss a new type of degradation entirely — or flood your team with false positives after a routine infrastructure change.</li>
+  <li><strong>It’s reactive by design.</strong> By the time a threshold fires, the damage is already happening. Users are already impacted. Revenue is already at risk.</li>
+</ul>
+
+<p>The fundamental limitation isn’t in the tooling. It’s in the <em>paradigm</em>. Threshold-based monitoring tells you when something is already broken. What we need is a system that tells us when something is <strong>about to break</strong> — and ideally, <em>why</em>.</p>
+
+<p>That’s not a monitoring problem. That’s a machine learning problem.</p>
+
+<hr />
+
+<h2 id="why-custom-ml-models--and-why-generic-solutions-fall-short">Why Custom ML Models — and Why Generic Solutions Fall Short</h2>
+
+<p>Machine learning isn’t new to IT operations. But here’s the uncomfortable reality: <strong>your network is not like anyone else’s network.</strong></p>
+
+<p>Every enterprise network is fundamentally unique — its specific topology, application portfolio, traffic patterns, and operational history create a fingerprint that generic ML models can’t learn. An anomaly detection system tuned for SaaS traffic will generate noise when applied to financial services or manufacturing IoT environments.</p>
+
+<p><strong>This is why custom model development — models trained specifically on your organization’s telemetry — has become the dividing line between ML deployments that deliver transformative value and those that become expensive shelfware.</strong></p>
+
+<p>Three factors make custom ML practical:</p>
+
+<p><strong>1. The data is good enough.</strong> ThousandEyes provides structured, normalized, multi-dimensional telemetry across network layers — precisely what ML models need.</p>
+
+<p><strong>2. The models have matured.</strong> Autoencoders, Graph Neural Networks, Transformer architectures — production-ready and well-understood.</p>
+
+<p><strong>3. The business case is proven.</strong> Organizations deploying custom ML report <strong>60–80% MTTR reductions</strong> and <strong>70% fewer false-positive alerts</strong>.</p>
+
+<p>Custom models deliver four advantages that generic solutions cannot:</p>
+
+<ul>
+  <li><strong>Pattern recognition tuned to YOUR network</strong> — learning your unique topology, application mix, and traffic patterns, flagging deviations that matter <em>in your context</em></li>
+  <li><strong>Continuous adaptability to YOUR changes</strong> — retraining on your ongoing telemetry as your environment evolves, no stale thresholds</li>
+  <li><strong>Cross-domain correlation for YOUR stack</strong> — finding relationships between the systems you actually run, not generic assumptions</li>
+  <li><strong>Predictive power aligned with YOUR SLAs</strong> — raising alerts <strong>10-30 minutes before service impact</strong>, tuned to your performance baselines</li>
+</ul>
+
+<hr />
+
+<h2 id="thousandeyes-as-the-data-foundation">ThousandEyes as the Data Foundation</h2>
+
+<p><strong>Models are only as good as the data they consume.</strong> ThousandEyes provides the ideal foundation for custom ML:</p>
+
+<ul>
+  <li><strong>End-to-end path visibility</strong> across internet, cloud, SaaS, and enterprise segments</li>
+  <li><strong>Active and passive monitoring</strong> via globally distributed agents that proactively test paths</li>
+  <li><strong>Cross-layer correlation</strong> connecting network events to application outcomes in a single data model</li>
+</ul>
+
+<p>This structured, time-synchronized telemetry makes rapid custom model development possible. The heavy lifting — data collection, normalization, correlation — is already done. Custom models extend ThousandEyes by learning your organization-specific patterns and delivering predictive capabilities.</p>
+
+<p><strong>Think of it this way:</strong> ThousandEyes handles “what’s happening.” Custom models add “what’s about to happen” and “why” — tuned to your network’s unique characteristics.</p>
+
+<p><img src="/images/v2_diag1_te_pipeline.png" alt="How Custom ML Models Enhance ThousandEyes" /></p>
+
+<p><em>The pipeline shows how ThousandEyes data sources feed custom ML models to deliver actionable business outcomes tailored to your organization.</em></p>
+
+<hr />
+
+<h2 id="why-custom-models-are-non-negotiable">Why Custom Models Are Non-Negotiable</h2>
+
+<p><strong>Why can’t a vendor sell you a pre-trained model that works out of the box?</strong></p>
+
+<p>Because your network has a unique fingerprint that generic models can’t learn:</p>
+
+<p><strong>Unique Topology:</strong> Your San Francisco-to-Singapore path routes through specific transit providers with predictable congestion at 18:00 UTC. Your application stack spikes every time the nightly ETL runs. Generic models trained on aggregated industry data never see these patterns.</p>
+
+<p><strong>Unique Applications:</strong> A financial services firm’s network during market open looks nothing like a retailer’s during Black Friday. Custom models learn <em>your</em> definition of “busy,” <em>your</em> traffic distribution, <em>your</em> normal failure modes.</p>
+
+<p><strong>Unique SLAs:</strong> A 10ms latency increase is noise for a CDN but catastrophic for a trading platform. Custom models learn YOUR thresholds, YOUR priorities, YOUR acceptable trade-offs.</p>
+
+<p><strong>The False Positive Problem:</strong> Generic models flag everything statistically unusual because they don’t know your context. Custom models trained on 60–90 days of <em>your</em> telemetry learn what “unusual but normal” means — planned maintenance signatures, expected business-driven traffic spikes, benign infrastructure quirks. <strong>Result: 60–80% fewer false positives</strong> because the model knows your network’s personality.</p>
+
+<p><strong>Proprietary Systems:</strong> Many organizations run custom-built applications or industry-specific infrastructure that doesn’t exist in any vendor’s training dataset. Custom model development is the <em>only</em> path to ML-enhanced observability for these environments.</p>
+
+<hr />
+
+<h2 id="real-world-customization-why-industry-context-matters">Real-World Customization: Why Industry Context Matters</h2>
+
+<p>Custom models adapt to fundamentally different operational realities. Three examples illustrate the point:</p>
+
+<p><strong>Financial Services:</strong> A trading platform needs anomaly detection trained on latency <em>variance</em>, not absolute values — a 2ms spike at 9:29 AM (market open) is catastrophic; the same spike at 3 PM is noise. Custom models learn market hours, understand trading volume patterns, and prioritize specific market data feeds. Generic models can’t distinguish between critical pre-market latency and routine afternoon variation.</p>
+
+<p><strong>E-Commerce/Retail:</strong> Seasonal traffic variations (Black Friday, Cyber Monday) would trigger constant false positives in generic anomaly detectors. Custom models learn that Black Friday traffic is <em>expected</em> and instead watch for deviations from the expected Black Friday pattern. Capacity forecasting aligns with promotional calendars and campaign-driven spikes, not industry-average growth curves.</p>
+
+<p><strong>Healthcare/Telehealth:</strong> HIPAA compliance constrains what can be logged. Custom models use privacy-preserving feature engineering, learn healthcare operational rhythms (shift changes, morning rounds, appointment patterns), and understand that telehealth video quality thresholds differ from consumer video streaming. Generic models trained on SaaS or retail networks miss the unique signatures of EHR systems and medical imaging transfers.</p>
+
+<p><strong>The pattern:</strong> Custom models learn the specific rhythm, priorities, and failure modes of <em>your</em> industry and network — not statistical averages across all networks.</p>
+
+<hr />
+
+<h2 id="four-custom-model-applications-that-deliver-real-impact">Four Custom Model Applications That Deliver Real Impact</h2>
+
+<h3 id="1-custom-anomaly-detection-that-actually-works">1. Custom Anomaly Detection That Actually Works</h3>
+
+<p>Traditional anomaly detection has a credibility problem. Too many false positives have trained operations teams to ignore alerts — which means real problems get buried in noise.</p>
+
+<p><strong>Custom-developed</strong> anomaly detection takes a fundamentally different approach. Instead of comparing metrics against static thresholds <em>or</em> using generic pre-trained models, it uses <strong>autoencoders trained exclusively on your network’s telemetry</strong> — a class of neural network that learns what normal behavior looks like for <em>your specific network</em>, including all its time-of-day patterns, seasonal variations, traffic profiles, and infrastructure-specific quirks.</p>
+
+<p>Think of it like a veteran NOC engineer who has worked <em>your</em> network for years and intuitively knows when something “feels off,” even before they can articulate why. The custom model does the same — it’s trained exclusively on <em>your</em> normal behavior and flags anything it can’t recognize as normal <em>in your context</em>.</p>
+
+<p><strong>The difference between generic and custom models is stark:</strong></p>
+
+<p>A generic anomaly detector might flag your planned nightly backup job as an anomaly because traffic suddenly spikes at 2 AM. A custom model trained on your data knows that pattern is expected and ignores it — while catching the <em>unusual</em> 2 AM spike that indicates a problem.</p>
+
+<p><img src="/images/v2_diag2_anomaly.png" alt="Predictive Anomaly Detection — How It Works" /></p>
+
+<p><em>This diagram illustrates the workflow from telemetry collection through baseline learning to real-time anomaly detection and alerting.</em></p>
+
+<p><strong>The results speak for themselves:</strong></p>
+
+<ul>
+  <li>Catch degradation <strong>10–30 minutes before users notice</strong> service impact</li>
+  <li>Reduce false-positive alert volume by <strong>60–80%</strong> compared to threshold alerting <em>and generic ML</em></li>
+  <li>Detect subtle, multi-metric patterns unique to your topology that no generic solution would surface</li>
+</ul>
+
+<p>ThousandEyes’ path trace data, latency distributions, and BGP event feeds provide the training dataset. The custom model learns what <em>your</em> routing topology normally looks like, what <em>your</em> CDN behavior patterns are, and what changes matter <em>in your environment</em>. Changes that would normally require manual investigation become automatically detectable signals — tailored to your network’s fingerprint.</p>
+
+<h3 id="2-custom-root-cause-analysis-models">2. Custom Root Cause Analysis Models</h3>
+
+<p>This is where custom ML delivers its most dramatic operational impact.</p>
+
+<p>When a service degrades, the visible symptom — slow application response, packet loss — is rarely the root cause. Something upstream triggered it: a routing change, a link failure, a misconfigured device. Finding that root cause typically involves a “war room” of engineers manually correlating data across multiple tools for hours.</p>
+
+<p><strong>Graph Neural Networks trained on your topology</strong> change this equation entirely. By representing <em>your</em> network as a graph — devices as nodes, connections as edges — the custom model learns the dependency relationships between every component <em>in your specific environment</em>. When an alert fires, it propagates the signal back through the graph, computing which upstream events most likely caused the observed downstream effect <em>based on historical patterns it learned from your incident data</em>.</p>
+
+<p>Here’s why customization is critical: <strong>Your network’s causal relationships are unique.</strong></p>
+
+<p>In your environment, a specific upstream BGP change might predictably impact certain downstream paths due to your routing policy. A generic model doesn’t know that relationship. A custom model trained on your topology and historical incidents <em>does</em> — it’s learned from every previous failure how problems propagate through <em>your</em> infrastructure.</p>
+
+<p>The output? A <strong>ranked list of probable root causes, each with supporting evidence drawn from your network’s historical behavior</strong> — delivered in seconds rather than hours.</p>
+
+<p>ThousandEyes’ hop-by-hop path data and BGP routing intelligence give the custom graph model a precise, real-time map of <em>your</em> network’s active topology. The model learns which paths matter most in your environment, which upstream dependencies are critical, and which failure modes you’ve seen before. This makes causal tracing far more accurate than generic approaches based on static network diagrams, CMDB data, or industry-average dependency models.</p>
+
+<p><strong>Impact: MTTR drops from hours to minutes</strong> for complex, multi-hop failures — because the model understands <em>your</em> network’s unique failure signatures.</p>
+
+<h3 id="3-custom-performance-forecasting-and-capacity-planning">3. Custom Performance Forecasting and Capacity Planning</h3>
+
+<p>Over-provisioning wastes money. Under-provisioning causes outages. The traditional approach to capacity planning — a mix of gut feel, historical averages, and generous safety margins — is expensive and unreliable.</p>
+
+<p><strong>Custom time-series forecasting models</strong> trained on <em>your historical traffic patterns</em> change this equation. Using Temporal Convolutional Networks or Transformer-based architectures, these models learn <em>your</em> specific demand patterns: business-driven traffic cycles, seasonal variations unique to your industry, growth trends specific to your applications, and the characteristic signatures of your peak usage periods.</p>
+
+<p>A generic forecasting model might predict capacity needs based on industry averages or simple trend extrapolation. A custom model knows that <em>your</em> SaaS application sees predictable traffic spikes every Monday at 9 AM when users return from the weekend, that <em>your</em> e-commerce platform experiences specific seasonal patterns tied to your product launches, and that <em>your</em> video conferencing infrastructure has grown at a specific rate correlated with your headcount expansion.</p>
+
+<p><strong>Custom graph-based models</strong> trained on your topology analyze where traffic can be redistributed within <em>your specific infrastructure</em> to improve efficiency — accounting for your routing policies, your multi-cloud architecture, and your business-critical path priorities.</p>
+
+<p>The result: <strong>data-driven confidence</strong> in capacity decisions tailored to your business context — reducing over-provisioning costs while maintaining the SLA headroom <em>your</em> applications require and preempting congestion events before they impact <em>your</em> users.</p>
+
+<h3 id="4-custom-security-threat-detection-beyond-signatures">4. Custom Security Threat Detection Beyond Signatures</h3>
+
+<p>Traditional security tools detect threats that have been seen before and catalogued. The most dangerous attacks — zero-day exploits, novel exfiltration methods, sophisticated lateral movement — are by definition <em>not yet in any signature database</em>.</p>
+
+<p><strong>Custom behavioral detection models</strong> trained on <em>your</em> network’s traffic patterns close this gap. By learning the statistical patterns of normal behavior <em>in your specific environment</em>, a custom model flags any significant deviation as potentially suspicious — regardless of whether the specific attack technique has been seen before.</p>
+
+<p>Here’s why the custom approach is essential for security: <strong>What’s “normal” in your network is fundamentally different from what’s normal elsewhere.</strong></p>
+
+<p>Your organization has unique traffic flows: specific applications that communicate with specific external services, characteristic usage patterns tied to your business operations, expected data transfer volumes between segments, and normal employee behavior patterns. A custom security model learns these patterns from your data and flags deviations <em>in your context</em>.</p>
+
+<p><strong>Example:</strong> A generic model might flag your research team’s legitimate large file transfers to cloud storage as potential exfiltration because the volume is “unusual.” A custom model trained on your data knows this is normal <em>for your organization</em> and ignores it — while flagging the truly anomalous transfer from accounting to an unknown external destination.</p>
+
+<p><strong>What custom behavioral models catch that generic solutions miss:</strong></p>
+
+<ul>
+  <li><strong>DDoS campaigns</strong> — anomalous inbound traffic volume and source-IP distribution <em>relative to YOUR baseline</em></li>
+  <li><strong>Data exfiltration</strong> — unusual outbound flows to unexpected destinations at unusual times <em>for YOUR organization</em></li>
+  <li><strong>Lateral movement</strong> — abnormal inter-segment communication that violates <em>YOUR</em> learned traffic norms and segmentation policies</li>
+  <li><strong>Beaconing / C2 communication</strong> — distinctive timing patterns in DNS queries or connection intervals that deviate from <em>YOUR</em> normal application behavior</li>
+</ul>
+
+<p>The strongest security posture combines custom ML behavioral detection (which catches the unknown threats unique to your attack surface) with signature-based detection (which catches known threats) — each compensating for the weaknesses of the other, both tuned to your environment.</p>
+
+<hr />
+
+<h2 id="the-custom-model-development-lifecycle">The Custom Model Development Lifecycle</h2>
+
+<p>Five stages from development to production:</p>
+
+<p><strong>1. Data Collection &amp; Feature Engineering:</strong> Gather 60–90 days of ThousandEyes telemetry. Network engineers and data scientists identify which paths, metrics, and patterns matter for your SLAs. Feature selection tailored to your business.</p>
+
+<p><strong>2. Model Training &amp; Validation:</strong> Train exclusively on your data. The model learns your nightly patterns, predictable congestion signatures, and application-specific latency profiles.</p>
+
+<p><strong>3. Deployment &amp; Integration:</strong> Start in “shadow mode” — predictions run but don’t trigger alerts yet. Validate accuracy against actual incidents before transitioning to active alerting.</p>
+
+<p><strong>4. Continuous Monitoring &amp; Drift Detection:</strong> Automated tracking detects when “normal” changes. When drift exceeds thresholds, trigger retraining on recent data.</p>
+
+<p><strong>5. Iterative Refinement:</strong> Incident retrospectives feed back into training. Every incident resolved makes the model smarter.</p>
+
+<hr />
+
+<h2 id="the-architecture">The Architecture</h2>
+
+<p>The architecture is <strong>four layers</strong>:</p>
+
+<p><strong>Layer 1 — Data (ThousandEyes).</strong> ThousandEyes collects, normalizes, and structures telemetry. Your custom models consume this data.</p>
+
+<p><strong>Layer 2 — Custom ML Models.</strong> Specialized models for each task — anomaly detection, root cause analysis, forecasting, security. <strong>Each trained exclusively on YOUR data and tuned for your network’s patterns.</strong></p>
+
+<p><strong>Layer 3 — MLOps Orchestration.</strong> Monitors model performance, detects <strong>concept drift</strong> (when “normal” changes), and triggers retraining automatically on your updated data.</p>
+
+<p><strong>Layer 4 — Action.</strong> Automated alerts with contextual explanations, operations dashboards, remediation triggers, capacity reports. Engineers receive a <em>diagnosis</em> grounded in your network’s behavior.</p>
+
+<p><img src="/images/v2_diag4_architecture.png" alt="Conceptual Architecture: ML on Top of ThousandEyes" /></p>
+
+<p><em>The four-layer architecture showing how ThousandEyes data flows through custom ML models and MLOps orchestration to deliver actionable insights.</em></p>
+
+<p>Key principle: <strong>no single monolithic model.</strong> A collection of specialized custom models sharing a common data foundation, modular and continuously refined.</p>
+
+<hr />
+
+<h2 id="implementation-start-small-scale-smart">Implementation: Start Small, Scale Smart</h2>
+
+<p>Deploying custom ML models doesn’t require a “big bang.” Successful organizations follow a phased approach:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Phase</th>
+      <th>Focus</th>
+      <th>Timeline</th>
+      <th>Primary Benefit</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>1</strong></td>
+      <td>Custom anomaly detection on priority paths</td>
+      <td>6–10 weeks</td>
+      <td>Alert fatigue reduction tailored to YOUR traffic</td>
+    </tr>
+    <tr>
+      <td><strong>2</strong></td>
+      <td>Custom root cause analysis</td>
+      <td>10–18 weeks</td>
+      <td>MTTR reduction based on YOUR topology</td>
+    </tr>
+    <tr>
+      <td><strong>3</strong></td>
+      <td>Custom traffic forecasting</td>
+      <td>14–22 weeks</td>
+      <td>Spend optimization aligned with YOUR growth</td>
+    </tr>
+    <tr>
+      <td><strong>4</strong></td>
+      <td>Custom security detection</td>
+      <td>18–26 weeks</td>
+      <td>Zero-day detection tuned to YOUR baseline</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Four critical success factors:</strong></p>
+
+<ol>
+  <li>
+    <p><strong>Data quality first.</strong> Ensure 60–90 days of clean ThousandEyes telemetry before training. Garbage in, garbage out.</p>
+  </li>
+  <li>
+    <p><strong>Domain experts + data scientists.</strong> Custom model development is a collaboration. ML engineers need operational context; network engineers need data science expertise. Neither succeeds alone.</p>
+  </li>
+  <li>
+    <p><strong>Model governance from day one.</strong> Every model needs a clear owner, performance baseline, retraining policy, and drift detection threshold. Custom models require ongoing stewardship.</p>
+  </li>
+  <li>
+    <p><strong>Interpretability is non-negotiable.</strong> Model outputs must explain <em>why</em> — which metrics, which patterns, what confidence level. Engineers need to validate before acting.</p>
+  </li>
+</ol>
+
+<p>The common pitfall: <strong>deploy and forget.</strong> Custom models need continuous monitoring and maintenance. Your network evolves; your models must adapt.</p>
+
+<hr />
+
+<h2 id="the-compounding-effect">The Compounding Effect</h2>
+
+<p><img src="/images/v2_diag3_bizvalue.png" alt="Business Value of ML-Enhanced Network Observability" /></p>
+
+<p><em>The business value diagram illustrates the tangible benefits and before/after comparison of ML-enhanced network observability.</em></p>
+
+<p>Each custom model application delivers value independently. But the real power emerges when they work together — all trained on the same organizational data.</p>
+
+<p>Custom traffic forecasts inform capacity decisions. Custom anomaly detection flags deviations from those forecasts. Custom root cause analysis traces problems through <em>your</em> topology referencing <em>your</em> incident history. Custom security models distinguish operational from adversarial deviations using <em>your</em> baseline. Resolution data from each incident feeds back into every model.</p>
+
+<p><strong>Custom models trained on the same organization’s data develop shared context.</strong> The anomaly detector knows the same patterns the capacity planner predicts. The root cause analyzer understands the same topology the security model monitors. They speak the language of <em>your</em> network’s behavior.</p>
+
+<p>Every incident resolved, every false positive eliminated makes <em>every custom model</em> more accurate. <strong>The models get better at understanding YOUR network specifically</strong> — not networks in general. This compounding advantage is nearly impossible to replicate and becomes a sustained competitive moat as models accumulate years of your operational reality.</p>
+
+<hr />
+
+<h2 id="where-do-we-go-from-here">Where Do We Go From Here?</h2>
+
+<p>As networks grow more complex, the limitations of reactive monitoring and generic analytics become <strong>strategically untenable</strong>.</p>
+
+<p>The technology is ready. The data platforms exist. The business case is proven. The question is whether your organization will be an early mover or a late adopter.</p>
+
+<p><strong>Practical first steps:</strong></p>
+
+<ol>
+  <li><strong>Audit your ThousandEyes deployment.</strong> Verify agent coverage and ensure 60–90 days of clean telemetry.</li>
+  <li><strong>Identify your unique pain points.</strong> Alert fatigue? Unclear root causes? Capacity planning guesswork?</li>
+  <li><strong>Scope a Phase 1 pilot</strong> on your most critical paths. Define which metrics matter <em>for your environment</em> and what constitutes actionable alerts <em>for your SLAs</em>.</li>
+  <li><strong>Set realistic expectations.</strong> Custom models take 6–10 weeks for Phase 1 because they include data collection, feature engineering, and training on <em>your</em> data.</li>
+</ol>
+
+<p>Six to ten weeks from now, you’ll have hard data on value — false positive reductions, early warning lead times, incident detection accuracy <em>in your environment</em>. And a foundation to build on.</p>
+
+<p><strong>The strategic insight:</strong> The networks that win will be the ones that <em>understand themselves</em> — continuously, predictively, intelligently. That understanding comes from custom models trained on their own operational reality.</p>
+
+<p>Generic ML is better than thresholds. <strong>Custom ML is better than generic.</strong> The gap is the difference between “this tool flagged an anomaly” and “this model understands our network and told us exactly what’s about to break, why it matters, and what to do.”</p>
+
+<hr />
+
+<h2 id="references">References</h2>
+<ol>
+  <li><a href="https://ieeexplore.ieee.org/document/10693044/">Distribution Network Topology Optimization Method Based on Graph Neural Network - ieeexplore.ieee.org</a></li>
+  <li><a href="https://ieeexplore.ieee.org/document/10826583/">Graph Deep Learning Meets Persistent Homology - ieeexplore.ieee.org</a></li>
+  <li><a href="https://ieeexplore.ieee.org/document/9871984/">Graph Neural Networks from a Graph Signal Processing Perspective: A Concise Overview - ieeexplore.ieee.org</a></li>
+  <li><a href="https://distill.pub/2021/gnn-intro/">A Gentle Introduction to Graph Neural Networks - distill.pub</a></li>
+  <li><a href="https://ieeexplore.ieee.org/abstract/document/10960451/">A Comprehensive Survey on Graph Neural Networks - ieeexplore.ieee.org</a></li>
+  <li><a href="https://medium.com/@amit25173/temporal-convolutional-network-an-overview-4d2b6f03d6f8">Temporal Convolutional Network — An Overview - medium.com</a></li>
+  <li><a href="https://unit8.com/resources/temporal-convolutional-networks-and-forecasting/">Temporal Convolutional Networks and Forecasting - unit8.com</a></li>
+  <li><a href="https://www.sciencedirect.com/topics/computer-science/temporal-convolutional-network">Temporal Convolutional Network - ScienceDirect - www.sciencedirect.com</a></li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[What is TCN?</td>
+          <td>Activeloop Glossary - www.activeloop.ai](https://www.activeloop.ai/resources/glossary/temporal-convolutional-networks-tcn/)</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li><a href="https://www.nature.com/articles/s41598-022-25472-z">Temporal convolutional networks and data rebalancing for clinical length of stay and mortality prediction - www.nature.com</a></li>
+  <li><a href="https://arxiv.org/html/2408.13561v1">Unsupervised anomaly detection with Vision-Transformer and Gaussian Random Field based Variational Autoencoders - arxiv.org</a></li>
+  <li><a href="https://link.springer.com/article/10.1186/s40537-025-01342-z">Research on anomaly detection in attributed networks based on community-aware contrastive adversarial VGAE - link.springer.com</a></li>
+  <li><a href="https://link.springer.com/chapter/10.1007/978-981-96-0994-9_20">Novel Feature Extraction on Unsupervised Anomaly Detection for Network Intrusion Packets with Variational Autoencoders - link.springer.com</a></li>
+  <li><a href="https://medium.com/@luc.frachon/anomaly-detection-using-a-variational-autoencoder-part-ii-beeb30f0d88f">Anomaly Detection using a Variational Autoencoder — Part II - medium.com</a></li>
+  <li><a href="https://www.mdpi.com/2073-8994/17/4/520">SOVAE: An Anomaly Detection System in 5G Network-Based NIDS Using Self-Organizing Map and Variational Autoencoder - www.mdpi.com</a></li>
+  <li><a href="https://arxiv.org/abs/2410.03805">Time-series forecasting with local attention mechanism-based Transformer network - arxiv.org</a></li>
+  <li><a href="https://arxiv.org/html/2410.03805v1">Time-series forecasting with local attention mechanism-based Transformer network - arxiv.org</a></li>
+  <li><a href="https://www.sciencedirect.com/org/science/article/pii/S154622182200399X">Deep learning based trajectory and time series forecasting: a review, a comparison, and a look forward - www.sciencedirect.com</a></li>
+  <li><a href="https://pubs.aip.org/aip/aco/article/1/1/016104/3362108/Easy-attention-A-simple-attention-mechanism-for">Easy attention: A simple attention mechanism for key-value-query-free and softmax-free transformers with applications to time series and chaotic systems - pubs.aip.org</a></li>
+  <li><a href="https://www.nature.com/articles/s41598-024-66886-1">Efficient Transformer-based time series forecasting with sparse attention - www.nature.com</a></li>
+  <li><a href="https://arxiv.org/html/2308.12874v3">Easy Attention: A Simple Attention Mechanism for Key-Value-Query-Free and Softmax-Free Transformers - arxiv.org</a></li>
+  <li><a href="https://www.nature.com/articles/s41595-025-97244-4">Attention-based transformer networks predict autonomous vehicle trajectories in the real world - www.nature.com</a></li>
+  <li><a href="https://link.springer.com/chapter/10.1007/978-3-031-80853-1_5">ARIMA modeling and forecasting of network traffic based-on GARCH model - link.springer.com</a></li>
+  <li><a href="https://dl.acm.org/doi/10.1145/3180496.3180613">Time-Varying Network Traffic Prediction using Filtering and ARIMA Model - dl.acm.org</a></li>
+  <li><a href="https://www.sciencedirect.com/science/article/pii/S1877705817300620">A Survey of Multivariate Time Series Forecasting Methods on Transportation Networks - www.sciencedirect.com</a></li>
+  <li><a href="https://link.springer.com/chapter/10.1007/11751595_26">Forecasting Internet Network Traffic for the Next new Packets Using ARIMA Model - link.springer.com</a></li>
+  <li><a href="https://link.springer.com/chapter/10.1007/0-387-34167-6_5">Non-linear Network Traffic Prediction Using Hybrid ARIMA-GARCH Model - link.springer.com</a></li>
+  <li><a href="https://arxiv.org/html/2407.11105v1">On the Effectiveness of Data Preprocessing and Hyper-Parameter Optimization for Anomaly Detection in Network Traffic - arxiv.org</a></li>
+  <li><a href="https://www.kentik.com/blog/the-reality-of-machine-learning-in-network-observability/">The Reality of Machine Learning in Network Observability - www.kentik.com</a></li>
+  <li><a href="https://arxiv.org/abs/2108.13557">ML-Pipes: An End-to-End Machine Learning Pipeline for Research and Practice - arxiv.org</a></li>
+  <li><a href="https://www.nature.com/articles/s41598-024-56706-x">Evaluation metrics and statistical tests for machine learning - www.nature.com</a></li>
+  <li><a href="https://www.researchgate.net/publication/378940467_Evaluation_metrics_and_statistical_tests_for_machine_learning">Evaluation metrics and statistical tests for machine learning. - www.researchgate.net</a></li>
+  <li>
+    <table>
+      <tbody>
+        <tr>
+          <td>[Model Monitoring</td>
+          <td>Arize ‍️ - arize.com](https://arize.com/model-monitoring/)</td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li><a href="https://www.datadoghq.com/blog/ml-model-monitoring-in-production-best-practices/">Machine learning model monitoring: Best practices - www.datadoghq.com</a></li>
+  <li><a href="https://link.springer.com/protocol/10.1007/978-1-0716-3195-9_20">Evaluating Machine Learning Models and Their Diagnostic Value - link.springer.com</a></li>
+  <li><a href="https://link.springer.com/article/10.1007/s42452-025-07312-7">A survey on machine learning-based network anomaly detection - link.springer.com</a></li>
+  <li><a href="https://link.springer.com/article/10.1140/epjqt/s40507-025-00414-6">Quantum machine learning in cybersecurity: a comprehensive survey - link.springer.com</a></li>
+  <li><a href="https://www.mdpi.com/2306-5729/10/3/33">Data quality or model selection: which is more important on the performance of ML-based network abnormal and attack detection? - www.mdpi.com</a></li>
+  <li><a href="https://arxiv.org/html/2601.04089v1">A Leakage-Resistant Experimental Protocol for Deep Learning-Based Network Traffic Classification - arxiv.org</a></li>
+  <li><a href="https://www.nature.com/articles/s41598-024-70983-6">Software defined networking based network traffic classification using machine learning techniques - www.nature.com</a></li>
+  <li><a href="httpshttps://aircconline.com/abstract/ijcnc/v17n3/17325cnc07.html">Classification of Network Traffic Using Machine Learning Models on the NetML Dataset - aircconline.com</a></li>
+  <li><a href="https://arxiv.org/abs/2503.02141">Network Traffic Classification Using Machine Learning, Transformer, and Large Language Models - arxiv.org</a></li>
+  <li><a href="https://www.geeksforgeeks.org/machine-learning/metrics-for-machine-learning-model/">Evaluation Metrics in Machine Learning - GeeksforGeeks - www.geeksforgeeks.org</a></li>
+  <li><a href="https://scikit-learn.org/stable/modules/model_evaluation.html">Metrics and scoring: quantifying the quality of predictions - scikit-learn.org</a></li>
+  <li><a href="https://indatalabs.com/blog/predictive-models-performance-evaluation-important">Predictive Models Performance Evaluation: Which to Choose? - indatalabs.com</a></li>
+  <li><a href="https://chbrown.github.io/kdd-2013-usb/kdd/p1294.pdf">Predictive Model Performance: Offline and Online Evaluations - chbrown.github.io</a></li>
+  <li><a href="https://ieeexplore.ieee.org/document/9610045/">A Feature Engineering-Based Survey of Anomaly Detection Techniques - ieeexplore.ieee.org</a></li>
+  <li><a href="https://arxiv.org/abs/2509.18007">Traffic-Explainer: A Model-Agnostic Explanation Framework for Deep Learning-based Network Traffic Classification - arxiv.org</a></li>
+  <li><a href="https://arxiv.org/abs/2003.01261">On the Robustness of Deep Learning-based Network Traffic Classification against Adversarial Perturbations - arxiv.org</a></li>
+  <li><a href="https://arxiv.org/abs/2107.12193">A Survey and Benchmark of Automatic-explaining Methodologies for both Network Traffic Classification and Anomaly Detection - arxiv.org</a></li>
+  <li><a href="https://www.techscience.com/iasc/v36n3/51950/html">A review of performance evaluation metrics for classifiers in cyber-security - www.techscience.com</a></li>
+  <li><a href="https://jmlr.csail.mit.edu/papers/volume3/forman03a/forman03a.pdf">An Extensive Review of Feature Selection Metrics for Text Classification - jmlr.csail.mit.edu</a></li>
+  <li><a href="https://arxiv.org/html/2403.10319v2">NetBench: A Large-Scale and Comprehensive Network Traffic Benchmark Dataset for Foundation Models - arxiv.org</a></li>
+  <li><a href="https://www.researchgate.net/publication/392611976_CLASSIFICATION_OF_NETWORK_TRAFFIC_USING_MACHINE_LEARNING_MODELS_ON_THE_NETML_DATASET">CLASSIFICATION OF NETWORK TRAFFIC USING MACHINE LEARNING MODELS ON THE NETML DATASET - www.researchgate.net</a></li>
+  <li><a href="https://ieeexplore.ieee.org/document/9803674/">Network traffic verification based on a public dataset for IDS systems and machine learning classification algorithms - ieeexplore.ieee.org</a></li>
+  <li><a href="https://data.mendeley.com/datasets/5pmnkshffm/3">Network traffic and code for machine learning classification - data.mendeley.com</a></li>
+  <li><a href="https://link.springer.com/chapter/10.1007/978-3-030-58112-1_35">Improving Classification Performance for Unbalanced Network Intrusion Detection Data - link.springer.com</a></li>
+  <li><a href="https://www.mdpi.com/2073-8994/17/12/2087">Optimizing Anomaly Detection with ResCAE-BiGRU Hybrid Deep Learning for Imbalanced Network Traffic - www.mdpi.com</a></li>
+  <li><a href="https://www.frontiersin.org/journals/artificial-intelligence/articles/10.3389/frai.2025.1625891/full">Privacy-Preserving and Accuracy-Improving Framework for Cyber-Attack Classification via Federated Learning in Imbalanced Datasets - www.frontiersin.org</a></li>
+  <li><a href="https://www.cmjpublishers.com/wp-content/uploads/2025/06/leveraging-big-datasets-for-machine-learning-based-anomaly-detection-in-cybersecurity-network-traffic.pdf">Leveraging Big Datasets For Machine Learning Based Anomaly Detection In Cybersecurity Network Traffic - www.cmjpublishers.com</a></li>
+  <li><a href="https://link.springer.com/chapter/10.1007/978-3-031-08333-4_7">Predictive Model for Detection of Class Imbalance Problem in a Flow-Based Network Intrusion Detection Dataset - link.springer.com</a></li>
+  <li><a href="https://otexts.com/fpp3/tscv.html">Cross-validation - ottext.com</a></li>
+  <li><a href="https://www.nixtla.io/docs/forecasting/evaluation/cross_validation">Time-series Cross-validation - www.nixtla.io</a></li>
+  <li><a href="https://www.researchgate.net/publication/387146892_Implementing_Time_Series_Cross_Validation_to_Evaluate_the_Forecasting_Model_Performance">Implementing Time Series Cross Validation to Evaluate the Forecasting Model Performance - www.researchgate.net</a></li>
+  <li><a href="https://nixtlaverse.nixtla.io/mlforecast/docs/how-to-guides/cross_validation.html">Cross-validation - mlforecast - nixtlaverse.nixtla.io</a></li>
+  <li><a href="https://www.analyticsvidhya.com/blog/2026/03/time-series-cross-validation/">Time Series Cross Validation: A Comprehensive Guide - www.analyticsvidhya.com</a></li>
+  <li><a href="https://www.geeksforgeeks.org/machine-learning/time-series-cross-validation/">Time Series Cross-Validation - GeeksforGeeks - www.geeksforgeeks.org</a></li>
+  <li><a href="https://www.evidentlyai.com/ml-in-production/concept-drift">What Is Concept Drift in ML and How to Detect It? - evidentlyai.com</a></li>
+  <li><a href="https://techcommunity.microsoft.com/blog/fasttrackforazureblog/identifying-drift-in-ml-models-best-practices-for-generating-consistent-reliable/4040531">Identifying drift in ML models: Best practices for generating consistent, reliable responses - techcommunity.microsoft.com</a></li>
+  <li><a href="https://aerospike.com/blog/model-drift-machine-learning/">Model Drift in Machine Learning - aerospike.com</a></li>
+  <li><a href="https://www.motius.com/post/what-is-concept-drift-and-how-to-detect-it">What Is Concept Drift and How to Detect It - Motius - www.motius.com</a></li>
+  <li><a href="https://www.databricks.com/blog/2019/09/18/productionizing-machine-learning-from-deployment-to-drift-detection.html">Productionizing Machine Learning: From Deployment to Drift Detection - www.databricks.com</a></li>
+  <li><a href="https://imerit.ai/resources/blog/staying-ahead-of-drift-in-machine-learning-systems-all-una/">What is Model Drift in ML Systems? A Complete Guide - imerit.ai</a></li>
+</ol>
+
+
+
+        
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#anomaly-detection" class="page__taxonomy-item" rel="tag">anomaly detection</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#custom-ml" class="page__taxonomy-item" rel="tag">custom ML</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#machine-learning" class="page__taxonomy-item" rel="tag">machine learning</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#network-observability" class="page__taxonomy-item" rel="tag">network observability</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#thousandeyes" class="page__taxonomy-item" rel="tag">ThousandEyes</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://bsky.app/intent/compose?text=https://gunnymarc.github.io/posts/2026/06/advancing-network-observability-ml-models/" class="btn btn--bluesky" title="Share on Bluesky"><i class="fab fa-bluesky" aria-hidden="true"></i><span> Bluesky</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://gunnymarc.github.io/posts/2026/06/advancing-network-observability-ml-models/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://gunnymarc.github.io/posts/2026/06/advancing-network-observability-ml-models/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+
+  <a href="https://www.addtoany.com/add_to/mastodon?linkurl=https%3A%2F%2Fgunnymarc.github.io%2Fposts%2F2026%2F06%2Fadvancing-network-observability-ml-models%2F" class="btn btn--mastodon" title="Share on Mastodon"><i class="fab fa-mastodon" aria-hidden="true"></i><span> Mastodon</span></a>
+
+  <a href="https://x.com/intent/post?text=https://gunnymarc.github.io/posts/2026/06/advancing-network-observability-ml-models/" class="btn btn--x" title="Share on X"><i class="fab fa-x-twitter" aria-hidden="true"></i><span> X (formerly Twitter)</span></a>
+</section>
+
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://gunnymarc.github.io/posts/2026/05/gcn-lstm-network-observability/" class="pagination--pager" title="Network Observability with GCN-LSTM
+">Previous</a>
+    
+    
+      <a href="https://gunnymarc.github.io/posts/2026/06/ai-assistants-cursor-architecture-network-observability/" class="pagination--pager" title="The Emergence of Agentic AI in Network Observability: Architectural Patterns and Integration Strategies
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/" rel="permalink">Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-30T00:00:00-04:00">July 30, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><img src="https://cdn.abacus.ai/images/0ef9de91-1099-4645-84a6-1d62f72512fb.png" alt="Multiple Linear Regression" /> <img src="https://cdn.abacus.ai/images/a28bc82d-1e32-4e39-a1fb-ae2d87e0cdb3.png" alt="Multiple Linear Regression" /></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/" rel="permalink">Kimi Linear: Breaking the Long-Context Memory Wall
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  11 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-29T00:00:00-04:00">July 29, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>Strategic Analysis &amp; Hands-On GPU Evaluation of Kimi Linear: Next-Generation Hybrid Attention Architecture</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/" rel="permalink">Deriving the Least Squares Solution: From Simple Regression to the Normal Equations
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-29T00:00:00-04:00">July 29, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>Retracing the derivation from first principles — from a bowl-shaped loss surface to the compact matrix equation β = (XᵀX)⁻¹Xᵀy.</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/" rel="permalink">Fitting a Linear Model and Assessing Fit
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  9 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-28T00:00:00-04:00">July 28, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>From ordinary least squares to residual diagnostics — how to fit, measure, and verify a linear model.</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- Support for MatJax -->
+<script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+
+<!-- Support for Mermaid -->
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true, theme:'default'});
+    await mermaid.run({querySelector:'code.language-mermaid'});
+</script>
+
+<!-- end custom footer snippets -->
+
+        
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://github.com/GunnyMarc"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="https://gunnymarc.github.io/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">
+  &copy; 2026 Marc Buraczynski, Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.<br />
+  Site last updated 2026-07-29, <a href="/sitemap/" style="text-transform: uppercase;">Sitemap</a>
+</div>
+
+      </footer>
+    </div>
+
+    <script type="module" src="https://gunnymarc.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
+

@@ -1,0 +1,18 @@
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/racc-1.8.1/ext/racc/cparse
+/opt/homebrew/opt/ruby/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/racc-1.8.1/ext/racc/cparse
+make -j3 DESTDIR\= sitearchdir\=./.gem.20260726-6039-9c2rpr sitelibdir\=./.gem.20260726-6039-9c2rpr clean
+
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/racc-1.8.1/ext/racc/cparse
+make -j3 DESTDIR\= sitearchdir\=./.gem.20260726-6039-9c2rpr sitelibdir\=./.gem.20260726-6039-9c2rpr
+compiling cparse.c
+linking shared-object racc/cparse.bundle
+
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/racc-1.8.1/ext/racc/cparse
+make -j3 DESTDIR\= sitearchdir\=./.gem.20260726-6039-9c2rpr sitelibdir\=./.gem.20260726-6039-9c2rpr install
+/usr/bin/install -c -m 0755 cparse.bundle ./.gem.20260726-6039-9c2rpr/racc
+
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20260726-6039-9c2rpr sitelibdir\=./.gem.20260726-6039-9c2rpr clean

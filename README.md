@@ -1,5 +1,6 @@
 ## Articles
 
+- *August 2026* — [The New Frontier of AI FinOps](https://gunnymarc.github.io/Your%20AI%20Budget%20Is%20Bleeding)
 - *March 2026*&nbsp;&nbsp;&nbsp; — [Your Customers Are Telling You How They Feel](https://gunnymarc.github.io/Your%20Customers%20Are%20Telling%20You%20How%20They%20Feel)
 - *March 2026*&nbsp;&nbsp;&nbsp; — [From Pixels to Predictions: How CNNs Crushed ANNs in the Battle for Street-Level Recognition](https://gunnymarc.github.io/From%20Pixels%20to%20Predictions%20How%20CNNs%20Crushed%20ANNs%20in%20the%20Battle%20for%20Street-Level%20Recognition)
 - *March 2026*&nbsp;&nbsp;&nbsp; — [Observability for LLMs - Understanding the Layers](https://gunnymarc.github.io/Observability%20for%20LLMs%20-%20Understanding%20the%20Layers)

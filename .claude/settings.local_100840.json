@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(ls:*)",
+      "Bash(git restore:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(git checkout:*)",
+      "Bash(GIT_EDITOR=true git rebase --continue)",
+      "Bash(git branch:*)",
+      "Bash(gem search *)",
+      "Bash(gh run *)",
+      "Bash(git mv *)"
+    ]
+  }
+}

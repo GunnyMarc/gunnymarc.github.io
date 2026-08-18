@@ -1,0 +1,3 @@
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/fast-stemmer-1.0.2/ext
+/opt/homebrew/opt/ruby/bin/ruby extconf.rb
+extconf failedBroken pipe @ rb_sys_fail_on_write - <STDOUT>

@@ -1,0 +1,15 @@
+_site/
+.sass-cache/
+.bundle/
+vendor/
+node_modules
+package-lock.json
+.vscode/
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.asset-cache
+.jekyll-assets-cache
+Gemfile.lock
+local/
+tmp/

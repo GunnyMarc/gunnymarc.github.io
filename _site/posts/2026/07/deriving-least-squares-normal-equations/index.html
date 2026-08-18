@@ -1,0 +1,750 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Deriving the Least Squares Solution: From Simple Regression to the Normal Equations - Semper ex Datis</title>
+
+
+
+<meta name="description" content="Retracing the derivation from first principles — from a bowl-shaped loss surface to the compact matrix equation β = (XᵀX)⁻¹Xᵀy.">
+
+
+
+
+
+  <meta property="article:published_time" content="2026-07-29T00:00:00-04:00">
+
+
+
+  <link rel="canonical" href="https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Marc Buraczynski",
+      "url" : "https://gunnymarc.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+<!-- Open Graph protocol data (https://ogp.me/), used by social media -->
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Semper ex Datis"> 
+<meta property="og:title" content="Deriving the Least Squares Solution: From Simple Regression to the Normal Equations">
+
+  <meta property="og:type" content="article">
+
+
+  <meta property="og:description" name="description" content="Retracing the derivation from first principles — from a bowl-shaped loss surface to the compact matrix equation β = (XᵀX)⁻¹Xᵀy.">
+
+
+  <meta property="og:url" content="https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/">
+
+
+
+
+
+<!-- end Open Graph protocol -->
+
+<link href="https://gunnymarc.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Semper ex Datis Feed">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/main.css">
+
+    
+
+<!-- start custom head snippets -->
+
+<!-- Support for Academicons -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/academicons.css"/>
+
+<!-- favicon from https://commons.wikimedia.org/wiki/File:OOjs_UI_icon_academic-progressive.svg -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://gunnymarc.github.io/images/apple-touch-icon-180x180.png"/>
+<link rel="icon" type="image/svg+xml" href="https://gunnymarc.github.io/images/favicon.svg"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-32x32.png" sizes="32x32"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-192x192.png" sizes="192x192"/>
+<link rel="manifest" href="https://gunnymarc.github.io/images/manifest.json"/>
+<link rel="icon" href="/images/favicon.ico"/>
+<meta name="theme-color" content="#ffffff"/>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><span class="navicon"></span></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg persist ">
+            <a href="https://gunnymarc.github.io/">Semper ex Datis</a>
+          </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/year-archive/">Blog Posts</a>
+            </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/">About</a>
+            </li>
+          
+          <li id="theme-toggle" class="masthead__menu-item persist tail">
+            <a role="button" aria-labelledby="theme-icon"><i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="toggle theme"></i></a>
+          </li>
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://gunnymarc.github.io/images/semper-ex-datis-avatar.jpg" class="author__avatar" alt="Marc Buraczynski"  fetchpriority="high" />
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Marc Buraczynski</h3>
+    
+    <p class="author__bio">U.S. Marine | Data Scientist. Writing about LLMs, data science, and machine learning — the non-corporate version.</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      <!-- Font Awesome icons / Biographic information  -->
+      
+        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>United States</li>
+      
+      
+      
+      
+        <li><a href="mailto:"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>Email</a></li>
+      
+
+      <!-- Font Awesome and Academicons icons / Academic websites -->
+      
+            
+      
+            
+      
+      
+                              
+      
+      
+      
+      
+      
+
+      <!-- Font Awesome icons / Repositories and software development -->
+      
+            
+            
+      
+        <li><a href="https://github.com/GunnyMarc"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub</a></li>
+      
+            
+            
+
+      <!-- Font Awesome icons / Social media -->
+              
+      
+        <li><a href="https://bsky.app/profile/marcburaczynski.bsky.social"><i class="fab fa-fw fa-bluesky icon-pad-right" aria-hidden="true"></i>Bluesky</a></li>
+      
+      
+            
+      
+                  
+                  
+      
+            
+            
+      
+        <li><a href="https://www.linkedin.com/in/marc-buraczynski"><i class="fab fa-fw fa-linkedin icon-pad-right" aria-hidden="true"></i>LinkedIn</a></li>
+            
+      
+            
+                  
+            
+      
+            
+            
+      
+              
+      
+                      
+      
+      
+            
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Deriving the Least Squares Solution: From Simple Regression to the Normal Equations">
+    <meta itemprop="description" content="Retracing the derivation from first principles — from a bowl-shaped loss surface to the compact matrix equation β = (XᵀX)⁻¹Xᵀy.">
+    <meta itemprop="datePublished" content="July 29, 2026">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Deriving the Least Squares Solution: From Simple Regression to the Normal Equations
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-29T00:00:00-04:00">July 29, 2026</time></p>
+            
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p><em>Retracing the derivation from first principles — from a bowl-shaped loss surface to the compact matrix equation β = (XᵀX)⁻¹Xᵀy.</em></p>
+
+<hr />
+
+<p>Linear regression is arguably the most widely used tool in statistics and machine learning, and at its heart lies a beautifully compact formula: <strong>β = (XᵀX)⁻¹Xᵀy</strong>. This equation, involving nothing more than matrix multiplication, transposition, and inversion, delivers the optimal parameters for a regression model in a single step. But where does it come from? In this article, we retrace the derivation from first principles, beginning with simple linear regression and ending with a general result that applies to any number of features.</p>
+
+<h3 id="the-setup-simple-linear-regression">The Setup: Simple Linear Regression</h3>
+
+<p>In simple linear regression, we assume that each prediction is generated by a straight-line relationship:</p>
+
+<p><strong>ŷᵢ = β₀ + β₁xᵢ</strong></p>
+
+<p>Here, β₀ is the <em>intercept</em> and β₁ is the <em>slope</em>. To make this concrete, consider a housing example: let xᵢ be the square footage of house <em>i</em> and yᵢ its price. The intercept β₀ represents the “base price” of a hypothetical house with zero square footage — not physically meaningful, but mathematically necessary — while β₁ tells us how much the price increases for each additional unit of square footage.</p>
+
+<p>Given a scatter of data points, our goal is to find the specific values of β₀ and β₁ that produce the line that best matches the data. But “best” needs a precise definition. We need a metric that quantifies how badly a candidate line is doing, and then we need to minimize it.</p>
+
+<h3 id="the-loss-function-sum-of-squared-errors">The Loss Function: Sum of Squared Errors</h3>
+
+<p>The metric of choice is the <strong>sum of squared errors (SSE)</strong>:</p>
+
+<p><strong>L(β₀, β₁) = Σᵢ₌₁ⁿ (yᵢ − β₀ − β₁xᵢ)²</strong></p>
+
+<p>For each of our <em>n</em> data points, we take the actual value yᵢ (the true price of the house), subtract our prediction β₀ + β₁xᵢ, and square the result. The discrepancy between the actual and predicted value is the error, often denoted εᵢ. In the first figure above, these errors appear as the vertical gray segments connecting each data point to the fitted line.</p>
+
+<p>Why square the errors? Two reasons stand out:</p>
+
+<ol>
+  <li>
+    <p><strong>The sign of the error stops mattering.</strong> Whether we overprice or underprice a house, squaring makes the contribution to the loss positive. An over-prediction and an under-prediction of the same magnitude are penalized equally.</p>
+  </li>
+  <li>
+    <p><strong>Large errors are penalized heavily.</strong> Because the penalty grows quadratically, points far from the line contribute disproportionately to the loss. The fit is pushed strongly toward avoiding big mistakes.</p>
+  </li>
+</ol>
+
+<p>Squaring also gives us mathematical niceties: the loss becomes a smooth, differentiable function of the parameters, which is exactly what we need for calculus.</p>
+
+<p>A crucial observation is that L depends <strong>only on β₀ and β₁</strong>. The data (the xᵢ and yᵢ values) are fixed; the only things we can change are the intercept — which moves the line up or down — and the slope, which rotates it. The loss is therefore a function over parameter space, and as the 3D figure shows, it forms a bowl-shaped surface with a single minimum.</p>
+
+<h3 id="minimizing-with-calculus">Minimizing with Calculus</h3>
+
+<p>From calculus, we know that a smooth function attains its minimum where its slope is zero. Since our loss depends on two variables, we must look at the <strong>gradient</strong>: we take the partial derivative of L with respect to each parameter and set both to zero:</p>
+
+<p><strong>∂L/∂β₀ = 0 and ∂L/∂β₁ = 0</strong></p>
+
+<p>Geometrically, we are searching for the bottom of the bowl — the point (β₀<em>, β₁</em>) where the surface is flat in every direction, marked by the red star in the contour plot.</p>
+
+<p><strong>Derivative with respect to β₀.</strong> Applying the chain rule to L = Σ(yᵢ − β₀ − β₁xᵢ)², we bring the exponent down and multiply by the derivative of the inner function. Inside the parentheses, yᵢ is a constant (derivative 0), β₀ differentiates to 1, and β₁xᵢ is constant with respect to β₀ (derivative 0). The inner derivative is therefore −1, and:</p>
+
+<p><strong>∂L/∂β₀ = −2 Σᵢ (yᵢ − β₀ − β₁xᵢ)</strong></p>
+
+<p><strong>Derivative with respect to β₁.</strong> The same logic applies, except now the inner derivative comes from the term β₁xᵢ: since xᵢ is a constant multiplier, the derivative is −xᵢ. Hence:</p>
+
+<p><strong>∂L/∂β₁ = −2 Σᵢ (yᵢ − β₀ − β₁xᵢ) xᵢ</strong></p>
+
+<p>Setting both expressions to zero, the factors of −2 drop out (a zero on the right absorbs any nonzero constant), leaving two equations in two unknowns.</p>
+
+<h3 id="the-normal-equations">The Normal Equations</h3>
+
+<p>Expanding the summations and rearranging so that all β terms sit on the left and the data sit on the right gives:</p>
+
+<p><strong>Equation 1: nβ₀ + β₁ Σxᵢ = Σyᵢ</strong></p>
+
+<p><strong>Equation 2: β₀ Σxᵢ + β₁ Σxᵢ² = Σxᵢyᵢ</strong></p>
+
+<p>(Note the simplification in Equation 1: summing the constant β₀ over n data points just yields nβ₀; similarly, constants like β₀ and β₁ factor out of the sums.)</p>
+
+<p>These are the famous <strong>normal equations</strong>. The name reflects their normalized structure: the left-hand side is a linear combination of the unknown parameters with quantities built from the inputs, while the right-hand side contains only the observed data — the labels y we are trying to predict and the inputs x we are using to predict them.</p>
+
+<h3 id="the-matrix-formulation">The Matrix Formulation</h3>
+
+<p>The structure of the normal equations looks suspiciously like the result of a matrix multiplication — and that is exactly what it is. Define the following objects:</p>
+
+<ul>
+  <li>
+    <p><strong>X</strong>, the <em>design matrix</em>: an n × 2 matrix whose first column is all ones (for the intercept) and whose second column holds the inputs x₁, …, xₙ (the square footages).</p>
+  </li>
+  <li>
+    <p><strong>y</strong>, an n × 1 vector of the targets (the house prices).</p>
+  </li>
+  <li>
+    <p><strong>β</strong>, the 2 × 1 parameter vector (β₀, β₁)ᵀ.</p>
+  </li>
+</ul>
+
+<p>Now compute <strong>XᵀX</strong>. Since Xᵀ is 2 × n and X is n × 2, the product is a 2 × 2 matrix, and working through the dot products of rows and columns gives:</p>
+
+<ul>
+  <li>
+    <p>Top-left: the ones vector dotted with itself = <strong>n</strong></p>
+  </li>
+  <li>
+    <p>Top-right and bottom-left: the ones vector dotted with the x column = <strong>Σxᵢ</strong></p>
+  </li>
+  <li>
+    <p>Bottom-right: the x column dotted with itself = <strong>Σxᵢ²</strong></p>
+  </li>
+</ul>
+
+<p>These are precisely the coefficients appearing on the left-hand side of the normal equations. Multiplying XᵀX by the vector β reproduces the left-hand sides exactly: the first row gives nβ₀ + β₁Σxᵢ and the second gives β₀Σxᵢ + β₁Σxᵢ².</p>
+
+<p>What about the right-hand side? Compute <strong>Xᵀy</strong>: the ones row dotted with y yields Σyᵢ, and the x row dotted with y yields Σxᵢyᵢ — again a perfect match. The entire system of normal equations collapses into one compact matrix equation:</p>
+
+<p><strong>XᵀX β = Xᵀy</strong></p>
+
+<h3 id="solving-for-β">Solving for β</h3>
+
+<p>The final step is simple matrix manipulation. Left-multiply both sides by the inverse of XᵀX:</p>
+
+<p><strong>(XᵀX)⁻¹ XᵀX β = (XᵀX)⁻¹ Xᵀy</strong></p>
+
+<p>By the defining property of the inverse, (XᵀX)⁻¹XᵀX is the identity matrix I, and the identity times any matrix is the matrix itself. Therefore:</p>
+
+<p><strong>β = (XᵀX)⁻¹ Xᵀy</strong></p>
+
+<p>This is the <strong>ordinary least squares (OLS) solution</strong>. Remember what it represents: it is the point where the gradient of the loss function is zero — the exact bottom of the bowl-shaped SSE surface. To find the optimal intercept and slope, we build the X matrix (a column of ones plus the feature columns), transpose it, multiply it by itself, invert the result, multiply again by the transpose, and finally multiply by y.</p>
+
+<h3 id="beyond-simple-regression-the-general-case">Beyond Simple Regression: The General Case</h3>
+
+<p>Here is what makes this derivation so powerful: <strong>the final equation holds no matter how many features we have</strong>. Nothing in the matrix algebra assumed X had only two columns. For the housing example, we could add columns for the number of bedrooms, the number of bathrooms, the lot size, and so on. X becomes an n × (p+1) matrix, β becomes a (p+1)-dimensional vector, and the very same formula</p>
+
+<p><strong>β = (XᵀX)⁻¹ Xᵀy</strong></p>
+
+<p>delivers the optimal coefficients for <em>multiple</em> linear regression in one shot. What began as a two-variable calculus exercise — set two partial derivatives to zero and rearrange — generalizes seamlessly into a universal, closed-form solution for fitting linear models of any dimension.</p>
+
+<h3 id="summary">Summary</h3>
+
+<p>The derivation follows a clean logical arc: define the prediction model (a line), choose a loss (sum of squared errors, which ignores error signs and heavily penalizes large misses), minimize with calculus (set the partial derivatives to zero), rearrange into the normal equations, recognize their structure as matrix products, and solve with a single inversion. The result is the ordinary least squares solution — one of the most elegant and practically important formulas in all of data science.</p>
+
+
+        
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#calculus" class="page__taxonomy-item" rel="tag">calculus</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#linear-algebra" class="page__taxonomy-item" rel="tag">linear algebra</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#linear-regression" class="page__taxonomy-item" rel="tag">linear regression</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#normal-equations" class="page__taxonomy-item" rel="tag">normal equations</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#ordinary-least-squares" class="page__taxonomy-item" rel="tag">ordinary least squares</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#statistics" class="page__taxonomy-item" rel="tag">statistics</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://bsky.app/intent/compose?text=https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/" class="btn btn--bluesky" title="Share on Bluesky"><i class="fab fa-bluesky" aria-hidden="true"></i><span> Bluesky</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+
+  <a href="https://www.addtoany.com/add_to/mastodon?linkurl=https%3A%2F%2Fgunnymarc.github.io%2Fposts%2F2026%2F07%2Fderiving-least-squares-normal-equations%2F" class="btn btn--mastodon" title="Share on Mastodon"><i class="fab fa-mastodon" aria-hidden="true"></i><span> Mastodon</span></a>
+
+  <a href="https://x.com/intent/post?text=https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/" class="btn btn--x" title="Share on X"><i class="fab fa-x-twitter" aria-hidden="true"></i><span> X (formerly Twitter)</span></a>
+</section>
+
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/" class="pagination--pager" title="Fitting a Linear Model and Assessing Fit
+">Previous</a>
+    
+    
+      <a href="https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/" class="pagination--pager" title="Kimi Linear: Breaking the Long-Context Memory Wall
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/" rel="permalink">Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-30T00:00:00-04:00">July 30, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><img src="https://cdn.abacus.ai/images/0ef9de91-1099-4645-84a6-1d62f72512fb.png" alt="Multiple Linear Regression" /> <img src="https://cdn.abacus.ai/images/a28bc82d-1e32-4e39-a1fb-ae2d87e0cdb3.png" alt="Multiple Linear Regression" /></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/" rel="permalink">Kimi Linear: Breaking the Long-Context Memory Wall
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  11 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-29T00:00:00-04:00">July 29, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>Strategic Analysis &amp; Hands-On GPU Evaluation of Kimi Linear: Next-Generation Hybrid Attention Architecture</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/" rel="permalink">Fitting a Linear Model and Assessing Fit
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  9 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-28T00:00:00-04:00">July 28, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>From ordinary least squares to residual diagnostics — how to fit, measure, and verify a linear model.</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/linear-regression/" rel="permalink">Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-27T00:00:00-04:00">July 27, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><img src="https://cdn.abacus.ai/images/e16729b8-7102-4276-8076-a2756ab8da57.jpg" alt="Linear Regression" /> <img src="https://cdn.abacus.ai/images/0c66cf1f-3c47-4d60-9237-962b6945cf05.jpg" alt="Linear Regression" /></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- Support for MatJax -->
+<script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+
+<!-- Support for Mermaid -->
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true, theme:'default'});
+    await mermaid.run({querySelector:'code.language-mermaid'});
+</script>
+
+<!-- end custom footer snippets -->
+
+        
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://github.com/GunnyMarc"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="https://gunnymarc.github.io/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">
+  &copy; 2026 Marc Buraczynski, Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.<br />
+  Site last updated 2026-07-29, <a href="/sitemap/" style="text-transform: uppercase;">Sitemap</a>
+</div>
+
+      </footer>
+    </div>
+
+    <script type="module" src="https://gunnymarc.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
+

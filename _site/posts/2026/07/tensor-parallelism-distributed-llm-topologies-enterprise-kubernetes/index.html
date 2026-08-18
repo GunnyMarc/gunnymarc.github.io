@@ -1,0 +1,1060 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Tensor Parallelism and Distributed Large Language Model Topologies in Enterprise Kubernetes Environments - Semper ex Datis</title>
+
+
+
+<meta name="description" content="Summary">
+
+
+
+
+
+  <meta property="article:published_time" content="2026-07-21T00:00:00-04:00">
+
+
+
+  <link rel="canonical" href="https://gunnymarc.github.io/posts/2026/07/tensor-parallelism-distributed-llm-topologies-enterprise-kubernetes/">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Marc Buraczynski",
+      "url" : "https://gunnymarc.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+<!-- Open Graph protocol data (https://ogp.me/), used by social media -->
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Semper ex Datis"> 
+<meta property="og:title" content="Tensor Parallelism and Distributed Large Language Model Topologies in Enterprise Kubernetes Environments">
+
+  <meta property="og:type" content="article">
+
+
+  <meta property="og:description" name="description" content="Summary">
+
+
+  <meta property="og:url" content="https://gunnymarc.github.io/posts/2026/07/tensor-parallelism-distributed-llm-topologies-enterprise-kubernetes/">
+
+
+
+
+
+<!-- end Open Graph protocol -->
+
+<link href="https://gunnymarc.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Semper ex Datis Feed">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/main.css">
+
+    
+
+<!-- start custom head snippets -->
+
+<!-- Support for Academicons -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/academicons.css"/>
+
+<!-- favicon from https://commons.wikimedia.org/wiki/File:OOjs_UI_icon_academic-progressive.svg -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://gunnymarc.github.io/images/apple-touch-icon-180x180.png"/>
+<link rel="icon" type="image/svg+xml" href="https://gunnymarc.github.io/images/favicon.svg"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-32x32.png" sizes="32x32"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-192x192.png" sizes="192x192"/>
+<link rel="manifest" href="https://gunnymarc.github.io/images/manifest.json"/>
+<link rel="icon" href="/images/favicon.ico"/>
+<meta name="theme-color" content="#ffffff"/>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><span class="navicon"></span></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg persist ">
+            <a href="https://gunnymarc.github.io/">Semper ex Datis</a>
+          </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/year-archive/">Blog Posts</a>
+            </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/">About</a>
+            </li>
+          
+          <li id="theme-toggle" class="masthead__menu-item persist tail">
+            <a role="button" aria-labelledby="theme-icon"><i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="toggle theme"></i></a>
+          </li>
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://gunnymarc.github.io/images/semper-ex-datis-avatar.jpg" class="author__avatar" alt="Marc Buraczynski"  fetchpriority="high" />
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Marc Buraczynski</h3>
+    
+    <p class="author__bio">U.S. Marine | Data Scientist. Writing about LLMs, data science, and machine learning — the non-corporate version.</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      <!-- Font Awesome icons / Biographic information  -->
+      
+        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>United States</li>
+      
+      
+      
+      
+        <li><a href="mailto:"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>Email</a></li>
+      
+
+      <!-- Font Awesome and Academicons icons / Academic websites -->
+      
+            
+      
+            
+      
+      
+                              
+      
+      
+      
+      
+      
+
+      <!-- Font Awesome icons / Repositories and software development -->
+      
+            
+            
+      
+        <li><a href="https://github.com/GunnyMarc"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub</a></li>
+      
+            
+            
+
+      <!-- Font Awesome icons / Social media -->
+              
+      
+        <li><a href="https://bsky.app/profile/marcburaczynski.bsky.social"><i class="fab fa-fw fa-bluesky icon-pad-right" aria-hidden="true"></i>Bluesky</a></li>
+      
+      
+            
+      
+                  
+                  
+      
+            
+            
+      
+        <li><a href="https://www.linkedin.com/in/marc-buraczynski"><i class="fab fa-fw fa-linkedin icon-pad-right" aria-hidden="true"></i>LinkedIn</a></li>
+            
+      
+            
+                  
+            
+      
+            
+            
+      
+              
+      
+                      
+      
+      
+            
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Tensor Parallelism and Distributed Large Language Model Topologies in Enterprise Kubernetes Environments">
+    <meta itemprop="description" content="Summary">
+    <meta itemprop="datePublished" content="July 21, 2026">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Tensor Parallelism and Distributed Large Language Model Topologies in Enterprise Kubernetes Environments
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  22 minute read
+	
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-21T00:00:00-04:00">July 21, 2026</time></p>
+            
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <h4 id="summary">Summary</h4>
+
+<p>Deploying distributed artificial intelligence (AI) workloads—specifically large language models (LLMs) with tens or hundreds of billions of parameters—requires a fundamental departure from traditional high-performance computing (HPC) and standard cloud-native application architectures. When orchestrating these workloads inside an enterprise container platform like Red Hat OpenShift, infrastructure architects and machine learning engineers must carefully align physical hardware topologies, low-latency node networks, containerised resource scheduling, and the underlying mathematical partitions of distributed deep learning frameworks.</p>
+
+<p>By analysing how multi-GPU dense servers (using hardware platforms such as Cisco UCS C885A M8 or Dell PowerEdge XE9680 merely as industry reference archetypes) handle multi-node execution, this article explores the deep technical mechanics of Tensor Parallelism (TP). We contrast this with Pipeline Parallelism (PP) and Data Parallelism (DP), detail the mathematical and network-level communication profiles of these architectures, and map out how to construct a robust, deterministic, and highly performant distributed orchestration layer on Kubernetes.</p>
+
+<hr />
+
+<h3 id="understanding-the-three-dimensions-of-3d-parallelism">Understanding the Three Dimensions of 3D Parallelism</h3>
+
+<p>Modern neural network architectures, particularly the Decoder-only Transformer models that dominate the LLM landscape, have grown far too large to fit into the memory envelope of a single accelerator. High-bandwidth memory (HBM3/HBM3e) capacities on modern enterprise GPUs typically range from 80 GB to 141 GB per GPU. However, an 8-bit or 16-bit precision training run or serving configuration for a several-hundred-billion-parameter model can easily require hundreds of gigabytes or even terabytes of active memory, excluding the massive footprint needed for optimizer states, gradients, activations, and Key-Value (KV) caches.</p>
+
+<p>To solve this, developers employ <strong>3D Parallelism</strong>, which combines three distinct techniques: Tensor Parallelism, Pipeline Parallelism, and Data Parallelism.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                  +----------------------------------------------+
+                  |                 Total Job                    |
+                  |                (World Size)                  |
+                  +----------------------------------------------+
+                                         |
+         +-------------------------------+-------------------------------+
+         |                                                               |
++------------------+                                            +------------------+
+|  Data Parallel  |                                            |  Model Parallel  |
+|      Group       |                                            |      Group       |
++------------------+                                            +------------------+
+                                                                         |
+                                                 +-----------------------+-----------------------+
+                                                 |                                               |
+                                      +--------------------+                          +--------------------+
+                                      | Tensor Parallelism |                          |Pipeline Parallelism|
+                                      |    (Intra-Node)    |                          |    (Inter-Node)    |
+                                      +--------------------+                          +--------------------+
+</code></pre></div></div>
+
+<h4 id="1-tensor-parallelism-tp">1. Tensor Parallelism (TP)</h4>
+
+<p>Tensor Parallelism is an intra-layer parallelization technique. Instead of dividing the layers of a network sequentially across multiple accelerators, TP splits individual parameter matrices (such as the Query-Key-Value projection matrices or the multi-layer perceptron blocks in a Transformer layer) across multiple devices.</p>
+
+<p>In a standard Megatron-LM style implementation, Tensor Parallelism is divided into:</p>
+
+<ul>
+  <li><strong>Column-Parallel Linear Layers:</strong> The weight matrix W of a linear projection (e.g., the input-to-hidden projection in the MLP block) is split vertically along its columns:</li>
+</ul>
+
+<p>W=[W1​∣W2​∣⋯∣Wn​]</p>
+
+<p>Each GPU i receives a slice Wi​ and computes its portion of the output Yi​=XWi​ independently.</p>
+
+<ul>
+  <li><strong>Row-Parallel Linear Layers:</strong> The weight matrix W of a subsequent projection (e.g., the hidden-to-output projection) is split horizontally along its rows:</li>
+</ul>
+
+<p>W=​W1​W2​⋮Wn​​​</p>
+
+<p>Each GPU must compute a partial result Yi​=Xi​Wi​. To obtain the final output Y=∑Yi​, the GPUs must perform an <code class="language-plaintext highlighter-rouge">all-reduce</code> operation across the entire TP communication group.</p>
+
+<p>This structural split means that every single forward pass requires an <code class="language-plaintext highlighter-rouge">all-gather</code> (for column-parallel layers) or an <code class="language-plaintext highlighter-rouge">all-reduce</code> (for row-parallel layers), and every backward pass requires the inverse operation. Because these collectives occur multiple times within a <em>single</em> Transformer layer, Tensor Parallelism is extremely latency-sensitive. It is structurally bounded by communication bandwidth, which is why it is almost exclusively restricted to high-speed local GPU fabrics like NVLink or Infinity Fabric.</p>
+
+<h4 id="2-pipeline-parallelism-pp">2. Pipeline Parallelism (PP)</h4>
+
+<p>Pipeline Parallelism partitions a neural network horizontally on a layer-by-layer basis. For instance, in a 96-layer Transformer, Pipeline Parallelism of degree 3 (PP=3) would assign layers 1–32 to Stage 0 (Server 1), layers 33–64 to Stage 1 (Server 2), and layers 65–96 to Stage 2 (Server 3).</p>
+
+<p>The forward pass progresses sequentially: Stage 0 processes a micro-batch of data and passes the boundary activations to Stage 1, which processes them and passes its activations to Stage 2. The backward pass travels in the exact reverse direction. To prevent the accelerators from remaining idle while waiting for other stages to finish—a phenomenon known as the <strong>pipeline bubble</strong>—advanced scheduling algorithms such as the “1F1B” (One Forward, One Backward) schedule are used.</p>
+
+<p>Compared to TP, PP is much less intensive on communication frequency. It only exchanges activation tensors at the boundaries between stages (e.g., once every 32 layers). Consequently, PP is highly suited for inter-node communication over high-speed networks, where latency is higher than local NVLink buses but throughput is still sufficient for batch transfers.</p>
+
+<h4 id="3-data-parallelism-dp">3. Data Parallelism (DP)</h4>
+
+<p>Data Parallelism replicates the entire model (or a specific model segment defined by TP and PP) across multiple parallel worker groups. Each group receives a unique shard of the training micro-batch. During the backward pass, the gradients calculated by each worker are synchronized using an <code class="language-plaintext highlighter-rouge">all-reduce</code> or <code class="language-plaintext highlighter-rouge">reduce-scatter</code> operation (or via ZeRO-style distributed optimizer techniques) so that all replicas update their model weights identically.</p>
+
+<p>Because DP synchronization occurs only once per backward step, it can scale across thousands of nodes, provided there is enough network throughput to prevent the optimizer step from bottlenecking.</p>
+
+<p>The product of these three factors defines the overall scale of a running job:</p>
+
+<p>WORLD_SIZE=TP×PP×DP</p>
+
+<hr />
+
+<h3 id="comparative-evaluation-of-3d-parallelism-topologies">Comparative Evaluation of 3D Parallelism Topologies</h3>
+
+<p>To illustrate the practical tradeoffs of these paradigms, let us analyze a cluster composed of three dense accelerator servers, each containing 8 high-performance GPUs (yielding a absolute pool of 24 GPUs). Hardware like Cisco UCS C885A M8 or Dell PowerEdge XE9680 servers utilize an internal 8-way GPU baseboard where every GPU is directly interconnected via a high-bandwidth proprietary fabric (such as NVIDIA HGX NVLink or AMD Infinity Fabric).</p>
+
+<p>Inter-node connectivity is established through specialized PCI Express or OCP mezzanine Network Interface Cards (NICs), such as 400 Gbps NVIDIA ConnectX-7 or BlueField-3 adapters. This creates two very distinct communication regimes:</p>
+
+<ol>
+  <li><strong>Intra-node (Local):</strong> Extreme bandwidth (~900 GB/s bidirectional per GPU), ultra-low latency (&lt; 1 microsecond).</li>
+  <li><strong>Inter-node (Network):</strong> High bandwidth (typically 400 Gbps / ~50 GB/s per NIC over RoCEv2/IB), slightly higher latency (several microseconds, depending on network hops).</li>
+</ol>
+
+<h4 id="option-a-localized-tensor-parallelism-with-cross-node-pipelining-tp8pp3dp1">Option A: Localized Tensor Parallelism with Cross-Node Pipelining (TP=8,PP=3,DP=1)</h4>
+
+<p>This is universally recognized as the optimal topological design for executing a single large model training job on this type of cluster.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ Node 1 / Server 1 ]       [ Node 2 / Server 2 ]       [ Node 3 / Server 3 ]
++-------------------+       +-------------------+       +-------------------+
+| GPUs 0 - 7        |       | GPUs 0 - 7        |       | GPUs 0 - 7        |
+| TP Group 0        |=====&gt; | TP Group 1        |=====&gt; | TP Group 2        |
+| (Pipeline Stg 0)  | RDMA  | (Pipeline Stg 1)  | RDMA  | (Pipeline Stg 2)  |
++-------------------+       +-------------------+       +-------------------+
+</code></pre></div></div>
+
+<h5 id="communication-profile">Communication Profile</h5>
+
+<p>Inside each node, the high-frequency, latency-sensitive TP collectives (<code class="language-plaintext highlighter-rouge">all-reduce</code> and <code class="language-plaintext highlighter-rouge">all-gather</code> for the attention and MLP layers) run entirely within the local GPU fabric. These operations never touch the external cluster network.</p>
+
+<p>Between the three nodes, the pipeline boundary activations are moved sequentially from Node 1 to Node 2, and then from Node 2 to Node 3. Since this pipeline-stage activation transport is a point-to-point transfer that occurs only at layer boundaries, the physical network is never saturated by the massive broadcast overhead of high-frequency Tensor Parallelism.</p>
+
+<h5 id="structural-pros">Structural Pros</h5>
+
+<ul>
+  <li>Highly efficient; minimizes the impact of inter-node latency on active computation steps.</li>
+  <li>Robust scaling because the network requirements are heavily throttled by the pipeline schedule.</li>
+  <li>Maximizes the utilization of local GPU fabric capabilities.</li>
+</ul>
+
+<h5 id="structural-cons">Structural Cons</h5>
+
+<ul>
+  <li>Subject to pipeline bubble overhead; some GPUs will inevitably spend clock cycles waiting to receive activations from upstream nodes, though this can be mitigated using interleaved 1F1B scheduling.</li>
+</ul>
+
+<hr />
+
+<h4 id="option-b-extended-cluster-wide-tensor-parallelism-tp24pp1dp1">Option B: Extended Cluster-Wide Tensor Parallelism (TP=24,PP=1,DP=1)</h4>
+
+<p>In this configuration, all 24 GPUs across all three physical systems are bound together into a singular, massive Tensor Parallelism group.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-----------------------------------------------------------------------------------------+
+|                                    Single TP-24 Group                                   |
+|                                                                                         |
+|   [ Node 1 / Server 1 ]         [ Node 2 / Server 2 ]         [ Node 3 / Server 3 ]     |
+|   +-------------------+         +-------------------+         +-------------------+     |
+|   | GPUs 0 - 7        | &lt;=====&gt; | GPUs 8 - 15       | &lt;=====&gt; | GPUs 16 - 23      |     |
+|   +-------------------+  RoCE   +-------------------+  RoCE   +-------------------+     |
++-----------------------------------------------------------------------------------------+
+</code></pre></div></div>
+
+<h5 id="communication-profile-1">Communication Profile</h5>
+
+<p>To execute standard layer operations, <code class="language-plaintext highlighter-rouge">all-reduce</code> and <code class="language-plaintext highlighter-rouge">all-gather</code> collectives must be broadcast among all 24 ranks. In this scenario, every single matrix operation in the network’s forward and backward passes spawns massive packets that must traverse the external inter-node network switches.</p>
+
+<p>While local communication (e.g., between GPUS 0–7) remains on the local fabric, any communication involving the remaining 16 target ranks forces the collective libraries (NCCL or RCCL) to break up the transfers. Ranks are forced to route data out of the server’s physical NICs, across the network switch, and into the adjacent servers.</p>
+
+<h5 id="structural-pros-1">Structural Pros</h5>
+
+<ul>
+  <li>Allows a single enormously wide model instantiation without the scheduling baggage, memory caching, or mathematical complexity of Pipeline Parallelism.</li>
+  <li>Can be useful if a single layer’s weight matrix or activation tensors are so large that they cannot physically fit into the 8-GPU memory pool of a single node.</li>
+</ul>
+
+<h5 id="structural-cons-1">Structural Cons</h5>
+
+<ul>
+  <li>Severe performance degradation in most network classes. External inter-node switch latency is orders of magnitude higher than local GPU interconnects. Every linear layer step bottlenecks as it waits for the network to resolve <code class="language-plaintext highlighter-rouge">all-reduce</code> passes across the nodes.</li>
+  <li>Highly vulnerable to packet loss, packet spray issues, and port congestion on the physical network switches.</li>
+</ul>
+
+<hr />
+
+<h4 id="option-c-replicated-localized-tensor-parallelism-tp8pp1dp3">Option C: Replicated Localized Tensor Parallelism (TP=8,PP=1,DP=3)</h4>
+
+<p>For high-throughput serving and online inference deployment patterns, this topology provides the most robust and operationally resilient architectural framework.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>       [ Node 1 / Server 1 ]                  [ Node 2 / Server 2 ]                  [ Node 3 / Server 3 ]
+       +-------------------+                  +-------------------+                  +-------------------+
+       |    GPUs 0 - 7     |                  |    GPUs 0 - 7     |                  |    GPUs 0 - 7     |
+       |  Inference Rep 1  |                  |  Inference Rep 2  |                  |  Inference Rep 3  |
+       +-------------------+                  +-------------------+                  +-------------------+
+                 ^                                      ^                                      ^
+                 |                                      |                                      |
+                 +--------------------------------------+--------------------------------------+
+                                                        |
+                                              [ Load Balancer Pod ]
+</code></pre></div></div>
+
+<h5 id="communication-profile-2">Communication Profile</h5>
+
+<p>Each server operates as a completely independent, self-contained model replica. There is absolutely zero inter-node communication required for active token generation during the inference cycle. The only network activity is the initial model weight loading phase and incoming query routing from a Kubernetes load balancer.</p>
+
+<h5 id="structural-pros-2">Structural Pros</h5>
+
+<ul>
+  <li>Perfect linear scaling of aggregate throughput (queries/tokens processed per second) as servers are added.</li>
+  <li>Complete fault isolation: if one node suffers a hardware panic or a GPU failure, the remaining two nodes continue processing user queries without interruption.</li>
+  <li>Extremely low query response latencies since no inter-node communication overhead is introduced during the attention phases.</li>
+</ul>
+
+<h5 id="structural-cons-2">Structural Cons</h5>
+
+<ul>
+  <li>Limited by the physical memory of a single server. If the model size exceeds the composite HBM capacity of an 8-GPU node, this option becomes unviable without introducing quantization or pipeline partitioning.</li>
+</ul>
+
+<hr />
+
+<h3 id="low-level-network-mechanics-and-collective-communication">Low-Level Network Mechanics and Collective Communication</h3>
+
+<p>To understand why custom topology designs are necessary, we must examine what happens at the network layer during a collective operation. When multiple nodes participate in an <code class="language-plaintext highlighter-rouge">all-reduce</code> or <code class="language-plaintext highlighter-rouge">all-gather</code> over an Ethernet-based infrastructure, they cannot rely on standard TCP/IP networking. TCP’s kernel-space overhead, interrupt processing, and packet acknowledgement retries impose latency penalties that completely stall distributed AI steps.</p>
+
+<p>Instead, distributed training and inference rely on <strong>Remote Direct Memory Access (RDMA)</strong> over Converged Ethernet (RoCEv2) or InfiniBand.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+-------------------------------------------------------------------------+
+|                               Local Host                                |
+|   +---------------+     +---------------+                               |
+|   |  GPU Memory   |     |  System RAM   |                               |
+|   |  (HBM Space)  |     | (Kernel bypassed)                            |
+|   +---------------+     +---------------+                               |
+|           |                     |                                       |
+|           +----------+----------+                                       |
+|                      | (GPUDirect RDMA / Direct PCIe Access)            |
+|                      v                                                  |
+|            +--------------------+                                       |
+|            |  Network Adapter   |                                       |
+|            | (RoCEv2 / IB NIC)  |                                       |
++------------+--------------------+---------------------------------------+
+                       |
+                       |  (RoCEv2 Packets via UDP/PFC/ECN)
+                       v
+            +--------------------+
+            | Network Switch L2  |
+            +--------------------+
+</code></pre></div></div>
+
+<h4 id="the-role-of-gpudirect-rdma">The Role of GPUDirect RDMA</h4>
+
+<p>In a typical network pipeline, moving data from a GPU on Node A to a GPU on Node B requires copying the data from GPU memory (HBM) to system memory (RAM), handing it over to the CPU kernel network stack, pushing it over the network card, and then reversing the entire copy sequence on the receiving end.</p>
+
+<p>GPUDirect RDMA bypasses the host CPU and system RAM entirely. The Network Interface Card (NIC) directly reads and writes to the local HBM via the PCIe bus. When coordinated by communication libraries such as NVIDIA’s NCCL or AMD’s RCCL, multiple physical network adapters can be paired directly with physical GPUs in a 1:1 mapping. In high-end design layouts, a node with 8 GPUs will feature 8 dedicated single-port NICs, ensuring that each GPU has a dedicated, non-blocking path out to the network fabric.</p>
+
+<h4 id="network-congestion-and-lossless-ethernet">Network Congestion and Lossless Ethernet</h4>
+
+<p>Since RoCEv2 is encapsulated inside standard UDP/IP packets, it operates over standard Ethernet switches. However, RDMA is fundamentally designed on the assumption of a lossless network layer. If a switch drops a single packet due to buffer exhaustion (e.g., during a synchronized <code class="language-plaintext highlighter-rouge">all-reduce</code> incast), the entire collective communication must be retransmitted, causing severe performance drops.</p>
+
+<p>To keep the network lossless and performant, several low-level switch mechanisms must be configured:</p>
+
+<ul>
+  <li><strong>Priority Flow Control (PFC - IEEE 802.1Qbb):</strong> This link-level flow control mechanism operates on specific Class of Service (CoS) values. When a switch port’s receive buffer exceeds a designated watermark, it broadcasts a “pause frame” back to the transmitter on that specific traffic class, pausing only the RDMA traffic while letting standard control plane traffic flow normally.</li>
+  <li><strong>Explicit Congestion Notification (ECN - RFC 3168):</strong> Switches mark the IP headers of packets when congestion watermarks are breached. The receiving NIC detects these marks and sends a Congestion Notification Packet (CNP) back to the sender, prompting the sending GPU/NIC to throttle its output rate before buffers overflow and trigger PFC pauses.</li>
+</ul>
+
+<hr />
+
+<h3 id="architecting-distributed-ai-on-red-hat-openshift">Architecting Distributed AI on Red Hat OpenShift</h3>
+
+<p>Executing these massive 3D parallel workloads inside a Kubernetes-native framework like Red Hat OpenShift requires advanced customization of both the control plane and the compute node configurations. OpenShift must be tailored to ensure that the physical hardware attributes are exposed directly to the container runtime, and that workloads are scheduled with absolute topological awareness.</p>
+
+<h4 id="1-node-isolation-and-custom-tuning-profiles">1. Node Isolation and Custom Tuning Profiles</h4>
+
+<p>Dense GPU systems must be placed on bare-metal worker nodes using specialized OpenShift CoreOS (RHCOS) configurations to eliminate hypervisor-induced latency overhead. These systems are isolated using specialized Kubernetes node labels and taints:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">Node</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">labels</span><span class="pi">:</span>
+    <span class="na">node-role.kubernetes.io/gpu-worker</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span>
+    <span class="na">feature.node.kubernetes.io/pci-neonetwork.present</span><span class="pi">:</span> <span class="s2">"</span><span class="s">true"</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">taints</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">effect</span><span class="pi">:</span> <span class="s">NoSchedule</span>
+    <span class="na">key</span><span class="pi">:</span> <span class="s">nvidia.com/gpu</span>
+    <span class="na">value</span><span class="pi">:</span> <span class="s2">"</span><span class="s">present"</span>
+</code></pre></div></div>
+
+<p>To ensure optimal packet processing and host-side execution times, the <strong>Node Tuning Operator (NTO)</strong> is deployed to configure kernel parameters. This includes disabling CPU frequency scaling (enabling performance mode), configuring hugepages (typically 2MB page sizes for local memory optimization), and setting host network buffers:</p>
+
+<div class="language-ini highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Custom sysctl configurations applied by OpenShift NTO
+</span><span class="py">net.core.rmem_max</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">134217728</span>
+<span class="py">net.core.wmem_max</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">134217728</span>
+<span class="py">net.ipv4.tcp_rmem</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">4096 87380 134217728</span>
+<span class="py">net.ipv4.tcp_wmem</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">4096 65536 134217728</span>
+</code></pre></div></div>
+
+<h4 id="2-gpu-and-network-device-enablement">2. GPU and Network Device Enablement</h4>
+
+<p>Instead of manually installing container runtimes and hardware drivers, OpenShift leverages automated operators to maintain state and perform orchestration tasks:</p>
+
+<ul>
+  <li><strong>GPU Operator:</strong> Automatically provisions the host’s specialized driver modules, registers the Kubernetes device plugins so containers can specifically request resource counts like <code class="language-plaintext highlighter-rouge">nvidia.com/gpu: 8</code>, configures the container runtime hook to pass GPU context, and runs DCGM (Data Center GPU Manager) monitoring daemons.</li>
+  <li><strong>Network Operator &amp; SR-IOV Operator:</strong> To make GPUDirect RDMA functional inside a container, the network cards must bypass the standard Kubernetes overlay network (e.g., OVN-Kubernetes). The <strong>SR-IOV Network Operator</strong> is configured to create virtual functions (VFs) from the physical host NIC ports, or the <strong>Mellanox Network Operator</strong> is used to pass physical RoCEv2 networks directly into the container namespace via the Multus CNI. This ensures the container directly talks to the host NIC without an intervening abstract network layer.</li>
+</ul>
+
+<h4 id="3-topology-aware-scheduling-and-gang-placement">3. Topology-Aware Scheduling and Gang Placement</h4>
+
+<p>Two major issues often disrupt distributed AI jobs in traditional Kubernetes environments: scheduling fragmentation and alignment failures.</p>
+
+<h5 id="gang-scheduling">Gang Scheduling</h5>
+
+<p>If a user launches a 3-node, 24-GPU model-parallel training run but OpenShift only has 2 nodes free, a standard Kubernetes scheduler will launch 16 pods on the free machines and stick the remaining 8 in a <code class="language-plaintext highlighter-rouge">Pending</code> state. The first two stages will spin up, block waiting to establish TCP/RDMA control plane handshakes, and hang indefinitely—wasting active GPU capacity.</p>
+
+<p>To prevent this, OpenShift utilizes integrated queueing systems like <strong>Kueue</strong> or scheduler plug-ins like <strong>Coscheduling</strong> (often orchestrated via the Kubeflow Training Operator). These schedule the pods as an indivisible group (a gang). If all 24 GPU slots are not simultaneously available, the job is held in a queue, keeping the running cluster free for other workloads.</p>
+
+<h5 id="topology-aware-scheduling-numa--pcie-alignment">Topology-Aware Scheduling (NUMA &amp; PCIe Alignment)</h5>
+
+<p>Modern multi-socket CPU systems have complex internal layouts. A server may align physical PCIe Slots 1–4 directly to CPU Socket 0, while physical slots 5–8 align to CPU Socket 1. If a containerized process is scheduled onto CPU cores on Socket 0 but requests access to a GPU or a NIC wired to Socket 1, every memory access must cross the slow inter-socket Interconnect (Ultra Path Interconnect / UPI).</p>
+
+<p>The <strong>NUMA-Aware Scheduler</strong> or the <strong>Topology Manager</strong> on OpenShift must be set to a strict <code class="language-plaintext highlighter-rouge">Single-NUMA-Node</code> policy to guarantee that the containerized CPU cores, allocated memory, virtual GPU adapters, and high-performance network interfaces are physically co-located on the exact same PCIe root complex.</p>
+
+<hr />
+
+<h3 id="concrete-kubernetes-workload-configurations">Concrete Kubernetes Workload Configurations</h3>
+
+<p>To instantiate a practical multi-node execution job on the cluster, developers use distributed training controllers. The example below details an standard <strong>MPIJob</strong> custom resource schema configured for our recommended topology <strong>Option A (TP=8,PP=3)</strong>.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">kubeflow.org/v2beta1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">MPIJob</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">distributed-llm-training</span>
+  <span class="na">namespace</span><span class="pi">:</span> <span class="s">ai-workloads</span>
+<span class="na">spec</span><span class="pi">:</span>
+  <span class="na">slotsPerWorker</span><span class="pi">:</span> <span class="m">8</span>
+  <span class="na">runPolicy</span><span class="pi">:</span>
+    <span class="na">cleanPodPolicy</span><span class="pi">:</span> <span class="s">Running</span>
+  <span class="na">mpiReplicaSpecs</span><span class="pi">:</span>
+    <span class="na">Launcher</span><span class="pi">:</span>
+      <span class="na">replicas</span><span class="pi">:</span> <span class="m">1</span>
+      <span class="na">template</span><span class="pi">:</span>
+        <span class="na">spec</span><span class="pi">:</span>
+          <span class="na">containers</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">mpi-launcher</span>
+            <span class="na">image</span><span class="pi">:</span> <span class="s">quay.io/ai-enterprise/distributed-training:latest</span>
+            <span class="na">command</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">mpirun</span>
+            <span class="pi">-</span> <span class="s">-np</span>
+            <span class="pi">-</span> <span class="s2">"</span><span class="s">24"</span>
+            <span class="pi">-</span> <span class="s">--allow-run-as-root</span>
+            <span class="pi">-</span> <span class="s">-x</span>
+            <span class="pi">-</span> <span class="s">NCCL_DEBUG=INFO</span>
+            <span class="pi">-</span> <span class="s">-x</span>
+            <span class="pi">-</span> <span class="s">NCCL_IB_DISABLE=0</span>
+            <span class="pi">-</span> <span class="s">-x</span>
+            <span class="pi">-</span> <span class="s">NCCL_NET_GDR_LEVEL=5</span>
+            <span class="pi">-</span> <span class="s">python</span>
+            <span class="pi">-</span> <span class="s">train_llm.py</span>
+            <span class="pi">-</span> <span class="s">--model_path=/mnt/shared/models/llama3-70b</span>
+            <span class="pi">-</span> <span class="s">--tensor_parallel_size=8</span>
+            <span class="pi">-</span> <span class="s">--pipeline_parallel_size=3</span>
+    <span class="na">Worker</span><span class="pi">:</span>
+      <span class="na">replicas</span><span class="pi">:</span> <span class="m">3</span>
+      <span class="na">template</span><span class="pi">:</span>
+        <span class="na">metadata</span><span class="pi">:</span>
+          <span class="na">labels</span><span class="pi">:</span>
+            <span class="na">ai-job</span><span class="pi">:</span> <span class="s">llama3-70b-training</span>
+        <span class="na">spec</span><span class="pi">:</span>
+          <span class="na">containers</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">mpi-worker</span>
+            <span class="na">image</span><span class="pi">:</span> <span class="s">quay.io/ai-enterprise/distributed-training:latest</span>
+            <span class="na">resources</span><span class="pi">:</span>
+              <span class="na">limits</span><span class="pi">:</span>
+                <span class="na">nvidia.com/gpu</span><span class="pi">:</span> <span class="s2">"</span><span class="s">8"</span>
+                <span class="na">memory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">512Gi"</span>
+                <span class="na">cpu</span><span class="pi">:</span> <span class="s2">"</span><span class="s">64"</span>
+                <span class="na">mellanox.com/mlnx_sriov_rdma</span><span class="pi">:</span> <span class="s2">"</span><span class="s">8"</span>
+              <span class="na">requests</span><span class="pi">:</span>
+                <span class="na">nvidia.com/gpu</span><span class="pi">:</span> <span class="s2">"</span><span class="s">8"</span>
+                <span class="na">memory</span><span class="pi">:</span> <span class="s2">"</span><span class="s">512Gi"</span>
+                <span class="na">cpu</span><span class="pi">:</span> <span class="s2">"</span><span class="s">64"</span>
+                <span class="na">mellanox.com/mlnx_sriov_rdma</span><span class="pi">:</span> <span class="s2">"</span><span class="s">8"</span>
+            <span class="na">securityContext</span><span class="pi">:</span>
+              <span class="na">capabilities</span><span class="pi">:</span>
+                <span class="na">add</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">IPC_LOCK"</span><span class="pi">]</span>
+            <span class="na">volumeMounts</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">model-storage</span>
+              <span class="na">mountPath</span><span class="pi">:</span> <span class="s">/mnt/shared</span>
+            <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">dshm</span>
+              <span class="na">mountPath</span><span class="pi">:</span> <span class="s">/dev/shm</span>
+          <span class="na">volumes</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">model-storage</span>
+            <span class="na">persistentVolumeClaim</span><span class="pi">:</span>
+              <span class="na">claimName</span><span class="pi">:</span> <span class="s">shared-storage-pvc</span>
+          <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">dshm</span>
+            <span class="na">emptyDir</span><span class="pi">:</span>
+              <span class="na">medium</span><span class="pi">:</span> <span class="s">Memory</span>
+              <span class="na">sizeLimit</span><span class="pi">:</span> <span class="s2">"</span><span class="s">256Gi"</span>
+</code></pre></div></div>
+
+<p>In this manifest:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">slotsPerWorker: 8</code> and a worker replica count of <code class="language-plaintext highlighter-rouge">3</code> maps directly to our 3 physical servers.</li>
+  <li>Each worker container asks for <code class="language-plaintext highlighter-rouge">nvidia.com/gpu: 8</code> and <code class="language-plaintext highlighter-rouge">mellanox.com/mlnx_sriov_rdma: 8</code> to map each GPU to its corresponding non-blocking host RDMA network path.</li>
+  <li><code class="language-plaintext highlighter-rouge">NCCL_NET_GDR_LEVEL=5</code> configures NCCL to use the highest level of GPUDirect RDMA, allowing it to bypass system memory and route packets directly across the PCIe switch to the NIC.</li>
+  <li><code class="language-plaintext highlighter-rouge">IPC_LOCK</code> is requested in the container’s security context to allow the training libraries to lock physical memory pages, preventing operating system page-swapping from interrupting execution loops.</li>
+  <li><code class="language-plaintext highlighter-rouge">/dev/shm</code> is mounted using an <code class="language-plaintext highlighter-rouge">emptyDir</code> backed by RAM memory to allow fast host-level process communication (high-speed shared memory) between the 8 local GPU container worker processes.</li>
+</ul>
+
+<hr />
+
+<h3 id="step-by-step-deployment-roadmap">Step-by-Step Deployment Roadmap</h3>
+
+<p>Deploying a complex, multi-node configuration requires a structured verification process to pinpoint network bottle-necks or scheduling misalignments before launching production jobs.</p>
+
+<h4 id="step-1-establish-single-node-baselines">Step 1: Establish Single-Node Baselines</h4>
+
+<p>Before introducing network-based complexity, validate that each individual server is operating at peak physical capacity. Run localized micro-benchmarks inside the containers to confirm raw hardware execution times.</p>
+
+<ul>
+  <li>Run a standard matrix multiplication benchmark to measure raw Tensor Core performance.</li>
+  <li>
+    <p>Run a local NCCL or RCCL test (<code class="language-plaintext highlighter-rouge">all_reduce_perf</code>) strictly within the node to confirm that the intra-node GPU fabric (NVLink/Infinity Fabric) is achieving expected speeds (e.g., ~900 GB/s on H100 architectures):</p>
+
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  ./all_reduce_perf <span class="nt">-b</span> 8 <span class="nt">-e</span> 256M <span class="nt">-f</span> 2 <span class="nt">-g</span> 8
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="step-2-configure-and-verify-lossless-networking">Step 2: Configure and Verify Lossless Networking</h4>
+
+<p>Work with your network operations team to implement Priority Flow Control (PFC) and Explicit Congestion Notification (ECN) on the physical L2/L3 switch infrastructure. Once the switches are configured, confirm their operational status:</p>
+
+<ul>
+  <li>Query the host operating system to confirm the RDMA driver detects the correct link rate (e.g., 400 Gbps).</li>
+  <li>Inspect raw switch ports and interface counters during initial data transfers to ensure that no packets are dropped and that pause frames are registering correctly when congestion thresholds are tested.</li>
+</ul>
+
+<h4 id="step-3-run-multi-node-collective-benchmarks">Step 3: Run Multi-Node Collective Benchmarks</h4>
+
+<p>With physical networking verified, launch a synthetic Kubernetes benchmark across two, and then three, nodes. By running multi-node NCCL tests, you can measure exactly how performance changes as communication scales out.</p>
+
+<ul>
+  <li>Launch a multi-node MPI test, comparing <code class="language-plaintext highlighter-rouge">all_reduce_perf</code> across 16 GPUs (2 nodes) and 24 GPUs (3 nodes).</li>
+  <li>Verify that the bandwidth matches your network design. For a single 400 Gbps link, the inter-node out-of-box transfer rate should reliably yield around 40–45 GB/s of active data transport.</li>
+</ul>
+
+<h4 id="step-4-run-the-final-application-workload">Step 4: Run the Final Application Workload</h4>
+
+<p>Only when all physical benchmarks and collective benchmarks show nominal latency and throughput should you deploy your distributed model architecture (e.g., Option A).</p>
+
+<ul>
+  <li>Enable detailed logging metrics in your training framework to capture training steps and execution metrics.</li>
+  <li>Monitor GPU utilization (using DCGM metrics in OpenShift) and verify that “GPU Active” percentages remain high (&gt;80%), while “communication wait time” or “network throttled time” metrics remain low. This confirms that your 3D parallelism topology matches the physical capabilities of your cluster.</li>
+</ul>
+
+<hr />
+<p>The primary equipment referenced in this article consists of high-density AI servers—such as the Cisco UCS C885A M8 or Dell PowerEdge XE9680—configured with an internal 8-way GPU baseboard. These servers leverage high-bandwidth proprietary interconnects, like NVIDIA HGX NVLink to enable ultra-fast, direct communication between all local accelerators.</p>
+
+<hr />
+<p>#TensorParallelism #DistributedAI #LargeLanguageModels #DeepLearning #ModelParallelism #PipelineParallelism #3DParallelism #RedHatOpenShift #Kubernetes #CloudNativeAI #BareMetal #GPUOperator #ContainerOrchestration #AIInfrastructure #NVIDIAnvlink #HGX #AMDInfinityFabric #CiscoUCS #DellPowerEdge #AcceleratedComputing #GPUDirectRDMA #RoCEv2 #InfiniBand #LosslessEthernet #HighPerformanceComputing</p>
+
+
+
+        
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#3d-parallelism" class="page__taxonomy-item" rel="tag">3D parallelism</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#distributed-ai" class="page__taxonomy-item" rel="tag">distributed AI</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#enterprise" class="page__taxonomy-item" rel="tag">enterprise</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#kubernetes" class="page__taxonomy-item" rel="tag">Kubernetes</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#llms" class="page__taxonomy-item" rel="tag">LLMs</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#tensor-parallelism" class="page__taxonomy-item" rel="tag">tensor parallelism</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://bsky.app/intent/compose?text=https://gunnymarc.github.io/posts/2026/07/tensor-parallelism-distributed-llm-topologies-enterprise-kubernetes/" class="btn btn--bluesky" title="Share on Bluesky"><i class="fab fa-bluesky" aria-hidden="true"></i><span> Bluesky</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://gunnymarc.github.io/posts/2026/07/tensor-parallelism-distributed-llm-topologies-enterprise-kubernetes/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://gunnymarc.github.io/posts/2026/07/tensor-parallelism-distributed-llm-topologies-enterprise-kubernetes/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+
+  <a href="https://www.addtoany.com/add_to/mastodon?linkurl=https%3A%2F%2Fgunnymarc.github.io%2Fposts%2F2026%2F07%2Ftensor-parallelism-distributed-llm-topologies-enterprise-kubernetes%2F" class="btn btn--mastodon" title="Share on Mastodon"><i class="fab fa-mastodon" aria-hidden="true"></i><span> Mastodon</span></a>
+
+  <a href="https://x.com/intent/post?text=https://gunnymarc.github.io/posts/2026/07/tensor-parallelism-distributed-llm-topologies-enterprise-kubernetes/" class="btn btn--x" title="Share on X"><i class="fab fa-x-twitter" aria-hidden="true"></i><span> X (formerly Twitter)</span></a>
+</section>
+
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://gunnymarc.github.io/posts/2026/07/scaling-high-performance-switching-nvidia-dgx-spark/" class="pagination--pager" title="Scaling with High-Performance Switching and NVIDIA DGX Spark
+">Previous</a>
+    
+    
+      <a href="https://gunnymarc.github.io/posts/2026/07/linear-regression/" class="pagination--pager" title="Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/" rel="permalink">Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-30T00:00:00-04:00">July 30, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><img src="https://cdn.abacus.ai/images/0ef9de91-1099-4645-84a6-1d62f72512fb.png" alt="Multiple Linear Regression" /> <img src="https://cdn.abacus.ai/images/a28bc82d-1e32-4e39-a1fb-ae2d87e0cdb3.png" alt="Multiple Linear Regression" /></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/" rel="permalink">Kimi Linear: Breaking the Long-Context Memory Wall
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  11 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-29T00:00:00-04:00">July 29, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>Strategic Analysis &amp; Hands-On GPU Evaluation of Kimi Linear: Next-Generation Hybrid Attention Architecture</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/" rel="permalink">Deriving the Least Squares Solution: From Simple Regression to the Normal Equations
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-29T00:00:00-04:00">July 29, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>Retracing the derivation from first principles — from a bowl-shaped loss surface to the compact matrix equation β = (XᵀX)⁻¹Xᵀy.</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/" rel="permalink">Fitting a Linear Model and Assessing Fit
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  9 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-28T00:00:00-04:00">July 28, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>From ordinary least squares to residual diagnostics — how to fit, measure, and verify a linear model.</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- Support for MatJax -->
+<script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+
+<!-- Support for Mermaid -->
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true, theme:'default'});
+    await mermaid.run({querySelector:'code.language-mermaid'});
+</script>
+
+<!-- end custom footer snippets -->
+
+        
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://github.com/GunnyMarc"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="https://gunnymarc.github.io/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">
+  &copy; 2026 Marc Buraczynski, Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.<br />
+  Site last updated 2026-07-29, <a href="/sitemap/" style="text-transform: uppercase;">Sitemap</a>
+</div>
+
+      </footer>
+    </div>
+
+    <script type="module" src="https://gunnymarc.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
+

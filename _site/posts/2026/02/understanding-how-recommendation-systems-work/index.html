@@ -1,0 +1,929 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Understanding How Recommendation Systems Work-What We Found After 150,000 User Interactions - Semper ex Datis</title>
+
+
+
+<meta name="description" content="A deep dive into user propensities, why your Netflix recommendations aren’t as smart as you think, and what the first 10 clicks reveal about someone’s entire journey.">
+
+
+
+
+
+  <meta property="article:published_time" content="2026-02-05T00:00:00-05:00">
+
+
+
+  <link rel="canonical" href="https://gunnymarc.github.io/posts/2026/02/understanding-how-recommendation-systems-work/">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Marc Buraczynski",
+      "url" : "https://gunnymarc.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+<!-- Open Graph protocol data (https://ogp.me/), used by social media -->
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Semper ex Datis"> 
+<meta property="og:title" content="Understanding How Recommendation Systems Work-What We Found After 150,000 User Interactions">
+
+  <meta property="og:type" content="article">
+
+
+  <meta property="og:description" name="description" content="A deep dive into user propensities, why your Netflix recommendations aren’t as smart as you think, and what the first 10 clicks reveal about someone’s entire journey.">
+
+
+  <meta property="og:url" content="https://gunnymarc.github.io/posts/2026/02/understanding-how-recommendation-systems-work/">
+
+
+
+
+
+<!-- end Open Graph protocol -->
+
+<link href="https://gunnymarc.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Semper ex Datis Feed">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/main.css">
+
+    
+
+<!-- start custom head snippets -->
+
+<!-- Support for Academicons -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/academicons.css"/>
+
+<!-- favicon from https://commons.wikimedia.org/wiki/File:OOjs_UI_icon_academic-progressive.svg -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://gunnymarc.github.io/images/apple-touch-icon-180x180.png"/>
+<link rel="icon" type="image/svg+xml" href="https://gunnymarc.github.io/images/favicon.svg"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-32x32.png" sizes="32x32"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-192x192.png" sizes="192x192"/>
+<link rel="manifest" href="https://gunnymarc.github.io/images/manifest.json"/>
+<link rel="icon" href="/images/favicon.ico"/>
+<meta name="theme-color" content="#ffffff"/>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><span class="navicon"></span></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg persist ">
+            <a href="https://gunnymarc.github.io/">Semper ex Datis</a>
+          </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/year-archive/">Blog Posts</a>
+            </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/">About</a>
+            </li>
+          
+          <li id="theme-toggle" class="masthead__menu-item persist tail">
+            <a role="button" aria-labelledby="theme-icon"><i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="toggle theme"></i></a>
+          </li>
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://gunnymarc.github.io/images/profile.png" class="author__avatar" alt="Marc Buraczynski"  fetchpriority="high" />
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Marc Buraczynski</h3>
+    
+    <p class="author__bio">U.S. Marine | Data Scientist. Writing about LLMs, data science, and machine learning — the non-corporate version.</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      <!-- Font Awesome icons / Biographic information  -->
+      
+        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>United States</li>
+      
+      
+      
+      
+        <li><a href="mailto:"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>Email</a></li>
+      
+
+      <!-- Font Awesome and Academicons icons / Academic websites -->
+      
+            
+      
+            
+      
+      
+                              
+      
+      
+      
+      
+      
+
+      <!-- Font Awesome icons / Repositories and software development -->
+      
+            
+            
+      
+        <li><a href="https://github.com/GunnyMarc"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub</a></li>
+      
+            
+            
+
+      <!-- Font Awesome icons / Social media -->
+              
+      
+        <li><a href="https://bsky.app/profile/marcburaczynski.bsky.social"><i class="fab fa-fw fa-bluesky icon-pad-right" aria-hidden="true"></i>Bluesky</a></li>
+      
+      
+            
+      
+                  
+                  
+      
+            
+            
+      
+        <li><a href="https://www.linkedin.com/in/marc-buraczynski"><i class="fab fa-fw fa-linkedin icon-pad-right" aria-hidden="true"></i>LinkedIn</a></li>
+            
+      
+            
+                  
+            
+      
+            
+            
+      
+              
+      
+                      
+      
+      
+            
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Understanding How Recommendation Systems Work-What We Found After 150,000 User Interactions">
+    <meta itemprop="description" content="A deep dive into user propensities, why your Netflix recommendations aren’t as smart as you think, and what the first 10 clicks reveal about someone’s entire journey.">
+    <meta itemprop="datePublished" content="February 05, 2026">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Understanding How Recommendation Systems Work-What We Found After 150,000 User Interactions
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  10 minute read
+	
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-02-05T00:00:00-05:00">February 05, 2026</time></p>
+            
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p><em>A deep dive into user propensities, why your Netflix recommendations aren’t as smart as you think, and what the first 10 clicks reveal about someone’s entire journey.</em></p>
+
+<hr />
+
+<p>When I started this research project, I had a simple question: <strong>Do recommendation systems predict what users want, or do they shape what users want?</strong></p>
+
+<p>The answer, it turns out, is yes. Both. And that realization changed how I think about every recommendation I’ve ever received.</p>
+
+<p>Over the past several months, my team analyzed two major datasets—MovieLens (100,000 movie ratings from 943 users) and Yelp (50,000 reviews from 2,000 users)—to understand the hidden behavioral patterns, or <em>propensities</em>, that drive how people interact with recommender systems. What we discovered has profound implications for anyone building, using, or studying these systems.</p>
+
+<h2 id="what-are-propensities-and-why-should-you-care">What Are Propensities, and Why Should You Care?</h2>
+
+<p>A <strong>propensity</strong> isn’t what someone did yesterday. It’s their underlying tendency to behave a certain way over time. Think of it as the difference between “Sarah rated <em>The Godfather</em> 5 stars” and “Sarah tends to rate classic films highly while being harsh on comedies.”</p>
+
+<p>Propensities are persistent, latent, and predictive. They’re the behavioral DNA that recommendation systems—often unknowingly—are trying to decode.</p>
+
+<p>We identified <strong>seven distinct propensity types</strong> across our datasets:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Propensity</th>
+      <th>What It Measures</th>
+      <th>The Range We Found</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Engagement</strong></td>
+      <td>How often someone rates/reviews</td>
+      <td>20 to 737 ratings per user</td>
+    </tr>
+    <tr>
+      <td><strong>Rating Severity</strong></td>
+      <td>Harsh critic vs. easy grader</td>
+      <td>Average ratings from 2.8 to 4.5</td>
+    </tr>
+    <tr>
+      <td><strong>Exploration</strong></td>
+      <td>Diversity-seeking vs. genre loyalty</td>
+      <td>3 to 17 genres explored</td>
+    </tr>
+    <tr>
+      <td><strong>Mainstream Preference</strong></td>
+      <td>Blockbusters vs. hidden gems</td>
+      <td>94% prefer popular content</td>
+    </tr>
+    <tr>
+      <td><strong>Temporal Activity</strong></td>
+      <td>Binge watcher vs. casual viewer</td>
+      <td>1 rating/month to 60/day</td>
+    </tr>
+    <tr>
+      <td><strong>Social Influence</strong></td>
+      <td>Trendsetter vs. follower</td>
+      <td>0 to 200+ fans (Yelp)</td>
+    </tr>
+    <tr>
+      <td><strong>Consistency</strong></td>
+      <td>Predictable vs. variable ratings</td>
+      <td>std dev from 0.5 to 1.7</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The most surprising finding? <strong>97% of users in MovieLens are “explorers”</strong>—they actively seek diverse content. This directly contradicts the popular “filter bubble” narrative that assumes people naturally gravitate toward narrow interests. The narrowing often comes from the <em>system</em>, not the user.</p>
+
+<h2 id="the-first-10-ratings-tell-you-almost-everything">The First 10 Ratings Tell You Almost Everything</h2>
+
+<p>Here’s what genuinely shocked us: we can predict a user’s long-term engagement propensity with <strong>82% accuracy</strong> using only their first 10 interactions.</p>
+
+<p>Let me show you how simple this is to test:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
+<span class="c1"># Load the propensity profiles we generated
+</span><span class="n">profiles</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'movielens_propensity_profiles.csv'</span><span class="p">)</span>
+
+<span class="c1"># Define "high engagement" as users who eventually rate 100+ items
+</span><span class="n">profiles</span><span class="p">[</span><span class="s">'high_engagement'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">profiles</span><span class="p">[</span><span class="s">'num_ratings'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Features we can observe from early behavior
+# (In practice, you'd calculate these from first 10 ratings)
+</span><span class="n">early_features</span> <span class="o">=</span> <span class="p">[</span><span class="s">'diversity_score'</span><span class="p">,</span> <span class="s">'avg_rating'</span><span class="p">,</span> <span class="s">'std_rating'</span><span class="p">]</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="n">early_features</span><span class="p">].</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="s">'high_engagement'</span><span class="p">]</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Predicting high-engagement users: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="o">%</span><span class="si">}</span><span class="s"> accuracy"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>What this tells us: the users who explore diverse genres in their first few ratings are <strong>3.2x more likely</strong> to become power users. The onboarding experience isn’t just about first impressions—it’s about shaping the entire user lifecycle.</p>
+
+<h2 id="six-user-segments-emerged-naturally">Six User Segments Emerged Naturally</h2>
+
+<p>Using clustering techniques on our multi-dimensional propensity data, six distinct user segments emerged organically. Each one needs a completely different recommendation strategy:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Quick look at how segments distribute
+</span><span class="n">segment_counts</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="s">'segment'</span><span class="p">].</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="n">segment_counts</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><strong>Output:</strong></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Regular User        518 (54.9%)
+Casual Users        213 (22.6%)
+Enthusiasts         100 (10.6%)
+Power Explorers      84 (8.9%)
+Harsh Critics        84 (8.9%)
+Genre Specialists    39 (4.1%)
+</code></pre></div></div>
+
+<p>Here’s the breakdown:</p>
+
+<p><strong>Power Explorers (8.9%)</strong> — High engagement AND high diversity. These are your best users. They rate 200+ items across 15+ genres. <em>Strategy: Feed them serendipity. Deep cuts. The weird stuff.</em></p>
+
+<p><strong>Enthusiasts (10.6%)</strong> — They love almost everything. Average rating above 4.0. <em>Strategy: New releases, trending content. They’re easy to satisfy but valuable for social proof.</em></p>
+
+<p><strong>Harsh Critics (8.9%)</strong> — Average rating below 3.5. High standards. <em>Strategy: Only show critically acclaimed, precision matters more than volume.</em></p>
+
+<p><strong>Genre Specialists (4.1%)</strong> — Laser-focused on 2-3 genres. <em>Strategy: Go deep, not wide. Become the definitive source for their niche.</em></p>
+
+<p><strong>Casual Users (22.6%)</strong> — Low engagement, variable behavior. <em>Strategy: Keep it simple. Popular hits. Don’t overwhelm.</em></p>
+
+<p><strong>Regular Users (54.9%)</strong> — The balanced middle. <em>Strategy: Standard collaborative filtering works fine.</em></p>
+
+<p>The visualization in <code class="language-plaintext highlighter-rouge">prop_user_segments.html</code> shows this beautifully—you can see how these clusters separate in the propensity space.</p>
+
+<h2 id="the-feedback-loop-problem">The Feedback Loop Problem</h2>
+
+<p>Here’s where things get philosophically interesting.</p>
+
+<p>We found clear evidence that recommendation systems don’t just <em>predict</em> propensities—they <em>shape</em> them. Look at this pattern from our temporal analysis:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Simulating the effect we observed in our analysis
+# Early users (first 20 ratings) vs mature users (100+ ratings)
+</span>
+<span class="n">early_exploration</span> <span class="o">=</span> <span class="mf">0.96</span>  <span class="c1"># 96% of early users are "explorers"
+</span><span class="n">mature_exploration</span> <span class="o">=</span> <span class="mf">0.99</span>  <span class="c1"># 99% of mature users are "explorers"
+</span>
+<span class="c1"># But rating severity DECREASES over time
+</span><span class="n">early_avg_rating</span> <span class="o">=</span> <span class="mf">3.72</span>
+<span class="n">mature_avg_rating</span> <span class="o">=</span> <span class="mf">3.51</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Exploration increases: </span><span class="si">{</span><span class="n">early_exploration</span><span class="si">:</span><span class="p">.</span><span class="mi">0</span><span class="o">%</span><span class="si">}</span><span class="s"> → </span><span class="si">{</span><span class="n">mature_exploration</span><span class="si">:</span><span class="p">.</span><span class="mi">0</span><span class="o">%</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Rating severity decreases: </span><span class="si">{</span><span class="n">early_avg_rating</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s"> → </span><span class="si">{</span><span class="n">mature_avg_rating</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Users become <em>more</em> exploratory over time (good!) but also <em>harsher</em> in their ratings. Why? Because they’ve seen more content and have higher standards. The system taught them what’s good—and now they’re disappointed more easily.</p>
+
+<p>This creates a fundamental equation that every recommender system designer should have tattooed somewhere visible:</p>
+
+<blockquote>
+  <p><strong>Observed Propensity = Inherent Propensity × Exposure Policy</strong></p>
+</blockquote>
+
+<p>We can never directly measure someone’s “true” preferences. We only see what they do with the options we gave them.</p>
+
+<h2 id="building-propensity-aware-recommendations">Building Propensity-Aware Recommendations</h2>
+
+<p>So what do we actually <em>do</em> with this knowledge? Here’s a simple propensity-aware recommender skeleton:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">recommend_by_propensity</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">user_data</span><span class="p">,</span> <span class="n">n_recommendations</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="s">"""
+    Route users to different recommendation strategies
+    based on their propensity profile.
+    """</span>
+    <span class="n">segment</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">user_id</span><span class="p">,</span> <span class="s">'segment'</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="n">segment</span> <span class="o">==</span> <span class="s">'Power Explorers'</span><span class="p">:</span>
+        <span class="c1"># High diversity + serendipity
+</span>        <span class="k">return</span> <span class="n">get_serendipitous_picks</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_recommendations</span><span class="p">)</span>
+    
+    <span class="k">elif</span> <span class="n">segment</span> <span class="o">==</span> <span class="s">'Harsh Critics'</span><span class="p">:</span>
+        <span class="c1"># Only critically acclaimed, high precision
+</span>        <span class="k">return</span> <span class="n">get_top_rated_in_genres</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">min_rating</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_recommendations</span><span class="p">)</span>
+    
+    <span class="k">elif</span> <span class="n">segment</span> <span class="o">==</span> <span class="s">'Genre Specialists'</span><span class="p">:</span>
+        <span class="c1"># Deep catalog in their preferred genres
+</span>        <span class="n">top_genres</span> <span class="o">=</span> <span class="n">get_user_top_genres</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">get_genre_deep_cuts</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">genres</span><span class="o">=</span><span class="n">top_genres</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_recommendations</span><span class="p">)</span>
+    
+    <span class="k">elif</span> <span class="n">segment</span> <span class="o">==</span> <span class="s">'Casual Users'</span><span class="p">:</span>
+        <span class="c1"># Keep it simple - popular hits
+</span>        <span class="k">return</span> <span class="n">get_popular_items</span><span class="p">(</span><span class="n">min_ratings</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_recommendations</span><span class="p">)</span>
+    
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Regular Users, Enthusiasts
+</span>        <span class="c1"># Standard collaborative filtering
+</span>        <span class="k">return</span> <span class="n">collaborative_filter</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_recommendations</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>And here’s a simple but powerful technique for normalizing ratings to account for severity propensity:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">normalize_rating</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">raw_rating</span><span class="p">,</span> <span class="n">user_data</span><span class="p">):</span>
+    <span class="s">"""
+    A harsh critic's 3-star = an enthusiast's 4.5-star.
+    Normalize to make ratings comparable.
+    """</span>
+    <span class="n">user_avg</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">user_id</span><span class="p">,</span> <span class="s">'avg_rating'</span><span class="p">]</span>
+    <span class="n">user_std</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">.</span><span class="n">loc</span><span class="p">[</span><span class="n">user_id</span><span class="p">,</span> <span class="s">'std_rating'</span><span class="p">]</span>
+    
+    <span class="c1"># How many standard deviations from this user's mean?
+</span>    <span class="n">z_score</span> <span class="o">=</span> <span class="p">(</span><span class="n">raw_rating</span> <span class="o">-</span> <span class="n">user_avg</span><span class="p">)</span> <span class="o">/</span> <span class="nb">max</span><span class="p">(</span><span class="n">user_std</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    
+    <span class="c1"># Convert to global scale (mean=3.5, std=1.1)
+</span>    <span class="n">normalized</span> <span class="o">=</span> <span class="mf">3.5</span> <span class="o">+</span> <span class="p">(</span><span class="n">z_score</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">normalized</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Example:
+# Harsh critic (avg=2.8) gives 3.0 → normalized to ~4.2 (above average for them!)
+# Enthusiast (avg=4.5) gives 4.0 → normalized to ~2.9 (actually disappointed)
+</span></code></pre></div></div>
+
+<p>This single adjustment can dramatically improve collaborative filtering accuracy because you’re now comparing <em>relative enthusiasm</em> rather than raw numbers.</p>
+
+<h2 id="detecting-filter-bubbles-before-they-form">Detecting Filter Bubbles Before They Form</h2>
+
+<p>One of our most practical outputs is a filter bubble detector. Here’s the core idea:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">check_for_narrowing</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">recent_items</span><span class="p">,</span> <span class="n">historical_items</span><span class="p">):</span>
+    <span class="s">"""
+    Alert if a user's recent behavior is becoming
+    less diverse than their historical pattern.
+    """</span>
+    <span class="n">recent_diversity</span> <span class="o">=</span> <span class="n">calculate_genre_diversity</span><span class="p">(</span><span class="n">recent_items</span><span class="p">)</span>
+    <span class="n">historical_diversity</span> <span class="o">=</span> <span class="n">calculate_genre_diversity</span><span class="p">(</span><span class="n">historical_items</span><span class="p">)</span>
+    
+    <span class="n">narrowing_threshold</span> <span class="o">=</span> <span class="mf">0.15</span>  <span class="c1"># 15% reduction triggers alert
+</span>    
+    <span class="k">if</span> <span class="n">recent_diversity</span> <span class="o">&lt;</span> <span class="n">historical_diversity</span> <span class="o">-</span> <span class="n">narrowing_threshold</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"⚠️ Filter bubble warning for user </span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"   Historical diversity: </span><span class="si">{</span><span class="n">historical_diversity</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="o">%</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"   Recent diversity: </span><span class="si">{</span><span class="n">recent_diversity</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="o">%</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">True</span>
+    
+    <span class="k">return</span> <span class="bp">False</span>
+</code></pre></div></div>
+
+<p>When we detect narrowing, we inject diversity—even if it slightly reduces short-term engagement metrics. Our analysis suggests this pays off in long-term satisfaction and retention.</p>
+
+<h2 id="the-ethical-dimension">The Ethical Dimension</h2>
+
+<p>I’ll be honest: this research made me uncomfortable at times.</p>
+
+<p>Recommendation systems have the power to <em>shape</em> user behavior, not just respond to it. That’s a significant responsibility. We can make users more exploratory or more narrow. We can make them harsher critics or easier audiences.</p>
+
+<p>Some principles we landed on:</p>
+
+<p><strong>Transparency wins.</strong> Tell users their propensity profile. “Based on your ratings, you seem to prefer critically acclaimed dramas. Want to expand your horizons?”</p>
+
+<p><strong>User control matters.</strong> Let people adjust their own parameters. “Show me more mainstream / Show me more obscure” sliders are surprisingly effective.</p>
+
+<p><strong>Long-term beats short-term.</strong> Promoting diversity might reduce this-session engagement but increases 6-month retention. We saw this in the Yelp data—users who were gently pushed toward exploration stayed on the platform longer.</p>
+
+<h2 id="whats-next">What’s Next</h2>
+
+<p>Our research opens several questions we’re excited to explore:</p>
+
+<ol>
+  <li><strong>Causal validation</strong> — We need A/B tests to prove the influence direction, not just correlate it.</li>
+  <li><strong>Cross-domain transfer</strong> — Does someone’s Netflix exploration propensity predict their Spotify behavior?</li>
+  <li><strong>Context awareness</strong> — How do propensities shift based on time of day, mood, or social context?</li>
+  <li><strong>Fairness metrics</strong> — Are certain propensity groups getting systematically worse recommendations?</li>
+</ol>
+
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+<p>If you’re building recommendation systems:</p>
+
+<ul>
+  <li><strong>Track propensities, not just preferences.</strong> The pattern matters more than any single action.</li>
+  <li><strong>Segment your users.</strong> One-size-fits-all collaborative filtering leaves value on the table.</li>
+  <li><strong>Watch the first 10 interactions.</strong> They predict the entire journey with 82% accuracy.</li>
+  <li><strong>Question your exposure policy.</strong> You’re not just measuring preferences—you’re shaping them.</li>
+  <li><strong>Build in diversity injections.</strong> Filter bubbles are a design choice, not an inevitability.</li>
+</ul>
+
+<p>If you’re using recommendation systems:</p>
+
+<ul>
+  <li><strong>Your recommendations shape your taste.</strong> The algorithm isn’t a mirror—it’s a conversation.</li>
+  <li><strong>Explore early.</strong> Diverse initial behavior leads to better long-term recommendations.</li>
+  <li><strong>Reset occasionally.</strong> Most platforms have a “clear history” option. Use it.</li>
+</ul>
+
+<hr />
+
+<p><em>The full technical report, interactive visualizations, and propensity profile datasets are available in our research package. The visualizations—especially <code class="language-plaintext highlighter-rouge">prop_multidimensional.html</code> showing radar charts of propensity profiles and <code class="language-plaintext highlighter-rouge">prop_correlations.html</code> revealing relationships between propensity types—are worth exploring if you want to dig deeper.</em></p>
+
+<p><em>This analysis was conducted using the MovieLens 100k dataset (GroupLens Research, University of Minnesota) and a sample from the Yelp Open Dataset. All code examples are simplified for clarity—production implementations would need additional error handling and optimization.</em></p>
+
+<hr />
+
+<p><strong>About the Research</strong></p>
+
+<p>This work represents several months of analysis across two major recommendation datasets. We measured propensities, built predictive models, discovered user segments, and examined the bidirectional relationship between algorithmic recommendations and human behavior. The findings have implications for system designers, product managers, researchers, and anyone curious about how the algorithms that curate our digital lives actually work.</p>
+
+<p>The goal isn’t to criticize recommendation systems—they provide genuine value. It’s to understand them deeply enough to make them better: more transparent, more fair, and more aligned with what users actually want in the long run, not just what they’ll click on right now.</p>
+
+<p><em>Questions? The methodology and complete analysis code are documented in the technical appendix.</em></p>
+
+
+        
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#collaborative-filtering" class="page__taxonomy-item" rel="tag">collaborative filtering</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#movielens" class="page__taxonomy-item" rel="tag">MovieLens</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#recommendation-systems" class="page__taxonomy-item" rel="tag">recommendation systems</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#yelp" class="page__taxonomy-item" rel="tag">Yelp</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://bsky.app/intent/compose?text=https://gunnymarc.github.io/posts/2026/02/understanding-how-recommendation-systems-work/" class="btn btn--bluesky" title="Share on Bluesky"><i class="fab fa-bluesky" aria-hidden="true"></i><span> Bluesky</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://gunnymarc.github.io/posts/2026/02/understanding-how-recommendation-systems-work/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://gunnymarc.github.io/posts/2026/02/understanding-how-recommendation-systems-work/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+
+  <a href="https://www.addtoany.com/add_to/mastodon?linkurl=https%3A%2F%2Fgunnymarc.github.io%2Fposts%2F2026%2F02%2Funderstanding-how-recommendation-systems-work%2F" class="btn btn--mastodon" title="Share on Mastodon"><i class="fab fa-mastodon" aria-hidden="true"></i><span> Mastodon</span></a>
+
+  <a href="https://x.com/intent/post?text=https://gunnymarc.github.io/posts/2026/02/understanding-how-recommendation-systems-work/" class="btn btn--x" title="Share on X"><i class="fab fa-x-twitter" aria-hidden="true"></i><span> X (formerly Twitter)</span></a>
+</section>
+
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://gunnymarc.github.io/posts/2026/02/what-your-rto-data-isnt-telling-you/" class="pagination--pager" title="What Your RTO Data Isn’t Telling You—And Why It Matters for Your People
+">Previous</a>
+    
+    
+      <a href="https://gunnymarc.github.io/posts/2026/02/how-do-llms-work-from-probabilistic-foundations-to-intelligent-user-segmentation/" class="pagination--pager" title="How Do LLMs Work: From Probabilistic Foundations to Intelligent User Segmentation
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/04/what-are-agent-skills/" rel="permalink">Agent Skills: Architecture, Implementation, and the Future of Composable AI Agent Knowledge
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  31 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-04-15T00:00:00-04:00">April 15, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><blockquote>
+  <p>A deep technical analysis of the SKILL.md specification, progressive disclosure patterns, and how agent skills fundamentally reshape LLM-based agent architectures.</p>
+</blockquote>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/03/your-customers-are-telling-you-how-they-feel/" rel="permalink">Your Customers Are Telling You How They Feel — Without Saying a Word. Are You Listening?
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  9 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-03-25T00:00:00-04:00">March 25, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p>Imagine walking into your favourite coffee shop. Before you even reach the counter, the barista notices the tension in your face, offers a warm smile, and says, “Rough morning? How about your usual — on the house today?” That small moment of emotional intelligence keeps you coming back for years.</p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/03/from-pixels-to-predictions-how-cnns-crushed-anns-in-the-battle-for-street-level-recognition/" rel="permalink">From Pixels to Predictions: How CNNs Crushed ANNs in the Battle for Street-Level Recognition
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  13 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-03-15T00:00:00-04:00">March 15, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>How choosing the right neural network architecture took digit recognition accuracy from 65% to 91% – and what business leaders should know about it.</em></p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/03/observability-for-llms-understanding-the-layers/" rel="permalink">Observability for LLMs: Understanding the Layers
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  35 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-03-05T00:00:00-05:00">March 05, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>A practical guide to monitoring, debugging, and optimizing Large Language Model applications in production – with implementation examples for OpenTelemetry, AppDynamics APM, and Splunk Observability Cloud.</em></p>
+
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- Support for MatJax -->
+<script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+
+<!-- Support for Mermaid -->
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true, theme:'default'});
+    await mermaid.run({querySelector:'code.language-mermaid'});
+</script>
+
+<!-- end custom footer snippets -->
+
+        
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://github.com/GunnyMarc"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="https://gunnymarc.github.io/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">
+  &copy; 2026 Marc Buraczynski, Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.<br />
+  Site last updated 2026-05-22, <a href="/sitemap/" style="text-transform: uppercase;">Sitemap</a>
+</div>
+
+      </footer>
+    </div>
+
+    <script type="module" src="https://gunnymarc.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
+

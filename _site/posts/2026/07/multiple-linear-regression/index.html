@@ -1,0 +1,686 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling - Semper ex Datis</title>
+
+
+
+<meta name="description" content=" ">
+
+
+
+
+
+  <meta property="article:published_time" content="2026-07-30T00:00:00-04:00">
+
+
+
+  <link rel="canonical" href="https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Marc Buraczynski",
+      "url" : "https://gunnymarc.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+<!-- Open Graph protocol data (https://ogp.me/), used by social media -->
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Semper ex Datis"> 
+<meta property="og:title" content="Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling">
+
+  <meta property="og:type" content="article">
+
+
+  <meta property="og:description" name="description" content=" ">
+
+
+  <meta property="og:url" content="https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/">
+
+
+
+
+
+<!-- end Open Graph protocol -->
+
+<link href="https://gunnymarc.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Semper ex Datis Feed">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/main.css">
+
+    
+
+<!-- start custom head snippets -->
+
+<!-- Support for Academicons -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/academicons.css"/>
+
+<!-- favicon from https://commons.wikimedia.org/wiki/File:OOjs_UI_icon_academic-progressive.svg -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://gunnymarc.github.io/images/apple-touch-icon-180x180.png"/>
+<link rel="icon" type="image/svg+xml" href="https://gunnymarc.github.io/images/favicon.svg"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-32x32.png" sizes="32x32"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-192x192.png" sizes="192x192"/>
+<link rel="manifest" href="https://gunnymarc.github.io/images/manifest.json"/>
+<link rel="icon" href="/images/favicon.ico"/>
+<meta name="theme-color" content="#ffffff"/>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><span class="navicon"></span></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg persist ">
+            <a href="https://gunnymarc.github.io/">Semper ex Datis</a>
+          </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/year-archive/">Blog Posts</a>
+            </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/">About</a>
+            </li>
+          
+          <li id="theme-toggle" class="masthead__menu-item persist tail">
+            <a role="button" aria-labelledby="theme-icon"><i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="toggle theme"></i></a>
+          </li>
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://gunnymarc.github.io/images/semper-ex-datis-avatar.jpg" class="author__avatar" alt="Marc Buraczynski"  fetchpriority="high" />
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Marc Buraczynski</h3>
+    
+    <p class="author__bio">U.S. Marine | Data Scientist. Writing about LLMs, data science, and machine learning — the non-corporate version.</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      <!-- Font Awesome icons / Biographic information  -->
+      
+        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>United States</li>
+      
+      
+      
+      
+        <li><a href="mailto:"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>Email</a></li>
+      
+
+      <!-- Font Awesome and Academicons icons / Academic websites -->
+      
+            
+      
+            
+      
+      
+                              
+      
+      
+      
+      
+      
+
+      <!-- Font Awesome icons / Repositories and software development -->
+      
+            
+            
+      
+        <li><a href="https://github.com/GunnyMarc"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub</a></li>
+      
+            
+            
+
+      <!-- Font Awesome icons / Social media -->
+              
+      
+        <li><a href="https://bsky.app/profile/marcburaczynski.bsky.social"><i class="fab fa-fw fa-bluesky icon-pad-right" aria-hidden="true"></i>Bluesky</a></li>
+      
+      
+            
+      
+                  
+                  
+      
+            
+            
+      
+        <li><a href="https://www.linkedin.com/in/marc-buraczynski"><i class="fab fa-fw fa-linkedin icon-pad-right" aria-hidden="true"></i>LinkedIn</a></li>
+            
+      
+            
+                  
+            
+      
+            
+            
+      
+              
+      
+                      
+      
+      
+            
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling">
+    <meta itemprop="description" content=" ">
+    <meta itemprop="datePublished" content="July 30, 2026">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-30T00:00:00-04:00">July 30, 2026</time></p>
+            
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p><img src="https://cdn.abacus.ai/images/0ef9de91-1099-4645-84a6-1d62f72512fb.png" alt="Multiple Linear Regression" /> <img src="https://cdn.abacus.ai/images/a28bc82d-1e32-4e39-a1fb-ae2d87e0cdb3.png" alt="Multiple Linear Regression" /></p>
+
+<p><em>Extending simple linear regression into a multidimensional framework for modeling complex real-world phenomena.</em></p>
+
+<p>In the world of data science and statistical analysis, few techniques are as foundational and widely applicable as multiple linear regression. This powerful method extends the simplicity of basic linear regression into a multidimensional framework, allowing analysts and researchers to model complex real-world phenomena with remarkable accuracy. Whether you are predicting house prices, evaluating patient outcomes, or optimizing marketing strategies, multiple linear regression provides a robust foundation for understanding how multiple factors simultaneously influence a single outcome.</p>
+
+<h4 id="from-simple-to-multiple-the-evolution-of-linear-regression">From Simple to Multiple: The Evolution of Linear Regression</h4>
+
+<p>Simple linear regression has long been the starting point for anyone learning predictive modeling. In its most basic form, it examines the relationship between a single predictor variable and an outcome variable. For example, you might predict house prices based solely on the size of the house in square footage. The model produces a straight line that best fits the data, minimizing the sum of squared errors between predicted and actual values.</p>
+
+<p>However, the real world rarely operates on single variables. House prices, for instance, are influenced not just by size but by age, location, number of bedrooms, neighborhood quality, and countless other factors. This is where multiple linear regression enters the picture. Instead of relying on one predictor, this technique incorporates several input variables simultaneously to create a more accurate and nuanced model.</p>
+
+<p>The mathematical formulation is elegant in its simplicity. The model takes the form:</p>
+
+<p>y=β0​+β1​x1​+β2​x2​+β3​x3​+⋯+βn​xn​+ϵ</p>
+
+<p>Here, y represents the outcome variable, β0​ is the intercept, each βi​ is the coefficient associated with predictor xi​, and ϵ represents the error term. The goal remains the same as in simple linear regression: find the values of the beta coefficients that minimize the sum of squared errors. This is typically solved using linear algebra, and modern software handles these calculations automatically, regardless of how many predictors you include.</p>
+
+<h4 id="visualizing-multiple-linear-regression">Visualizing Multiple Linear Regression</h4>
+
+<p>When you move from one predictor to two, the visualization shifts from a two-dimensional line to a three-dimensional plane. With three or more predictors, the model exists in higher-dimensional space as what mathematicians call a hyperplane. While we cannot easily visualize dimensions beyond three, the mathematical principles remain consistent.</p>
+
+<p><img src="https://cdn.abacus.ai/images/0ef9de91-1099-4645-84a6-1d62f72512fb.png" alt="3D Multiple Linear Regression Plot" /></p>
+
+<p>The image above illustrates a three-dimensional scatter plot where house price is predicted using both house size and house age. The translucent blue regression plane cuts through the scattered data points, representing the model’s predictions across the range of both input variables. You can observe how the plane slopes upward with increasing house size and downward with increasing house age, capturing the dual influence of these predictors on price.</p>
+
+<h4 id="interpreting-coefficients-the-holding-others-fixed-principle">Interpreting Coefficients: The “Holding Others Fixed” Principle</h4>
+
+<p>One of the most important concepts in multiple linear regression is how to interpret the coefficients. Each coefficient represents the estimated change in the outcome variable for a one-unit increase in its corresponding predictor, holding all other variables constant. This principle is often described as “holding others fixed.”</p>
+
+<p>For example, if the coefficient for house size is 150, this means that for every additional square foot, the house price increases by $150, assuming the age of the house and all other variables remain unchanged. Similarly, if the coefficient for house age is -2,000, this indicates that for each additional year of age, the house price decreases by $2,000, holding size and other factors constant.</p>
+
+<p>This isolation of effects is what makes multiple regression so powerful. In the real world, variables are often correlated with each other. Older houses might tend to be smaller, or houses in certain locations might be both larger and newer. A simple regression using only house size would conflate these effects, potentially producing misleading results. Multiple regression controls for these correlations, allowing you to assign the unique influence of each factor to the prediction.</p>
+
+<p><img src="https://cdn.abacus.ai/images/a28bc82d-1e32-4e39-a1fb-ae2d87e0cdb3.png" alt="Simple vs Multiple Linear Regression Comparison" /></p>
+
+<p>The comparison image above demonstrates this distinction clearly. On the left, a simple linear regression uses only house size to predict price, producing a single line through a two-dimensional scatter plot. On the right, multiple linear regression incorporates both house size and house age, producing a regression plane in three-dimensional space. The multiple regression model captures significantly more of the variation in the data, resulting in tighter predictions and smaller errors.</p>
+
+<h4 id="why-multiple-predictors-matter">Why Multiple Predictors Matter</h4>
+
+<p>The primary motivation for using multiple predictors is improved prediction accuracy. In a typical example, a simple linear regression using only house size might achieve an R-squared value of around 83 percent. This means the model explains 83 percent of the variation in house prices. While respectable, this leaves 17 percent unexplained. By adding variables such as house age and location, the R-squared value can increase substantially, and the predictions become significantly tighter, with data points clustering more closely around the regression plane.</p>
+
+<p>Beyond accuracy, multiple regression helps address the problem of correlated predictors. When variables are related to each other, simple models can confuse their individual effects. For instance, if older houses tend to be smaller, a model using only size might underestimate the true effect of size on price because it is inadvertently capturing the negative effect of age as well. Multiple regression disentangles these relationships, providing a clearer picture of each variable’s unique contribution.</p>
+
+<h4 id="evaluating-predictor-importance">Evaluating Predictor Importance</h4>
+
+<p>When you have multiple predictors, a natural question arises: which ones matter most? Is house size more important than house age? There are several approaches to answering this question.</p>
+
+<p>One common method is to measure the improvement in R-squared when adding each new feature to the model. If adding house age to a model that already includes house size increases R-squared by a significant margin, that suggests age is an important predictor. Another approach is cross-validation, where you systematically add and remove predictors to see how the model’s performance changes on unseen data.</p>
+
+<p>Standardized coefficients also provide insight into relative importance. When all variables are scaled to the same units, the magnitude of each coefficient reflects its relative influence on the outcome. However, this approach should be used cautiously, as it can be sensitive to correlations between predictors.</p>
+
+<h4 id="real-world-applications">Real-World Applications</h4>
+
+<p>The applications of multiple linear regression extend far beyond real estate. In healthcare, researchers use it to predict patient outcomes based on treatment type, drug dosage, patient age, pre-existing conditions, and lifestyle factors. In marketing, analysts model sales as a function of advertising spend across different channels, seasonality, product pricing, and competitive activity. In transportation, engineers predict fuel efficiency using engine size, vehicle weight, aerodynamic design, and driving conditions.</p>
+
+<p>The key insight is that most outcomes we care about depend on multiple factors. Rarely does a single variable tell the whole story. Multiple linear regression provides a framework for capturing these complex relationships in a way that is both interpretable and actionable.</p>
+
+<h4 id="guarding-against-overfitting">Guarding Against Overfitting</h4>
+
+<p>While adding more predictors generally improves model performance, there is a critical caveat: overfitting. When you include too many variables, especially relative to the amount of data you have, the model can start fitting random noise rather than genuine patterns. This results in a model that performs well on the training data but poorly on new, unseen data.</p>
+
+<p>Cross-validation is one of the most effective tools for guarding against overfitting. By repeatedly training the model on subsets of the data and testing it on held-out portions, you can assess whether adding more predictors genuinely improves generalization or merely memorizes the training set. Other techniques include regularization methods like ridge regression and lasso, which penalize overly complex models, and information criteria like AIC and BIC, which balance model fit against complexity.</p>
+
+<h4 id="conclusion">Conclusion</h4>
+
+<p>Multiple linear regression is a remarkably powerful and versatile tool for understanding complex relationships and making predictions. By extending the simple linear regression framework to accommodate multiple predictors, it allows analysts to model real-world phenomena with greater accuracy and nuance. The principle of “holding others fixed” provides clear, interpretable insights into the unique contribution of each variable, while techniques like cross-validation ensure that models generalize well to new data.</p>
+
+<p>For anyone beginning their journey into predictive modeling, multiple linear regression is an excellent starting point. It is intuitive, computationally efficient, and provides a solid foundation for understanding more advanced techniques. As the transcript emphasizes, most outcomes depend on multiple factors, and multiple regression offers a principled way to capture those relationships. Whether you are analyzing housing markets, optimizing business strategies, or advancing scientific research, multiple linear regression remains an indispensable tool in the data scientist’s toolkit.</p>
+
+
+        
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#machine-learning" class="page__taxonomy-item" rel="tag">machine learning</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#multiple-linear-regression" class="page__taxonomy-item" rel="tag">multiple linear regression</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#overfitting" class="page__taxonomy-item" rel="tag">overfitting</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#predictive-modeling" class="page__taxonomy-item" rel="tag">predictive modeling</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#statistics" class="page__taxonomy-item" rel="tag">statistics</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://bsky.app/intent/compose?text=https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/" class="btn btn--bluesky" title="Share on Bluesky"><i class="fab fa-bluesky" aria-hidden="true"></i><span> Bluesky</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+
+  <a href="https://www.addtoany.com/add_to/mastodon?linkurl=https%3A%2F%2Fgunnymarc.github.io%2Fposts%2F2026%2F07%2Fmultiple-linear-regression%2F" class="btn btn--mastodon" title="Share on Mastodon"><i class="fab fa-mastodon" aria-hidden="true"></i><span> Mastodon</span></a>
+
+  <a href="https://x.com/intent/post?text=https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/" class="btn btn--x" title="Share on X"><i class="fab fa-x-twitter" aria-hidden="true"></i><span> X (formerly Twitter)</span></a>
+</section>
+
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/" class="pagination--pager" title="Kimi Linear: Breaking the Long-Context Memory Wall
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/" rel="permalink">Kimi Linear: Breaking the Long-Context Memory Wall
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  11 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-29T00:00:00-04:00">July 29, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>Strategic Analysis &amp; Hands-On GPU Evaluation of Kimi Linear: Next-Generation Hybrid Attention Architecture</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/" rel="permalink">Deriving the Least Squares Solution: From Simple Regression to the Normal Equations
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-29T00:00:00-04:00">July 29, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>Retracing the derivation from first principles — from a bowl-shaped loss surface to the compact matrix equation β = (XᵀX)⁻¹Xᵀy.</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/" rel="permalink">Fitting a Linear Model and Assessing Fit
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  9 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-28T00:00:00-04:00">July 28, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>From ordinary least squares to residual diagnostics — how to fit, measure, and verify a linear model.</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/linear-regression/" rel="permalink">Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-27T00:00:00-04:00">July 27, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><img src="https://cdn.abacus.ai/images/e16729b8-7102-4276-8076-a2756ab8da57.jpg" alt="Linear Regression" /> <img src="https://cdn.abacus.ai/images/0c66cf1f-3c47-4d60-9237-962b6945cf05.jpg" alt="Linear Regression" /></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- Support for MatJax -->
+<script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+
+<!-- Support for Mermaid -->
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true, theme:'default'});
+    await mermaid.run({querySelector:'code.language-mermaid'});
+</script>
+
+<!-- end custom footer snippets -->
+
+        
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://github.com/GunnyMarc"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="https://gunnymarc.github.io/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">
+  &copy; 2026 Marc Buraczynski, Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.<br />
+  Site last updated 2026-07-29, <a href="/sitemap/" style="text-transform: uppercase;">Sitemap</a>
+</div>
+
+      </footer>
+    </div>
+
+    <script type="module" src="https://gunnymarc.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
+

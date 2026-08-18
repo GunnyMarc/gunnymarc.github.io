@@ -1,0 +1,687 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+
+<meta charset="utf-8">
+
+
+
+<!-- begin SEO -->
+
+
+
+
+
+
+
+
+
+<title>Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations - Semper ex Datis</title>
+
+
+
+<meta name="description" content=" ">
+
+
+
+
+
+  <meta property="article:published_time" content="2026-07-27T00:00:00-04:00">
+
+
+
+  <link rel="canonical" href="https://gunnymarc.github.io/posts/2026/07/linear-regression/">
+
+
+
+
+
+  
+
+  
+
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Marc Buraczynski",
+      "url" : "https://gunnymarc.github.io",
+      "sameAs" : null
+    }
+  </script>
+
+
+
+
+
+
+<!-- end SEO -->
+
+<!-- Open Graph protocol data (https://ogp.me/), used by social media -->
+<meta property="og:locale" content="en-US">
+<meta property="og:site_name" content="Semper ex Datis"> 
+<meta property="og:title" content="Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations">
+
+  <meta property="og:type" content="article">
+
+
+  <meta property="og:description" name="description" content=" ">
+
+
+  <meta property="og:url" content="https://gunnymarc.github.io/posts/2026/07/linear-regression/">
+
+
+
+
+
+<!-- end Open Graph protocol -->
+
+<link href="https://gunnymarc.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Semper ex Datis Feed">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/main.css">
+
+    
+
+<!-- start custom head snippets -->
+
+<!-- Support for Academicons -->
+<link rel="stylesheet" href="https://gunnymarc.github.io/assets/css/academicons.css"/>
+
+<!-- favicon from https://commons.wikimedia.org/wiki/File:OOjs_UI_icon_academic-progressive.svg -->
+<link rel="apple-touch-icon" sizes="180x180" href="https://gunnymarc.github.io/images/apple-touch-icon-180x180.png"/>
+<link rel="icon" type="image/svg+xml" href="https://gunnymarc.github.io/images/favicon.svg"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-32x32.png" sizes="32x32"/>
+<link rel="icon" type="image/png" href="https://gunnymarc.github.io/images/favicon-192x192.png" sizes="192x192"/>
+<link rel="manifest" href="https://gunnymarc.github.io/images/manifest.json"/>
+<link rel="icon" href="/images/favicon.ico"/>
+<meta name="theme-color" content="#ffffff"/>
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+    
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        <button><span class="navicon"></span></button>
+        <ul class="visible-links">
+          <li class="masthead__menu-item masthead__menu-item--lg persist ">
+            <a href="https://gunnymarc.github.io/">Semper ex Datis</a>
+          </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/year-archive/">Blog Posts</a>
+            </li>
+          
+            
+            <li class="masthead__menu-item ">
+              <a href="https://gunnymarc.github.io/">About</a>
+            </li>
+          
+          <li id="theme-toggle" class="masthead__menu-item persist tail">
+            <a role="button" aria-labelledby="theme-icon"><i id="theme-icon" class="fa-solid fa-sun" aria-hidden="true" title="toggle theme"></i></a>
+          </li>
+        </ul>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+
+
+<div id="main" role="main">
+  
+
+
+  <div class="sidebar sticky">
+  
+
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+  <div class="author__avatar">
+    
+    	<img src="https://gunnymarc.github.io/images/semper-ex-datis-avatar.jpg" class="author__avatar" alt="Marc Buraczynski"  fetchpriority="high" />
+    
+  </div>
+
+  <div class="author__content">
+    <h3 class="author__name">Marc Buraczynski</h3>
+    
+    <p class="author__bio">U.S. Marine | Data Scientist. Writing about LLMs, data science, and machine learning — the non-corporate version.</p>
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      <!-- Font Awesome icons / Biographic information  -->
+      
+        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>United States</li>
+      
+      
+      
+      
+        <li><a href="mailto:"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>Email</a></li>
+      
+
+      <!-- Font Awesome and Academicons icons / Academic websites -->
+      
+            
+      
+            
+      
+      
+                              
+      
+      
+      
+      
+      
+
+      <!-- Font Awesome icons / Repositories and software development -->
+      
+            
+            
+      
+        <li><a href="https://github.com/GunnyMarc"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub</a></li>
+      
+            
+            
+
+      <!-- Font Awesome icons / Social media -->
+              
+      
+        <li><a href="https://bsky.app/profile/marcburaczynski.bsky.social"><i class="fab fa-fw fa-bluesky icon-pad-right" aria-hidden="true"></i>Bluesky</a></li>
+      
+      
+            
+      
+                  
+                  
+      
+            
+            
+      
+        <li><a href="https://www.linkedin.com/in/marc-buraczynski"><i class="fab fa-fw fa-linkedin icon-pad-right" aria-hidden="true"></i>LinkedIn</a></li>
+            
+      
+            
+                  
+            
+      
+            
+            
+      
+              
+      
+                      
+      
+      
+            
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+  <article class="page" itemscope itemtype="http://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations">
+    <meta itemprop="description" content=" ">
+    <meta itemprop="datePublished" content="July 27, 2026">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 class="page__title" itemprop="headline">Understanding Simple Linear Regression: Foundations, Mathematics, Applications, and Limitations
+</h1>
+          
+            <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+          
+        
+        
+        
+          <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-27T00:00:00-04:00">July 27, 2026</time></p>
+            
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        <p><img src="https://cdn.abacus.ai/images/e16729b8-7102-4276-8076-a2756ab8da57.jpg" alt="Linear Regression" /> <img src="https://cdn.abacus.ai/images/0c66cf1f-3c47-4d60-9237-962b6945cf05.jpg" alt="Linear Regression" /></p>
+
+<p><em>Foundations, Mathematics, Applications, and Limitations</em></p>
+
+<p>Linear regression stands as one of the most fundamental and widely utilized techniques in supervised machine learning and statistical modeling. When analysts and data scientists seek to understand the relationship between variables or forecast future continuous numeric values, linear regression provides a clear, interpretable, and mathematically sound starting point. At its core, the technique aims to fit a straight line—or a hyperplane in higher-dimensional spaces—through data points to capture the underlying pattern connecting inputs to outputs.</p>
+
+<p>To understand the core concepts of simple linear regression, it helps to break down how the model operates, how its mathematical components translate into real-world insights, how it applies across diverse industries, and where its practical boundaries lie.</p>
+
+<h3 id="simple-vs-multiple-linear-regression">Simple vs. Multiple Linear Regression</h3>
+
+<p>In supervised learning, tasks are generally categorized into classification and regression. Regression algorithms deal specifically with predicting continuous numerical targets rather than discrete categorical outcomes. Linear regression is categorized based on the number of predictor variables utilized in the model.</p>
+
+<p>Simple linear regression uses exactly one input feature to predict a single target output variable. For example, a model might use only the living area of a house in square feet to estimate its total market price. In contrast, multiple linear regression expands upon this idea by incorporating two or more input features simultaneously to explain the output. In a housing context, multiple linear regression would consider not only the square footage, but also the geographic location, the age of the property, the number of bedrooms, and neighborhood school ratings. While multiple linear regression offers greater real-world accuracy, mastering simple linear regression is essential because its foundational mechanics and equation structure form the bedrock of all linear models.</p>
+
+<h3 id="the-mathematical-equation-and-core-components">The Mathematical Equation and Core Components</h3>
+
+<p>To ground these abstract statistical concepts, consider a concrete real-world scenario: predicting the selling price of residential properties based on their measured living area. When historical transaction data is plotted on a two-dimensional graph—with house size on the horizontal x-axis and sale price on the vertical y-axis—each historical sale appears as an individual point. A visual inspection often reveals an upward trend where larger houses generally command higher prices. While individual properties vary around this trend line, the overall relationship aligns along a linear path.</p>
+
+<p>Mathematically, this relationship is expressed through the simple linear regression formula:</p>
+
+<p>y=β0​+β1​x+ϵ</p>
+
+<p>Each term in this equation carries a distinct statistical and physical interpretation:</p>
+
+<p>The term y represents the target or dependent variable, which is the numerical value the model seeks to predict (e.g., the final house price in dollars).</p>
+
+<p>The term x represents the input feature or independent variable, which serves as the predictor (e.g., house size in square feet).</p>
+
+<p>The coefficient β0​ represents the y-intercept of the regression line. Geometrically, this is the point where the fitted line crosses the vertical axis when x equals zero. In the housing example, β0​ represents the theoretical baseline price of a house with zero square feet. Although a zero-square-foot house is physically impossible, the intercept remains mathematically necessary to anchor the regression line in space.</p>
+
+<p>The coefficient β1​ represents the slope of the regression line. It quantifies the expected change in the target variable y for every one-unit increase in the predictor variable x. The magnitude and sign of β1​ indicate both the strength and the direction of the relationship.</p>
+
+<p>The term ϵ represents the error term or residual. In real-world data, data points rarely fall perfectly along a single straight line. The error term accounts for the vertical difference between an actual observed data point and the value predicted by the regression line. It captures random noise, unmeasured variables, and unpredictable market fluctuations that fall outside the model’s scope.</p>
+
+<h3 id="interpreting-coefficients-with-a-practical-example">Interpreting Coefficients with a Practical Example</h3>
+
+<p>To make these mathematical symbols concrete, imagine a housing dataset where fitting a linear regression model yields a y-intercept β0​ equal to $100,000 and a slope coefficient β1​ equal to $110 per square foot.</p>
+
+<p>In this scenario, the intercept indicates a baseline valuation of $100,000. The slope indicates that each additional square foot of living space adds an estimated $110 to the house price. For instance, if a house size increases from 1,000 square feet to 1,100 square feet—a difference of 100 square feet—the model predicts a price increase of 100 times $110, which equals $11,000.</p>
+
+<p>Evaluating the slope coefficient provides valuable domain insights into market dynamics. A steeper slope, such as β1​ equal to $300 per square foot, would indicate that living space is highly prized, a condition typical of expensive dense urban environments. Conversely, a shallower slope reflects a market where square footage plays a less dramatic role in driving price.</p>
+
+<p>The error term ϵ represents real-world deviations from these average predictions. For example, if the model predicts a price of $210,000 for an 800-square-foot house, but the actual house sold for $219,000, the residual error is positive $9,000. Conversely, if a home sold for $9,000 less than predicted, the error is negative. These errors stem from factors unmeasured by simple square footage, such as recent renovations, scenic views, or seller urgency.</p>
+
+<h3 id="dual-objectives-prediction-and-inference">Dual Objectives: Prediction and Inference</h3>
+
+<p>Linear regression serves two major analytical purposes in data science: prediction and statistical inference.</p>
+
+<p>In predictive modeling, the goal is to deploy the trained regression equation to estimate outcomes for new, unseen data inputs. Once the parameters β0​ and β1​ are established from historical data, predicting the value of a new observation requires simply plugging in the new input value x. For example, if a homeowner wants to estimate the value of a 1,300-square-foot or 1,800-square-foot house, substituting those values into the fitted equation yields an immediate, quantitative price prediction.</p>
+
+<p>In statistical inference, the primary goal is to understand the nature of the relationship between variables. Analysts examine the sign and magnitude of the slope parameter β1​ to draw conclusions. A positive slope confirms that increasing the input variable boosts the output variable, whereas a negative slope demonstrates an inverse relationship. Comparing slope magnitudes across different segments or regional markets allows researchers to measure relative feature sensitivity.</p>
+
+<h3 id="cross-industry-applications">Cross-Industry Applications</h3>
+
+<p>The mathematical framework of linear regression extends far beyond real estate valuation. Virtually any domain where a continuous target variable depends on measurable inputs can leverage regression modeling:</p>
+
+<p>In finance, analysts model stock market indices or asset returns against key economic drivers such as benchmark interest rates or gross domestic product growth metrics.</p>
+
+<p>In healthcare and medicine, clinical researchers study patient recovery outcomes by modeling recovery duration against variables like drug dosage levels or physical therapy hours.</p>
+
+<p>In education, administrators and researchers analyze student academic performance on standardized examinations as a function of dedicated study time or classroom attendance hours.</p>
+
+<p>In marketing, business executives evaluate advertising effectiveness by modeling sales revenue generation against promotional expenditure across various media channels.</p>
+
+<h3 id="key-limitations-and-assumptions">Key Limitations and Assumptions</h3>
+
+<p>Despite its clarity and widespread applicability, simple linear regression carries fundamental limitations that practitioners must recognize.</p>
+
+<p>First, the model inherently assumes a strict linear relationship between input x and output y. If the true underlying relationship is non-linear—such as an exponential growth curve or an inverted U-shape reflecting diminishing returns—a simple straight line will systematically miscalculate predictions.</p>
+
+<p>Second, relying on a single predictor variable often severely restricts predictive accuracy. Complex real-world outcomes are rarely driven by one factor alone. Omitting important variables leaves a large portion of variance unexplained, resulting in higher residual errors. Furthermore, simple linear regression cannot capture interaction effects where the impact of one variable depends on the state of another.</p>
+
+<p>Finally, standard linear regression assumes homoscedasticity, meaning the variance of the error term ϵ remains constant across all levels of the predictor variable x. In practice, variability often expands as the predictor grows; for instance, price variance among high-end 5,000-square-foot luxury mansions is typically much larger than variance among 800-square-foot starter homes. When these assumptions are violated, transitioning to multiple linear regression or non-linear models becomes necessary.</p>
+
+
+        
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+
+
+  
+  
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fa fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#data-science" class="page__taxonomy-item" rel="tag">data science</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#linear-regression" class="page__taxonomy-item" rel="tag">linear regression</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#machine-learning" class="page__taxonomy-item" rel="tag">machine learning</a><span class="sep">, </span>
+    
+      
+      
+      <a href="https://gunnymarc.github.io/tags/#statistics" class="page__taxonomy-item" rel="tag">statistics</a>
+    
+    </span>
+  </p>
+
+
+
+
+      </footer>
+
+      
+
+<section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://bsky.app/intent/compose?text=https://gunnymarc.github.io/posts/2026/07/linear-regression/" class="btn btn--bluesky" title="Share on Bluesky"><i class="fab fa-bluesky" aria-hidden="true"></i><span> Bluesky</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://gunnymarc.github.io/posts/2026/07/linear-regression/" class="btn btn--facebook" title="Share on Facebook"><i class="fab fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://gunnymarc.github.io/posts/2026/07/linear-regression/" class="btn btn--linkedin" title="Share on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+
+  <a href="https://www.addtoany.com/add_to/mastodon?linkurl=https%3A%2F%2Fgunnymarc.github.io%2Fposts%2F2026%2F07%2Flinear-regression%2F" class="btn btn--mastodon" title="Share on Mastodon"><i class="fab fa-mastodon" aria-hidden="true"></i><span> Mastodon</span></a>
+
+  <a href="https://x.com/intent/post?text=https://gunnymarc.github.io/posts/2026/07/linear-regression/" class="btn btn--x" title="Share on X"><i class="fab fa-x-twitter" aria-hidden="true"></i><span> X (formerly Twitter)</span></a>
+</section>
+
+
+      
+
+
+  <nav class="pagination">
+    
+      <a href="https://gunnymarc.github.io/posts/2026/07/tensor-parallelism-distributed-llm-topologies-enterprise-kubernetes/" class="pagination--pager" title="Tensor Parallelism and Distributed Large Language Model Topologies in Enterprise Kubernetes Environments
+">Previous</a>
+    
+    
+      <a href="https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/" class="pagination--pager" title="Fitting a Linear Model and Assessing Fit
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      
+        <h4 class="page__related-title">You May Also Enjoy</h4>
+      
+      <div class="grid__wrapper">
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/multiple-linear-regression/" rel="permalink">Multiple Linear Regression: A Comprehensive Guide to Predictive Modeling
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-30T00:00:00-04:00">July 30, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><img src="https://cdn.abacus.ai/images/0ef9de91-1099-4645-84a6-1d62f72512fb.png" alt="Multiple Linear Regression" /> <img src="https://cdn.abacus.ai/images/a28bc82d-1e32-4e39-a1fb-ae2d87e0cdb3.png" alt="Multiple Linear Regression" /></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/kimi-linear-breaking-long-context-memory-wall/" rel="permalink">Kimi Linear: Breaking the Long-Context Memory Wall
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  11 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-29T00:00:00-04:00">July 29, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>Strategic Analysis &amp; Hands-On GPU Evaluation of Kimi Linear: Next-Generation Hybrid Attention Architecture</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/deriving-least-squares-normal-equations/" rel="permalink">Deriving the Least Squares Solution: From Simple Regression to the Normal Equations
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  8 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-29T00:00:00-04:00">July 29, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>Retracing the derivation from first principles — from a bowl-shaped loss surface to the compact matrix equation β = (XᵀX)⁻¹Xᵀy.</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+          
+
+
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="http://schema.org/CreativeWork">
+    
+
+    <h2 class="archive__item-title" itemprop="headline">
+      
+        <a href="https://gunnymarc.github.io/posts/2026/07/fitting-linear-model-assessing-fit/" rel="permalink">Fitting a Linear Model and Assessing Fit
+</a>
+      
+    </h2>
+    
+    
+      <p class="page__meta"><i class="fa fa-clock" aria-hidden="true"></i> 
+
+
+  
+	  9 minute read
+	
+</p>
+    
+
+        
+         <p class="page__date"><strong><i class="fa fa-fw fa-calendar" aria-hidden="true"></i> Published:</strong> <time datetime="2026-07-28T00:00:00-04:00">July 28, 2026</time></p>
+        
+
+    
+    <p class="archive__item-excerpt" itemprop="description"><p><em>From ordinary least squares to residual diagnostics — how to fit, measure, and verify a linear model.</em></p>
+</p>
+    
+    
+    
+
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+</div>
+
+
+    <div class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- Support for MatJax -->
+<script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>
+
+<!-- Support for Mermaid -->
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({startOnLoad:true, theme:'default'});
+    await mermaid.run({querySelector:'code.language-mermaid'});
+</script>
+
+<!-- end custom footer snippets -->
+
+        
+
+
+<div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+    
+      <li><a href="https://github.com/GunnyMarc"><i class="fab fa-github" aria-hidden="true"></i> GitHub</a></li>
+    
+    
+    
+    <li><a href="https://gunnymarc.github.io/feed.xml"><i class="fa fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+
+<div class="page__footer-copyright">
+  &copy; 2026 Marc Buraczynski, Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://github.com/academicpages/academicpages.github.io">AcademicPages</a>, a fork of <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.<br />
+  Site last updated 2026-07-29, <a href="/sitemap/" style="text-transform: uppercase;">Sitemap</a>
+</div>
+
+      </footer>
+    </div>
+
+    <script type="module" src="https://gunnymarc.github.io/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+  </body>
+</html>
+

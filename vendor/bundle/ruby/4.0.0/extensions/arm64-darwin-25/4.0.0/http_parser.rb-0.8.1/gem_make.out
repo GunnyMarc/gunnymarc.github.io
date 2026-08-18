@@ -1,0 +1,23 @@
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/http_parser.rb-0.8.1/ext/ruby_http_parser
+/opt/homebrew/opt/ruby/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/http_parser.rb-0.8.1/ext/ruby_http_parser
+make -j3 DESTDIR\= sitearchdir\=./.gem.20260726-6039-m0u598 sitelibdir\=./.gem.20260726-6039-m0u598 clean
+
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/http_parser.rb-0.8.1/ext/ruby_http_parser
+make -j3 DESTDIR\= sitearchdir\=./.gem.20260726-6039-m0u598 sitelibdir\=./.gem.20260726-6039-m0u598
+compiling ruby_http_parser.c
+compiling ryah_http_parser.c
+ruby_http_parser.c:373:17: warning: comparison of integers of different signs: 'size_t' (aka 'unsigned long') and 'long' [-Wsign-compare]
+  373 |     if (nparsed < len)
+      |         ~~~~~~~ ^ ~~~
+1 warning generated.
+linking shared-object ruby_http_parser.bundle
+
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/http_parser.rb-0.8.1/ext/ruby_http_parser
+make -j3 DESTDIR\= sitearchdir\=./.gem.20260726-6039-m0u598 sitelibdir\=./.gem.20260726-6039-m0u598 install
+/usr/bin/install -c -m 0755 ruby_http_parser.bundle ./.gem.20260726-6039-m0u598
+
+current directory: /Volumes/warlock/maburacz/local/Data/DGX/Repository/projects/gunnymarc/gunnymarc.github.io/vendor/bundle/ruby/4.0.0/gems/http_parser.rb-0.8.1/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20260726-6039-m0u598 sitelibdir\=./.gem.20260726-6039-m0u598 clean
