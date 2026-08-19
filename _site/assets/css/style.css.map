@@ -1,1 +1,0 @@
-{"version":3,"sourceRoot":"","sources":["style.scss"],"names":[],"mappings":"AAAA;EACE;;;AAGF;EACE","sourcesContent":["section {\n  width: 860px;\n}\n\n.btn-github {\n  display: none !important;\n}\n"],"file":"style.css"}
