@@ -2,6 +2,7 @@
 
 Full archive: [gunnymarc.github.io](https://gunnymarc.github.io)
 
+- *August 2026* — [Observability Meets FinOps: Why "We Can See Everything" Isn't the Same as "We Can See Costs"](https://gunnymarc.github.io/posts/2026/08/finops-observability/)
 - *August 2026* — [The New Frontier of AI FinOps](https://gunnymarc.github.io/posts/2026/08/the-new-frontier-of-ai-finops/)
 - *March 2026*&nbsp;&nbsp;&nbsp; — [Your Customers Are Telling You How They Feel](https://gunnymarc.github.io/posts/2026/03/your-customers-are-telling-you-how-they-feel/)
 - *March 2026*&nbsp;&nbsp;&nbsp; — [From Pixels to Predictions: How CNNs Crushed ANNs in the Battle for Street-Level Recognition](https://gunnymarc.github.io/posts/2026/03/from-pixels-to-predictions-how-cnns-crushed-anns-in-the-battle-for-street-level-recognition/)
