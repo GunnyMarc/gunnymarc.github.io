@@ -5,7 +5,7 @@ permalink: /posts/2026/03/observability-for-llms-understanding-the-layers/
 tags:
   - LLMs
   - observability
-  - OpenTelemetry
+  - opentelemetry
   - monitoring
   - AppDynamics
   - Splunk

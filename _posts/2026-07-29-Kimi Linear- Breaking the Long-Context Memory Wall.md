@@ -9,7 +9,7 @@ tags:
   - KV cache
   - long context
   - GPU inference
-  - enterprise AI
+  - enterprise ai
   - OpenWeights
 ---
 
