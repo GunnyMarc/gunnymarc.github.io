@@ -421,7 +421,7 @@ gantt
 ```
 
 
-**The Laya anomaly** deserves specific attention: Laya's median latency of 5.8 ms is faster than Clef-flash, but its p95 of 222.5 ms produces a spread of **216.7 ms** — by far the widest of any system. This tail behavior makes Laya unsuitable for latency-bounded agentic hot paths: the 95th percentile guarantee is worse than Clef by nearly 100 ms. Clef's p95 of 122.4 ms at a spread of 83.6 ms is operationally more valuable despite the higher median.
+**The Laya anomaly** deserves specific attention: Laya's median latency of 5.8 ms is faster than Clef-flash, but its p95 of 222.5 ms produces a spread of **216.7 ms** — by far the widest of any system. This tail behavior makes Laya unsuitable for latency-bounded agentic hot paths: the 95th percentile guarantee is worse than Clef-flash by nearly 100 ms. Clef-flash's p95 of 122.4 ms at a spread of 83.6 ms is operationally more valuable despite the higher median.
 
 **The Clef p95 insight:** Clef's spread of only 29.3 ms (p50=209.3, p95=238.6) is the tightest among all tested systems except Jev. This tight spread reflects the deterministic nature of the non-autoregressive inference path — there is no token-count variance introducing stochastic latency.
 
@@ -465,7 +465,7 @@ Budget per agent step: 500 ms (practical UX threshold)
 Clef-flash serial calls at p50: floor(500 / 38.8) = 12 routing decisions
 Jev serial calls at p50:        floor(500 / 524.1) = 0 routing decisions (requires >1 step budget)
 
-Clef serial calls at p95:       floor(500 / 122.4) = 4 routing decisions
+Clef-flash serial calls at p95: floor(500 / 122.4) = 4 routing decisions
 Jev serial calls at p95:        floor(500 / 536.0) = 0 routing decisions
 ```
 
